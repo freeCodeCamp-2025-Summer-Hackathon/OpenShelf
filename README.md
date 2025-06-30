@@ -18,12 +18,21 @@
 - As a user, I can request to borrow items.
 - As an owner, I can track who has what and when it's due back.
 
-## License
+## Getting Started
+To get started with OpenShelf, follow these steps:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+1. **Clone the repository.**  
+   Make sure you have the proper access to the repository and your SSH keys are set up correctly.
+   ```bash
+   git clone git@github.com:freeCodeCamp-2025-Summer-Hackathon/OpenShelf.git
 
+   ```
+2. **Navigate to the project directory:**
+   ```bash
+   cd OpenShelf
+   ```
 ---
 
 <div align="center">
-  <p>⭐ Star this repo if you found it helpful!</p>
+  This project is part of the <strong>freeCodeCamp 2025 Summer Hackathon</strong>, created by <strong>Team Lavender</strong>.
 </div>
