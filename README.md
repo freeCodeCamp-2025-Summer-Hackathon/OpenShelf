@@ -75,6 +75,9 @@
 - As a user, I can request to borrow items.
 - As an owner, I can track who has what and when it's due back.
 
+## Database Schema
+![OpenShelf Database Relationships](OpenShelfDatabase.png)
+
 
 ## Getting Started
 To get started with OpenShelf, follow these steps:
