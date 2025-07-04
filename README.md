@@ -76,7 +76,7 @@
 - As an owner, I can track who has what and when it's due back.
 
 ## Database Schema
-![OpenShelf Database Relationships](OpenShelfDatabase.png)
+![OpenShelf Database Relationships](OpenShelfDatabase.PNG)
 
 
 ## Getting Started
