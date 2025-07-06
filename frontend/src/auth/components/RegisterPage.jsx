@@ -52,7 +52,7 @@ export default function RegisterPage() {
             name="address"
           />
 
-          <input type="submit" className="bg-lavender-500 text-white rounded w-full py-2 mt-7" value="Continue"/>
+          <input type="submit" className="bg-lavender-500 text-white rounded w-full py-2 mt-7 cursor-pointer" value="Continue"/>
 
           <div className="mt-4 flex flex-row items-center gap-8">
             <hr className="border-stroke-weak w-full"></hr>
@@ -60,7 +60,14 @@ export default function RegisterPage() {
             <hr className="border-stroke-weak w-full"></hr>
           </div>
         </form>
+
+        <button className="border-stroke-weak border-1 px-4 py-3 rounded-xl flex flex-row items-center w-full mt-4 cursor-pointer">
+          <img src="google.png" className="size-6"></img>
+          <p className="w-full">Sign in with Google</p>
+        </button>
       </div>
+
+      <p className="text-sm text-stroke-strong absolute bottom-24">Made by Team Lavender 💜</p>
     </div>
   );
 }
