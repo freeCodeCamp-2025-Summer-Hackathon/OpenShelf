@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 
-import Input from '../../components/Input'
+import Input from '../../../components/Input'
 
 export default function RegisterPage() {
   const {
