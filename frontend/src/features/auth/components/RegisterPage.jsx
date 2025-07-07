@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 
 import Input from '../../../components/Input'
+import PasswordInput from '../../../components/PasswordInput'
 
 export default function RegisterPage() {
   const {
@@ -34,12 +35,13 @@ export default function RegisterPage() {
             required
             name="email"
           />
-          <Input
+          {/* <Input
             label="Password"
             register={register}
             required
             name="password"
-          />
+          /> */}
+          <PasswordInput label="Password" register={register} name="password" required={true} />
           <Input
             label="Phone Number"
             register={register}
