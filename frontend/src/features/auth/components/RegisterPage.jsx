@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
+import AuthLayout from './AuthLayout'
 
 export default function RegisterPage() {
   const {
@@ -18,16 +19,13 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-dvh">
-      <div className="flex flex-col justify-center items-center">
-        <img src="logo.svg" className="size-12"></img>
-        <h1 className="font-display-3xl text-[#949494]">
-          Welcome to
-          {' '}
-          <span className="text-[#000000]">OpenShelf</span>
-        </h1>
-      </div>
-      <div className="w-96 mt-8">
+    <AuthLayout>
+      <AuthLayout.Header>
+        Welcome to
+        {' '}
+        <span className="text-[#000000]">OpenShelf</span>
+      </AuthLayout.Header>
+      <AuthLayout.Body>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             label="Display Name"
@@ -103,26 +101,19 @@ export default function RegisterPage() {
 
           <input type="submit" className="bg-lavender-500 text-white rounded w-full py-2 mt-7 cursor-pointer" value="Continue" />
 
-          <div className="mt-4 flex flex-row items-center gap-8">
-            <hr className="border-stroke-weak w-full"></hr>
-            <p className="text-[#CACACA] text-lg">Or</p>
-            <hr className="border-stroke-weak w-full"></hr>
-          </div>
+          <AuthLayout.ButtonDivider />
+
+          <button className="border-stroke-weak border-1 px-4 py-3 rounded-xl flex flex-row items-center w-full mt-4 cursor-pointer" type="button">
+            <img src="google.png" className="size-6" />
+            <p className="w-full">Sign in with Google</p>
+          </button>
         </form>
-
-        <button className="border-stroke-weak border-1 px-4 py-3 rounded-xl flex flex-row items-center w-full mt-4 cursor-pointer" type="submit">
-          <img src="google.png" className="size-6" />
-          <p className="w-full">Sign in with Google</p>
-        </button>
-      </div>
-
-      {showSuccessMessage && (
-        <div className="flex flex-col justify-center items-center w-1/4 h-1/4 absolute top-8 right-8 bg-lavender-500 rounded-xl">
-          <p className="text-xl text-white">You've successfully registered!</p>
-        </div>
-      )}
-
-      <p className="text-sm text-stroke-strong absolute bottom-24">Made by Team Lavender 💜</p>
-    </div>
+        {showSuccessMessage && (
+          <div className="flex flex-col justify-center items-center w-1/4 h-1/4 absolute top-8 right-8 bg-lavender-500 rounded-xl">
+            <p className="text-xl text-white">You've successfully registered!</p>
+          </div>
+        )}
+      </AuthLayout.Body>
+    </AuthLayout>
   )
 }
