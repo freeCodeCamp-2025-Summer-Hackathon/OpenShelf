@@ -35,13 +35,14 @@ INSTALLED_APPS = [
     'items',
     'borrow_requests',
     'notifications',
-    'messages',
+    'messaging',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres'
 ]
 
 MIDDLEWARE = [
@@ -80,8 +81,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'openshelf',
+        'USER': 'postgres',
+        'PASSWORD': 'acharya',
+        'HOST': 'localhost',
+        'PORT':'5432'
     }
 }
 
