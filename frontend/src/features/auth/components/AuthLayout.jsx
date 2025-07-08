@@ -12,7 +12,7 @@ export default function AuthLayout({ children }) {
 AuthLayout.Header = function ({ children }) {
   return (
     <div className="flex flex-col justify-center items-center">
-      <img src="logo.svg" className="size-12"></img>
+      <img src="logo.svg" className="size-12" />
       <h1 className="font-display-3xl text-[#949494]">
         {children}
       </h1>
