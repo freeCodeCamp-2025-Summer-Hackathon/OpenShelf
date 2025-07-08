@@ -3,7 +3,7 @@
 # Database configuration
 DB_NAME="openshelf"
 DB_USER="postgres" # modify based on your PostgreSQL setup
-DB_PASSWORD="postgres" # modify based on your PostgreSQL setup
+DB_PASSWORD="acharya" # modify based on your PostgreSQL setup
 DB_HOST="localhost"
 DB_PORT="5432"
 
@@ -61,7 +61,7 @@ CREATE TABLE users (
     phone_num BIGINT,
     address TEXT,
     google_oauth_id VARCHAR(255),
-    google_oauth_token TEXT,
+    google_oauth_token TEXT
 );
 
 -- Create items table
@@ -75,7 +75,7 @@ CREATE TABLE items (
     condition VARCHAR(50) NOT NULL CHECK (condition IN ('New', 'Used - Like New', 'Used')),
     image_urls TEXT[], -- PostgreSQL array for image URLs
     number_of_items INTEGER DEFAULT 1 CHECK (number_of_items >= 0),
-    is_available BOOLEAN DEFAULT TRUE,
+    is_available BOOLEAN DEFAULT TRUE
 );
 
 -- Create borrow_requests table
@@ -102,7 +102,7 @@ CREATE TABLE notifications (
 );
 
 -- Create messages table
-CREATE TABLE messages (
+CREATE TABLE messaging (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     conversation_id UUID NOT NULL,
     sender_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -122,9 +122,9 @@ CREATE INDEX idx_borrow_requests_owner_id ON borrow_requests(owner_id);
 CREATE INDEX idx_borrow_requests_status ON borrow_requests(status);
 CREATE INDEX idx_notifications_user_id ON notifications(user_id);
 CREATE INDEX idx_notifications_is_read ON notifications(is_read);
-CREATE INDEX idx_messages_conversation_id ON messages(conversation_id);
-CREATE INDEX idx_messages_sender_id ON messages(sender_id);
-CREATE INDEX idx_messages_receiver_id ON messages(receiver_id);
+CREATE INDEX idx_messaging_conversation_id ON messaging(conversation_id);
+CREATE INDEX idx_messaging_sender_id ON messaging(sender_id);
+CREATE INDEX idx_messaging_receiver_id ON messaging(receiver_id);
 
 EOF
 
