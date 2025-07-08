@@ -25,6 +25,7 @@ export default function RegisterPage() {
             register={register}
             required
             name="name"
+            info="You can always change this later!"
           />
           <Input
             label="Email Address"
@@ -55,12 +56,12 @@ export default function RegisterPage() {
           <input type="submit" className="bg-lavender-500 text-white rounded w-full py-2 mt-7 cursor-pointer" value="Continue" />
 
           <AuthLayout.ButtonDivider />
-        </form>
 
-        <button className="border-stroke-weak border-1 px-4 py-3 rounded-xl flex flex-row items-center w-full mt-4 cursor-pointer" type="submit">
-          <img src="google.png" className="size-6" />
-          <p className="w-full">Sign in with Google</p>
-        </button>
+          <button className="border-stroke-weak border-1 px-4 py-3 rounded-xl flex flex-row items-center w-full mt-4 cursor-pointer" type="button">
+            <img src="google.png" className="size-6" />
+            <p className="w-full">Sign in with Google</p>
+          </button>
+        </form>
       </AuthLayout.Body>
     </AuthLayout>
   )
