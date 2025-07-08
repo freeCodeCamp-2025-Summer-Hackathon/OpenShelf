@@ -1,4 +1,4 @@
-import { Icon } from "@iconify-icon/react";
+import { Icon } from '@iconify-icon/react'
 
 export default function Input({ label, register, required, name, info }) {
   return (
@@ -25,5 +25,5 @@ export default function Input({ label, register, required, name, info }) {
         className="border-stroke-weak border-1 px-4 py-3 rounded-xl mb-3 focus:outline-stroke-strong"
       />
     </div>
-  );
+  )
 }
