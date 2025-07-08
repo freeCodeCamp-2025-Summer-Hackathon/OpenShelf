@@ -1,12 +1,12 @@
 import { Icon } from "@iconify-icon/react";
 
-export default function Input({ label, register, required, name, info }) {
+export default function Input({ label, register, name, info, rules, error, type }) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row gap-2 items-center">
         <label className="font-sans">
           {label}
-          {required && <span className="text-red">*</span>}
+          {rules?.required && <span className="text-red">*</span>}
         </label>
         {info && (
           <div className="relative">
@@ -20,10 +20,14 @@ export default function Input({ label, register, required, name, info }) {
         )}
       </div>
       <input
-        {...register(name, { required })}
+        {...register(name, rules)}
+        type={type}
         placeholder={`Enter your ${label.toLowerCase()}...`}
-        className="border-stroke-weak border-1 px-4 py-3 rounded-xl mb-3 focus:outline-stroke-strong"
+        className={`${error ? 'border-red' : 'border-stroke-weak'} border-1 px-4 py-3 rounded-xl focus:outline-stroke-strong`}
       />
+      {error && (
+        <p className="text-red">{error.message}</p>
+      )}
     </div>
   );
 }
