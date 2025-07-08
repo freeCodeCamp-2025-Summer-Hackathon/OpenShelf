@@ -12,7 +12,7 @@ export default function RegisterPage() {
   const onSubmit = data => data
 
   return (
-    <div className="flex flex-col justify-center items-center h-dvh">
+    <div className="flex flex-col justify-center items-center min-h-dvh">
       <div className="flex flex-col justify-center items-center">
         <img src="logo.svg" className="size-12"></img>
         <h1 className="font-display-3xl text-[#949494]">
@@ -28,6 +28,7 @@ export default function RegisterPage() {
             register={register}
             required
             name="name"
+            info="You can always change this later!"
           />
           <Input
             label="Email Address"
