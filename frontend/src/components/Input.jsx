@@ -1,4 +1,4 @@
-import { Icon } from "@iconify-icon/react";
+import { Icon } from '@iconify-icon/react'
 
 export default function Input({ label, register, name, info, rules, error, type }) {
   return (
@@ -29,5 +29,5 @@ export default function Input({ label, register, name, info, rules, error, type 
         <p className="text-red">{error.message}</p>
       )}
     </div>
-  );
+  )
 }

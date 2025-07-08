@@ -1,14 +1,14 @@
-import { useForm } from 'react-hook-form'
+import { useState } from 'react'
 
+import { useForm } from 'react-hook-form'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
-import { useState } from "react"
 
 export default function RegisterPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm()
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
@@ -37,11 +37,11 @@ export default function RegisterPage() {
             type="text"
             error={errors.name}
             rules={{
-              required: "Display name is required!",
+              required: 'Display name is required!',
               minLength: {
                 value: 3,
-                message: "At least 3 characters, please..."
-              }
+                message: 'At least 3 characters, please...',
+              },
             }}
           />
           <Input
@@ -51,11 +51,11 @@ export default function RegisterPage() {
             type="email"
             error={errors.email}
             rules={{
-              required: "Email address is required!",
+              required: 'Email address is required!',
               pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Your email address seems invalid."
-              }
+                value: /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
+                message: 'Your email address seems invalid.',
+              },
             }}
           />
           {/* <Input
@@ -70,15 +70,15 @@ export default function RegisterPage() {
             name="password"
             error={errors.password}
             rules={{
-              required: "Password is required!",
+              required: 'Password is required!',
               minLength: {
                 value: 8,
-                message: "At least 8 characters, please..."
+                message: 'At least 8 characters, please...',
               },
               pattern: {
                 value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/,
-                message: "Password must include uppercase, lowercase, numbers and special characters."
-              }
+                message: 'Password must include uppercase, lowercase, numbers and special characters.',
+              },
             }}
           />
           <Input
@@ -88,7 +88,10 @@ export default function RegisterPage() {
             type="tel"
             error={errors.phoneNo}
             rules={{
-              maxLength: "At most 15 numbers, please..."
+              maxLength: {
+                value: 15,
+                message: 'At most 15 numbers, please...',
+              },
             }}
           />
           <Input
