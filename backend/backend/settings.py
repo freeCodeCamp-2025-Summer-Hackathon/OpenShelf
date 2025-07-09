@@ -165,3 +165,19 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google':{
+        'APP': {
+            'client_id': 'yourclientid',
+            'secret': 'yoursecret',
+            'key': '',
+        },
+        'SCOPE':['profile','email'],
+        'AUTH_PARAMS':{'access_type':'online'},
+        'OAUTH_PKCE_ENABLED':True,
+    }
+}
+
+SITE_ID = 1
