@@ -30,8 +30,6 @@
 PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE openshelf;" 2>/dev/null
 ```
 
-**Note:** Replace `postgres` with your actual PostgreSQL password if different. You can also modify the host (`localhost`), port (`5432`), or username (`postgres`) based on your PostgreSQL setup.
-
 **Alternative manual setup:**
 ```bash
 # Login to PostgreSQL
@@ -43,6 +41,13 @@ CREATE DATABASE openshelf;
 # Exit psql
 \q
 ```
+
+**Access your database from terminal:**
+```bash
+PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d openshelf
+```
+
+**Note:** Replace `postgres` with your actual PostgreSQL password if different. You can also modify the host (`localhost`), port (`5432`), or username (`postgres`) based on your PostgreSQL setup.
 
 ### 2. Backend Setup
 
