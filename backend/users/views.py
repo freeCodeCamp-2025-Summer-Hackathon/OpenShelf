@@ -6,6 +6,9 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login, logout
 from .models import User
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
+import requests
 
 
 class RegisterView(generics.CreateAPIView):
@@ -69,3 +72,34 @@ class ProfileView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class GoogleAuthView(APIView):
+    authentication_classes = []  # Disable session auth and CSRF
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        token = request.data.get("token")
+        if not token:
+            return Response({"error": "No token provided"}, status=400)
+
+        google_response = requests.get(
+            f"https://oauth2.googleapis.com/tokeninfo?id_token={token}"
+        )
+        if google_response.status_code != 200:
+            return Response({"error": "Invalid token"}, status=400)
+
+        user_info = google_response.json()
+        email = user_info.get("email")
+        if not email:
+            return Response({"error": "No email in token"}, status=400)
+
+        User = get_user_model()
+        user, created = User.objects.get_or_create(email=email)
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        })
