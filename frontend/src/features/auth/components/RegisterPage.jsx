@@ -1,27 +1,29 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import { useForm } from "react-hook-form";
-import Input from "../../../components/Input";
-import PasswordInput from "../../../components/PasswordInput";
-import AuthLayout from "./AuthLayout";
+import { useForm } from 'react-hook-form'
+import Input from '../../../components/Input'
+import PasswordInput from '../../../components/PasswordInput'
+import AuthLayout from './AuthLayout'
 
 export default function RegisterPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
 
   const onSubmit = () => {
-    setShowSuccessMessage(true);
-  };
+    setShowSuccessMessage(true)
+  }
 
   return (
     <AuthLayout>
       <AuthLayout.Header>
-        Welcome to <span className="text-[#000000]">OpenShelf</span>
+        Welcome to
+        {' '}
+        <span className="text-[#000000]">OpenShelf</span>
       </AuthLayout.Header>
       <AuthLayout.Body>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -34,10 +36,10 @@ export default function RegisterPage() {
               type="text"
               error={errors.name}
               rules={{
-                required: "Display name is required!",
+                required: 'Display name is required!',
                 minLength: {
                   value: 3,
-                  message: "At least 3 characters, please...",
+                  message: 'At least 3 characters, please...',
                 },
               }}
             />
@@ -48,10 +50,10 @@ export default function RegisterPage() {
               type="email"
               error={errors.email}
               rules={{
-                required: "Email address is required!",
+                required: 'Email address is required!',
                 pattern: {
                   value: /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
-                  message: "Your email address seems invalid.",
+                  message: 'Your email address seems invalid.',
                 },
               }}
             />
@@ -67,16 +69,16 @@ export default function RegisterPage() {
               name="password"
               error={errors.password}
               rules={{
-                required: "Password is required!",
+                required: 'Password is required!',
                 minLength: {
                   value: 8,
-                  message: "At least 8 characters, please...",
+                  message: 'At least 8 characters, please...',
                 },
                 pattern: {
                   value:
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/,
                   message:
-                    "Password must include uppercase, lowercase, numbers and special characters.",
+                    'Password must include uppercase, lowercase, numbers and special characters.',
                 },
               }}
             />
@@ -89,7 +91,7 @@ export default function RegisterPage() {
               rules={{
                 maxLength: {
                   value: 15,
-                  message: "At most 15 numbers, please...",
+                  message: 'At most 15 numbers, please...',
                 },
               }}
             />
@@ -126,5 +128,5 @@ export default function RegisterPage() {
         )}
       </AuthLayout.Body>
     </AuthLayout>
-  );
+  )
 }
