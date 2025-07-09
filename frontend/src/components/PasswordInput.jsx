@@ -1,7 +1,7 @@
 import { Icon } from '@iconify-icon/react'
 import { useState } from 'react'
 
-export default function PasswordInput({ label, required, register, name }) {
+export default function PasswordInput({ label, register, name, rules, error }) {
   const [type, setType] = useState('password')
   const icon = type === 'password' ? 'heroicons:eye-slash' : 'heroicons:eye'
 
@@ -13,14 +13,14 @@ export default function PasswordInput({ label, required, register, name }) {
     <div className="flex flex-col gap-1">
       <label className="font-sans">
         {label}
-        {required && <span className="text-red">*</span>}
+        {rules?.required && <span className="text-red">*</span>}
       </label>
       <div className="relative flex items-center">
         <input
-          {...register(name, { required })}
+          {...register(name, rules)}
           type={type}
           placeholder={`Enter your ${label.toLowerCase()}...`}
-          className="border-stroke-weak border-1 pl-4 pr-12 py-3 w-full rounded-xl mb-3 focus:outline-stroke-strong"
+          className={`${error ? 'border-red' : 'border-stroke-weak'} border-1 pl-4 pr-12 py-3 w-full rounded-xl focus:outline-stroke-strong`}
         />
         <button type="button" className="cursor-pointer">
           <Icon
@@ -30,6 +30,9 @@ export default function PasswordInput({ label, required, register, name }) {
           />
         </button>
       </div>
+      {error && (
+        <p className="text-red">{error.message}</p>
+      )}
     </div>
   )
 }
