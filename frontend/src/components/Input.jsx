@@ -15,7 +15,7 @@ export default function Input({ label, register, name, info, rules, error, type 
               className="text-stroke-strong peer text-xl mt-1 cursor-pointer"
             />
 
-            <div className="rounded border-1 border-stroke-weak px-2 py-[6px] bg-white text-center w-44 absolute top-[-68px] left-[-72px] shadow-2xs peer-hover:opacity-100 opacity-0 transition-opacity">{info}</div>
+            <div className="rounded border-1 border-stroke-weak px-2 py-[6px] bg-white text-center w-44 absolute top-[-64px] left-[-72px] shadow-2xs peer-hover:opacity-100 opacity-0 transition-opacity">{info}</div>
           </div>
         )}
       </div>

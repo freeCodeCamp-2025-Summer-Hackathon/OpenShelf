@@ -1,6 +1,6 @@
 export default function AuthLayout({ children }) {
   return (
-    <div className="flex flex-col justify-between py-6 min-h-dvh">
+    <div className="flex flex-col justify-center py-6 min-h-dvh">
       <div className="flex flex-col justify-center items-center">
         {children}
       </div>
