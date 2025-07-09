@@ -170,13 +170,8 @@ CSRF_TRUSTED_ORIGINS = [
 SOCIALACCOUNT_PROVIDERS = {
     'google':{
         'APP': {
-<<<<<<< HEAD
-            'client_id': 'yourclientid',
-            'secret': 'yoursecret',
-=======
             'client_id': 'your_client_id',
             'secret': 'your_client_secret',
->>>>>>> b26b0e2 ((fix):secrets)
             'key': '',
         },
         'SCOPE':['profile','email'],
