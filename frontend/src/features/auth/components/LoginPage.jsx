@@ -1,17 +1,19 @@
-import { useForm } from "react-hook-form";
-import Input from "../../../components/Input";
-import PasswordInput from "../../../components/PasswordInput";
-import AuthLayout from "./AuthLayout";
+import { useForm } from 'react-hook-form'
+import Input from '../../../components/Input'
+import PasswordInput from '../../../components/PasswordInput'
+import AuthLayout from './AuthLayout'
 
 export default function LoginPage() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm()
 
-  const onSubmit = (data) => data;
+  const onSubmit = data => data
 
   return (
     <AuthLayout>
       <AuthLayout.Header>
-        Log in to <span className="text-[#000000]">OpenShelf</span>
+        Log in to
+        {' '}
+        <span className="text-[#000000]">OpenShelf</span>
       </AuthLayout.Header>
 
       <AuthLayout.Body>
@@ -51,5 +53,5 @@ export default function LoginPage() {
         </form>
       </AuthLayout.Body>
     </AuthLayout>
-  );
+  )
 }
