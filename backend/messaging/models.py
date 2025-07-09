@@ -13,6 +13,9 @@ class Messaging(models.Model):
 
     class Meta:
         db_table = 'messaging'
+        verbose_name = 'Message'
+        verbose_name_plural = 'Messages'
+        ordering = ['-timestamp']
 
     def __str__(self):
-        return f"From {self.sender.name} to {self.receiver.name}"
+        return f"From {self.sender.name} to {self.receiver.name}: {self.message[:20]}..."
