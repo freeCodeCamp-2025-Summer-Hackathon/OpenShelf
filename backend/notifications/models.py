@@ -11,7 +11,7 @@ class Notification(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, db_column='user_id')
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     message = models.TextField()
     link = models.CharField(max_length=255, blank=True, null=True)
