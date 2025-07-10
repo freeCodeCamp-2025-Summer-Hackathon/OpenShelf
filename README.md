@@ -14,6 +14,7 @@
 6. [Borrow Request Endpoints](#borrow-request-endpoints)
 7. [Messaging Endpoints](#messaging-endpoints)
 8. [Error Handling](#error-handling)
+9. [Google OAuth Register](#google-oauth-register)
 ---
 
 ## Setup Instructions
@@ -956,3 +957,76 @@ pending → accepted → returned
 }
 ```
 
+---
+
+
+## Google OAUth Register
+
+### Pre-requisites
+- Google Developer Console Setup
+- Google OAUth Playground Test
+
+### 1. Google Developer Console Setup
+- Go to [Google Developer Console](https://console.cloud.google.com/apis/credentials)
+- Select your OAuth 2.0 Client ID (Web Application type).
+- Under **Authorized Redirect URIs**, add:
+```bash
+http://127.0.0.1:8000/accounts/google/login/callback/ # for django-allauth
+https://developers.google.com/oauthplayground
+```
+- Save
+- Copy the **ClientId** and **ClientSecret** and paste it in:
+```python
+SOCIALACCOUNT_PROVIDERS = {
+    'google':{
+        'APP': {
+            'client_id': 'your_client_id', #your CientId
+            'secret': 'your_client_secret' #your ClientSecret
+            'key': '',
+        },
+        'SCOPE':['profile','email'],
+        'AUTH_PARAMS':{'access_type':'online'},
+        'OAUTH_PKCE_ENABLED':True,
+    }
+}
+```
+
+
+### 2. Google OAuth Playground
+- Go to [Google OAuth Playground](https://developers.google.com/oauthplayground/)
+- Go to Settings
+- Check **Use your OAuth Credentials**
+- Enter **CleintId** and **ClientSecret**
+- Select the following scopes:
+```
+https://www.googleapis.com/auth/userinfo.email
+https://www.googleapis.com/auth/userinfo.profile
+openid
+```
+- Click Authorize APIs
+- Grant Permission
+- Click **Exchange Authorization Code for Tokens**
+- Copy the **id_token** which is your google ID token
+
+### 3. Making OAuth Request in Postman
+- Try calling the API with this:
+- **URL:** `POST /api/users/google/`
+- **Headers:**
+  ```
+  Content-Type: application/json
+  ```
+- **Request Body:**
+  ```json
+  {
+    "token":"google_id_token"
+  }
+  ```
+- **Success Response (200):**
+  ```json
+  {
+    "access": "access_token",
+    "refresh": "refresh_token"
+  }
+  ```
+
+  ---
