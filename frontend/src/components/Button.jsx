@@ -1,11 +1,10 @@
-import React from "react";
-import GoogleIcon from "frontend\public\google.png";
+import GoogleIcon from 'frontend\public\google.png'
 
 const Icon = {
   google: GoogleIcon,
-};
+}
 
-const Button = ({ label, variant = "primary", icon, onClick }) => {
+function Button({ label, variant = 'primary', icon, onClick }) {
   const baseStyles = `
     relative
     cursor-pointer
@@ -16,12 +15,12 @@ const Button = ({ label, variant = "primary", icon, onClick }) => {
     p-0
     max-[500px]:w-[70%]
     max-[500px]:min-w-[180px]
-  `;
+  `
 
-  const variantStyles =
-    variant === "primary"
-      ? "bg-[#575799] text-white border-none"
-      : "bg-transparent text-black border-[2px] border-white";
+  const variantStyles
+    = variant === 'primary'
+      ? 'bg-[#575799] text-white border-none'
+      : 'bg-transparent text-black border-[2px] border-white'
 
   const iconStyles = `
     absolute
@@ -31,7 +30,7 @@ const Button = ({ label, variant = "primary", icon, onClick }) => {
     h-[30px]
     aspect-[1/1]
     object-contain
-  `;
+  `
 
   const textStyles = `
     absolute
@@ -41,15 +40,15 @@ const Button = ({ label, variant = "primary", icon, onClick }) => {
     translate-y-[-50%]
     white-space-nowrap
     pointer-events-none
-    ${variant === "outline" ? "max-[400px]:left-[calc(50%+15px)]" : ""}
-  `;
+    ${variant === 'outline' ? 'max-[400px]:left-[calc(50%+15px)]' : ''}
+  `
 
   return (
-    <button className={`${baseStyles} ${variantStyles}`} onClick={onClick}>
+    <button type="button" className={`${baseStyles} ${variantStyles}`} onClick={onClick}>
       {icon && <img src={Icon[icon]} className={iconStyles} />}
       <span className={textStyles}>{label}</span>
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button
