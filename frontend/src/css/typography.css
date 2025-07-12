@@ -15,7 +15,7 @@
 .font-display-5xl {
   font-family: var(--font-display);
   font-size: var(--text-5xl);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 110%;
   letter-spacing: -1%;
 }
