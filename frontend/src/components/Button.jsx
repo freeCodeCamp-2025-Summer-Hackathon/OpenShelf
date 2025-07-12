@@ -44,7 +44,7 @@ function Button({ label, variant = 'primary', icon, onClick }) {
   `
 
   return (
-    <button className={`${baseStyles} ${variantStyles}`} onClick={onClick} type='button'>
+    <button type="button" className={`${baseStyles} ${variantStyles}`} onClick={onClick}>
       {icon && <img src={Icon[icon]} className={iconStyles} />}
       <span className={textStyles}>{label}</span>
     </button>
