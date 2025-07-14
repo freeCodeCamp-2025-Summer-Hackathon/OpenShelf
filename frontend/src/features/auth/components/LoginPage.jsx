@@ -1,12 +1,29 @@
+import { useState } from 'react'
+
 import { useForm } from 'react-hook-form'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
+import { loginUser } from '../api/login-user'
 import AuthLayout from './AuthLayout'
 
 export default function LoginPage() {
-  const { register, handleSubmit } = useForm()
+  const {
+    register,
+    handleSubmit,
+  } = useForm()
 
-  const onSubmit = data => data
+  const [formMessageType, setFormMessageType] = useState(null)
+  const [formMessage, setFormMessage] = useState('')
+
+  const onSubmit = (data) => {
+    const email = data.email
+    const password = data.password
+
+    loginUser(email, password).then((res) => {
+      setFormMessageType(res.success)
+      setFormMessage(res.message)
+    })
+  }
 
   return (
     <AuthLayout>
@@ -33,6 +50,8 @@ export default function LoginPage() {
               required
               name="password"
             />
+
+            {formMessage && <p className={formMessageType ? 'text-green-600' : 'text-red'}>{formMessage}</p>}
           </div>
 
           <input
