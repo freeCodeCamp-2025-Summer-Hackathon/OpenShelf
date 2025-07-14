@@ -10,8 +10,14 @@ export default function HomePage() {
       <div className="bg-[#D3D3F1] h-[550px] bg-[url(home-hero-brush.svg)] bg-no-repeat bg-size-[auto_500px] bg-center relative flex justify-center items-center">
         <div>
           <h1 className="font-display-7xl">
-            What's on <br></br>
-            your <i className="text-lavender-500">Shelf</i> today?
+            What's on
+            {' '}
+            <br></br>
+            your
+            {' '}
+            <i className="text-lavender-500">Shelf</i>
+            {' '}
+            today?
           </h1>
           <p className="mt-8 mb-10">
             Share and borrow books, tools, and games with the community.
@@ -24,7 +30,7 @@ export default function HomePage() {
             <Icon icon="heroicons:arrow-right" />
           </button>
         </div>
-        <img src="home-hero-illustration.svg" className='ml-[-40px] h-[400px]'></img>
+        <img src="home-hero-illustration.svg" className="ml-[-40px] h-[400px]"></img>
       </div>
     </div>
   )

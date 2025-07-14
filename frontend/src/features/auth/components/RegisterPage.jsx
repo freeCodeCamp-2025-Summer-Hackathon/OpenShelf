@@ -1,21 +1,31 @@
-import { useState } from 'react'
-
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
+import { register as registerUser } from '../api/register'
 import AuthLayout from './AuthLayout'
 
 export default function RegisterPage() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({ name: '', email: '', password: '', passwordConfirm: '', phoneNum: '', address: '' })
 
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
-
-  const onSubmit = () => {
-    setShowSuccessMessage(true)
+  const onSubmit = async (data) => {
+    try {
+      const config = await registerUser(data)
+      if (config.status !== 201) {
+        throw new Error(config.request.responseText)
+      }
+      reset()
+      navigate('/')
+    }
+    catch (err) {
+      console.error(err)
+    }
   }
 
   return (
@@ -57,12 +67,6 @@ export default function RegisterPage() {
                 },
               }}
             />
-            {/* <Input
-            label="Password"
-            register={register}
-            required
-            name="password"
-          /> */}
             <PasswordInput
               label="Password"
               register={register}
@@ -82,12 +86,31 @@ export default function RegisterPage() {
                 },
               }}
             />
+            <PasswordInput
+              label="Confirm Password"
+              register={register}
+              name="passwordConfirm"
+              error={errors.passwordConfirm}
+              rules={{
+                required: 'Password is required!',
+                minLength: {
+                  value: 8,
+                  message: 'At least 8 characters, please...',
+                },
+                pattern: {
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/,
+                  message:
+                    'Password must include uppercase, lowercase, numbers and special characters.',
+                },
+              }}
+            />
             <Input
               label="Phone Number"
               register={register}
-              name="phoneNo"
+              name="phoneNum"
               type="tel"
-              error={errors.phoneNo}
+              error={errors.phoneNum}
               rules={{
                 maxLength: {
                   value: 15,
@@ -119,13 +142,6 @@ export default function RegisterPage() {
             <p className="w-full">Sign in with Google</p>
           </button>
         </form>
-        {showSuccessMessage && (
-          <div className="flex flex-col justify-center items-center w-1/4 h-1/4 absolute top-8 right-8 bg-lavender-500 rounded-xl">
-            <p className="text-xl text-white">
-              You've successfully registered!
-            </p>
-          </div>
-        )}
       </AuthLayout.Body>
     </AuthLayout>
   )
