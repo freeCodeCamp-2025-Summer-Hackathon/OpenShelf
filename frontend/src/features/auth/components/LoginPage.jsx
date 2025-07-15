@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
 import { login as loginUser } from '../api/login'
@@ -8,19 +8,19 @@ import AuthLayout from './AuthLayout'
 
 export default function LoginPage() {
   const navigate = useNavigate()
-  const { register, handleSubmit, reset } = useForm({ email: '', password: '' })
+  const { register, handleSubmit } = useForm({ email: '', password: '' })
 
   const [formMessage, setFormMessage] = useState({ success: null, message: '' })
 
   const onSubmit = async (data) => {
     try {
       const config = await loginUser(data)
-      if (config.status !== 201) {
+      if (config.status !== 200) {
         throw new Error(config.request.responseText)
       }
 
-      reset()
-      setFormMessage({ success: true, message: config.request.responseText })
+      const responseJSON = JSON.parse(config.request.responseText)
+      setFormMessage({ success: true, message: responseJSON.message })
       navigate('/')
     } catch (err) {
       setFormMessage({ success: false, message: err.message })
@@ -29,6 +29,12 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
+      <AuthLayout.Nav>
+        <Link to="/register" className=" text-stroke-strong underline">
+          Sign up
+        </Link>
+      </AuthLayout.Nav>
+
       <AuthLayout.Header>
         Log in to <span className="text-[#000000]">OpenShelf</span>
       </AuthLayout.Header>
@@ -52,8 +58,10 @@ export default function LoginPage() {
             />
 
             {formMessage && (
-              <p className={formMessageType ? 'text-green-600' : 'text-red'}>
-                {formMessage}
+              <p
+                className={formMessage.success ? 'text-green-600' : 'text-red'}
+              >
+                {formMessage.message}
               </p>
             )}
           </div>
