@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
 import { register as registerUser } from '../api/register'
@@ -30,6 +30,12 @@ export default function RegisterPage() {
 
   return (
     <AuthLayout>
+      <AuthLayout.Nav>
+        <Link to="/login" className=" text-stroke-strong underline">
+          Log in
+        </Link>
+      </AuthLayout.Nav>
+
       <AuthLayout.Header>
         Welcome to
         {' '}
