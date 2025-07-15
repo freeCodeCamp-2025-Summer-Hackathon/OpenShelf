@@ -1,36 +1,36 @@
-import { useState } from 'react'
-
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
-import { loginUser } from '../api/login-user'
+import { login as loginUser } from '../api/login'
 import AuthLayout from './AuthLayout'
 
 export default function LoginPage() {
-  const {
-    register,
-    handleSubmit,
-  } = useForm()
+  const navigate = useNavigate()
+  const { register, handleSubmit, reset } = useForm({ email: '', password: '' })
 
-  const [formMessageType, setFormMessageType] = useState(null)
-  const [formMessage, setFormMessage] = useState('')
+  const [formMessage, setFormMessage] = useState({ success: null, message: '' })
 
-  const onSubmit = (data) => {
-    const email = data.email
-    const password = data.password
+  const onSubmit = async (data) => {
+    try {
+      const config = await loginUser(data)
+      if (config.status !== 201) {
+        throw new Error(config.request.responseText)
+      }
 
-    loginUser(email, password).then((res) => {
-      setFormMessageType(res.success)
-      setFormMessage(res.message)
-    })
+      reset()
+      setFormMessage({ success: true, message: config.request.responseText })
+      navigate('/')
+    } catch (err) {
+      setFormMessage({ success: false, message: err.message })
+    }
   }
 
   return (
     <AuthLayout>
       <AuthLayout.Header>
-        Log in to
-        {' '}
-        <span className="text-[#000000]">OpenShelf</span>
+        Log in to <span className="text-[#000000]">OpenShelf</span>
       </AuthLayout.Header>
 
       <AuthLayout.Body>
@@ -51,7 +51,11 @@ export default function LoginPage() {
               name="password"
             />
 
-            {formMessage && <p className={formMessageType ? 'text-green-600' : 'text-red'}>{formMessage}</p>}
+            {formMessage && (
+              <p className={formMessageType ? 'text-green-600' : 'text-red'}>
+                {formMessage}
+              </p>
+            )}
           </div>
 
           <input
