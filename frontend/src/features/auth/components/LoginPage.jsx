@@ -1,19 +1,36 @@
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
+import { login as loginUser } from '../api/login'
 import AuthLayout from './AuthLayout'
 
 export default function LoginPage() {
-  const { register, handleSubmit } = useForm()
+  const navigate = useNavigate()
+  const { register, handleSubmit, reset } = useForm({ email: '', password: '' })
 
-  const onSubmit = data => data
+  const [formMessage, setFormMessage] = useState({ success: null, message: '' })
+
+  const onSubmit = async (data) => {
+    try {
+      const config = await loginUser(data)
+      if (config.status !== 201) {
+        throw new Error(config.request.responseText)
+      }
+
+      reset()
+      setFormMessage({ success: true, message: config.request.responseText })
+      navigate('/')
+    } catch (err) {
+      setFormMessage({ success: false, message: err.message })
+    }
+  }
 
   return (
     <AuthLayout>
       <AuthLayout.Header>
-        Log in to
-        {' '}
-        <span className="text-[#000000]">OpenShelf</span>
+        Log in to <span className="text-[#000000]">OpenShelf</span>
       </AuthLayout.Header>
 
       <AuthLayout.Body>
@@ -33,6 +50,12 @@ export default function LoginPage() {
               required
               name="password"
             />
+
+            {formMessage && (
+              <p className={formMessageType ? 'text-green-600' : 'text-red'}>
+                {formMessage}
+              </p>
+            )}
           </div>
 
           <input
