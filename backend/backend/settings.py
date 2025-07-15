@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'openshelf',
         'USER': 'postgres',
-        'PASSWORD': 'acharya',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT':'5432'
     }
