@@ -1,39 +1,8 @@
 import { Icon } from '@iconify-icon/react'
-import { useState, useEffect } from 'react'
-
-import { getItems } from '../api/getItems'
-import { getItemDetails } from '../api/getItemDetails'
+import { useLoaderData } from 'react-router'
 
 export default function FeaturedItems() {
-  const [items, setItems] = useState([])
-
-  useEffect(() => {
-    setItemState()
-  }, [])
-
-  const setItemState = async () => {
-    try {
-      const config = await getItems()
-      if (config.status !== 200) {
-        throw new Error(config.request.responseText)
-      }
-
-      const responseJSON = JSON.parse(config.request.responseText)
-      const items = responseJSON.results
-
-      items.forEach(async (item) => {
-        const config = await getItemDetails(item.id)
-        if (config.status !== 200) {
-          throw new Error(config.request.responseText)
-        }
-
-        const responseJSON = JSON.parse(config.request.responseText)
-        setItems((prev) => [...prev, responseJSON])
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  const { items } = useLoaderData()
 
   let itemElements
   if (items) {
@@ -53,7 +22,7 @@ export default function FeaturedItems() {
 
           <div className="flex flex-row gap-2">
             {item.tags.map((tag) => (
-              <div className="px-3 py-[3px] rounded bg-lavender-200">tag</div>
+              <div className="px-3 py-[3px] rounded bg-lavender-200">{tag}</div>
             ))}
           </div>
         </div>
