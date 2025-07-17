@@ -9,7 +9,7 @@ import AuthLayout from './AuthLayout'
 export default function LoginPage() {
   const navigate = useNavigate()
   const revalidtor = useRevalidator()
-  const { register, handleSubmit } = useForm({ email: '', password: '' })
+  const { register, handleSubmit } = useForm({ defaultValues: { email: '', password: '' } })
 
   const [formMessage, setFormMessage] = useState({ success: null, message: '' })
 
