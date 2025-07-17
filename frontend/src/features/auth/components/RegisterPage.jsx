@@ -1,27 +1,37 @@
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useRevalidator } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
+import { login } from '../api/login'
 import { register as registerUser } from '../api/register'
 import AuthLayout from './AuthLayout'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
+  const revalidator = useRevalidator()
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ name: '', email: '', password: '', passwordConfirm: '', phoneNum: '', address: '' })
+  } = useForm({ defaultValues: { name: '', email: '', password: '', passwordConfirm: '', phoneNum: '', address: '' } })
 
   const onSubmit = async (data) => {
     try {
-      const config = await registerUser(data)
-      if (config.status !== 201) {
-        throw new Error(config.request.responseText)
+      const registerConfig = await registerUser(data)
+      if (registerConfig.status !== 201) {
+        throw new Error(registerConfig.request.responseText)
       }
+
+      const loginConfig = await login({ email: data.email, password: data.password })
+
+      if (loginConfig.status !== 200) {
+        throw new Error(loginConfig.request.responseText)
+      }
+
       reset()
       navigate('/')
+      revalidator.revalidate()
     }
     catch (err) {
       console.error(err)
