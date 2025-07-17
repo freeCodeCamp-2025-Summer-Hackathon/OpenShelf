@@ -311,6 +311,7 @@ The API uses **session-based authentication** with CSRF exemption for API endpoi
         "id": "123e4567-e89b-12d3-a456-426614174000",
         "title": "Programming Book",
         "category": "books",
+        "tags": ["python", "programming", "book", "tutorial"],
         "condition": "New",
         "image_urls": ["https://example.com/book.jpg"],
         "is_available": true,

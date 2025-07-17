@@ -1,27 +1,74 @@
+import { Icon } from '@iconify-icon/react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useRevalidator } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
+import { login } from '../api/login'
 import { register as registerUser } from '../api/register'
 import AuthLayout from './AuthLayout'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
+  const revalidator = useRevalidator()
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ name: '', email: '', password: '', passwordConfirm: '', phoneNum: '', address: '' })
+  } = useForm({ defaultValues: { name: '', email: '', password: '', passwordConfirm: '', phoneNum: '', address: '' } })
+
+  const validator = {
+    name: {
+      required: 'Display name is required!',
+      minLength: {
+        value: 3,
+        message: 'At least 3 characters, please...',
+      },
+    },
+    password: {
+      required: 'Password is required!',
+      minLength: {
+        value: 8,
+        message: 'At least 8 characters, please...',
+      },
+      pattern: {
+        value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/,
+        message:
+                    'Password must include uppercase, lowercase, numbers and special characters.',
+      },
+    },
+    email: {
+      required: 'Email address is required!',
+      pattern: {
+        value: /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
+        message: 'Your email address seems invalid.',
+      },
+    },
+    phoneNum: {
+      maxLength: {
+        value: 15,
+        message: 'At most 15 numbers, please...',
+      },
+    },
+  }
 
   const onSubmit = async (data) => {
     try {
-      const config = await registerUser(data)
-      if (config.status !== 201) {
-        throw new Error(config.request.responseText)
+      const registerConfig = await registerUser(data)
+      if (registerConfig.status !== 201) {
+        throw new Error(registerConfig.request.responseText)
       }
+
+      const loginConfig = await login({ email: data.email, password: data.password })
+
+      if (loginConfig.status !== 200) {
+        throw new Error(loginConfig.request.responseText)
+      }
+
       reset()
       navigate('/')
+      revalidator.revalidate()
     }
     catch (err) {
       console.error(err)
@@ -51,13 +98,7 @@ export default function RegisterPage() {
               info="You can always change this later!"
               type="text"
               error={errors.name}
-              rules={{
-                required: 'Display name is required!',
-                minLength: {
-                  value: 3,
-                  message: 'At least 3 characters, please...',
-                },
-              }}
+              rules={validator.name}
             />
             <Input
               label="Email Address"
@@ -65,51 +106,21 @@ export default function RegisterPage() {
               name="email"
               type="email"
               error={errors.email}
-              rules={{
-                required: 'Email address is required!',
-                pattern: {
-                  value: /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
-                  message: 'Your email address seems invalid.',
-                },
-              }}
+              rules={validator.email}
             />
             <PasswordInput
               label="Password"
               register={register}
               name="password"
               error={errors.password}
-              rules={{
-                required: 'Password is required!',
-                minLength: {
-                  value: 8,
-                  message: 'At least 8 characters, please...',
-                },
-                pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/,
-                  message:
-                    'Password must include uppercase, lowercase, numbers and special characters.',
-                },
-              }}
+              rules={validator.password}
             />
             <PasswordInput
               label="Confirm Password"
               register={register}
               name="passwordConfirm"
               error={errors.passwordConfirm}
-              rules={{
-                required: 'Password is required!',
-                minLength: {
-                  value: 8,
-                  message: 'At least 8 characters, please...',
-                },
-                pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/,
-                  message:
-                    'Password must include uppercase, lowercase, numbers and special characters.',
-                },
-              }}
+              rules={validator.password}
             />
             <Input
               label="Phone Number"
@@ -117,17 +128,11 @@ export default function RegisterPage() {
               name="phoneNum"
               type="tel"
               error={errors.phoneNum}
-              rules={{
-                maxLength: {
-                  value: 15,
-                  message: 'At most 15 numbers, please...',
-                },
-              }}
+              rules={validator.phoneNum}
             />
             <Input
               label="Address"
               register={register}
-              required={false}
               name="address"
             />
           </div>
@@ -144,7 +149,7 @@ export default function RegisterPage() {
             className="border-stroke-weak border-1 px-4 py-3 rounded-xl flex flex-row items-center w-full mt-4 cursor-pointer"
             type="button"
           >
-            <img src="google.png" className="size-6" />
+            <Icon icon="logos:google-icon" />
             <p className="w-full">Sign in with Google</p>
           </button>
         </form>
