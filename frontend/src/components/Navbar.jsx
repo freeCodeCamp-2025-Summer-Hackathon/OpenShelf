@@ -3,7 +3,7 @@ import { Link, NavLink, useRevalidator } from 'react-router'
 import { logout } from '../features/auth/api/logout'
 
 export default function Navbar({ profile }) {
-  const profileAvatar = `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48`
+  const profileAvatar = profile && `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48`
   const revalidator = useRevalidator()
   const linkClassNames = ({ isActive }) =>
     isActive
