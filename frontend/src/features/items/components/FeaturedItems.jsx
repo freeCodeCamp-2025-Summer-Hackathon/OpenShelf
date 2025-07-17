@@ -4,9 +4,11 @@ import { useLoaderData } from 'react-router'
 export default function FeaturedItems() {
   const { items } = useLoaderData()
 
+  const featuredItems = items.filter((item) => 'featured' in item.tag)
+
   let itemElements
-  if (items) {
-    itemElements = items.map((item) => {
+  if (featuredItems) {
+    itemElements = featuredItems.map((item) => {
       return (
         <div className="w-36 flex flex-col gap-2">
           <div className="w-full h-48 rounded-xl bg-[url(item-image-test.png)] bg-cover bg-center border-1 border-stroke-weak"></div>
