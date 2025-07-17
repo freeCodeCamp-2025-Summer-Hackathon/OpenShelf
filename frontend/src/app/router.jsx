@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router'
 import LoginPage from '../features/auth/components/LoginPage'
 import RegisterPage from '../features/auth/components/RegisterPage'
+import { getItemDetails } from '../features/items/api/getItemDetails'
+import { getItems } from '../features/items/api/getItems'
 import HomePage from '../features/items/components/HomePage'
 import AppLayout, { appLayoutLoader } from '../layouts/AppLayout'
-import { getItems } from '../features/items/api/getItems'
-import { getItemDetails } from '../features/items/api/getItemDetails'
 
 async function fetchItemDetails() {
   try {
@@ -27,24 +27,25 @@ async function fetchItemDetails() {
     })
 
     return items
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
   }
 }
 
 export const router = createBrowserRouter([
   {
-   
     path: '/',
     loader: appLayoutLoader,
     Component: AppLayout,
     children: [
-      { index: true,
-    element: <HomePage />,
-    loader: async () => {
-      return { items: await fetchItemDetails() }
-    },
-  },
+      {
+        index: true,
+        element: <HomePage />,
+        loader: async () => {
+          return { items: await fetchItemDetails() }
+        },
+      },
     ],
   },
   { path: '/register', element: <RegisterPage /> },
