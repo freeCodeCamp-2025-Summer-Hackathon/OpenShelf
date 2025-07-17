@@ -1,11 +1,8 @@
 import { Icon } from '@iconify-icon/react'
 
-import Navbar from '../../../components/Navbar'
-
 export default function HomePage() {
   return (
     <div>
-      <Navbar />
 
       <div className="bg-[#D3D3F1] h-[550px] bg-[url(home-hero-brush.svg)] bg-no-repeat bg-size-[auto_500px] bg-center relative flex justify-center items-center">
         <div>

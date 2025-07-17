@@ -1,6 +1,6 @@
-import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate, useRevalidator } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
 import { login as loginUser } from '../api/login'
@@ -8,6 +8,7 @@ import AuthLayout from './AuthLayout'
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const revalidtor = useRevalidator()
   const { register, handleSubmit } = useForm({ email: '', password: '' })
 
   const [formMessage, setFormMessage] = useState({ success: null, message: '' })
@@ -22,7 +23,9 @@ export default function LoginPage() {
       const responseJSON = JSON.parse(config.request.responseText)
       setFormMessage({ success: true, message: responseJSON.message })
       navigate('/')
-    } catch (err) {
+      revalidtor.revalidate()
+    }
+    catch (err) {
       setFormMessage({ success: false, message: err.message })
     }
   }
@@ -36,7 +39,9 @@ export default function LoginPage() {
       </AuthLayout.Nav>
 
       <AuthLayout.Header>
-        Log in to <span className="text-[#000000]">OpenShelf</span>
+        Log in to
+        {' '}
+        <span className="text-[#000000]">OpenShelf</span>
       </AuthLayout.Header>
 
       <AuthLayout.Body>
