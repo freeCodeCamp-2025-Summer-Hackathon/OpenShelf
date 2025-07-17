@@ -4,7 +4,7 @@ import { useLoaderData } from 'react-router'
 export default function FeaturedItems() {
   const { items } = useLoaderData()
 
-  const featuredItems = items.filter(item => 'featured' in item.tag)
+  const featuredItems = items.filter(item => 'featured' in item.tags)
 
   let itemElements
   if (featuredItems) {
