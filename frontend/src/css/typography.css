@@ -23,7 +23,7 @@
 .font-display-3xl {
   font-family: var(--font-display);
   font-size: var(--text-3xl);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 110%;
 }
 

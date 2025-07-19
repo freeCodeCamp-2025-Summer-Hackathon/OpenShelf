@@ -1,5 +1,7 @@
 import { Icon } from '@iconify-icon/react'
 
+import FeaturedItems from './FeaturedItems'
+
 export default function HomePage() {
   return (
     <div>
@@ -27,7 +29,16 @@ export default function HomePage() {
             <Icon icon="heroicons:arrow-right" />
           </button>
         </div>
-        <img src="home-hero-illustration.svg" className="ml-[-40px] h-[400px]"></img>
+        <img
+          src="home-hero-illustration.svg"
+          className="ml-[-40px] h-[400px]"
+        />
+      </div>
+
+      <div className="flex flex-row justify-center mt-8">
+        <main className="w-[1280px]">
+          <FeaturedItems />
+        </main>
       </div>
     </div>
   )
