@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 export default function AuthLayout({ children }) {
   return (
@@ -15,7 +15,7 @@ export default function AuthLayout({ children }) {
 
 AuthLayout.Nav = function ({ children }) {
   return (
-    <div className="absolute top-10 left-12 flex flex-row items-center gap-10">
+    <div className="absolute top-10 right-3 flex flex-row items-center gap-18">
       <Link to="/">
         <img src="OpenShelf.png" width="150" className=""></img>
       </Link>

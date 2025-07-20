@@ -1,12 +1,50 @@
 @theme {
-  /* --color-*: initial; */
-  --color-lavender-200: #d3d3ff;
-  --color-lavender-300: #9d9dcc;
-  --color-lavender-500: #575799;
-  --color-lavender-800: #090933;
+  /* Primary Colors */
+  --color-primary: #5e60ce;
+  --color-primary-light: #7678ed;
+  --color-primary-dark: #4e50be;
+  --color-primary-hover: #4e50be;
+  --color-primary-contrast: #ffffff;
 
-  --color-red: #FF4A4A;
+  /* Secondary Colors */
+  --color-secondary: #48bfe3;
+  --color-secondary-light: #72efdd;
+  --color-secondary-dark: #56cfe1;
+  
+  /* Neutral Colors */
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
+  
+  /* Accent Colors */
+  --color-lavender-50: #f5f3ff;
+  --color-lavender-100: #ede9fe;
+  --color-lavender-200: #ddd6fe;
+  --color-lavender-300: #c4b5fd;
+  --color-lavender-400: #a78bfa;
+  --color-lavender-500: #8b5cf6;
+  --color-lavender-600: #7c3aed;
+  --color-lavender-700: #6d28d9;
+  --color-lavender-800: #5b21b6;
+  --color-lavender-900: #4c1d95;
 
-  --color-stroke-strong: #949494;
-  --color-stroke-weak: #E3E3E3;
+  /* Feedback Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* UI Element Colors */
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-stroke-strong: #64748b;
+  --color-stroke-weak: #e2e8f0;
 }

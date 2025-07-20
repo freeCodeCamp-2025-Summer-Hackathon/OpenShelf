@@ -1,9 +1,9 @@
-// src/features/profile/api/getProfile.js
+// src/features/profile/api/getBorrowRequests.js
 import { api } from '../../../app/api'
 
-export async function getProfile() {
+export async function getBorrowRequests() {
   try {
-    const response = await api.get('users/profile/')
+    const response = await api.get('borrow-requests/')
 
     // Successful response
     if (response.status === 200) {
@@ -26,6 +26,7 @@ export async function getProfile() {
       return {
         status: 403,
         data: null,
+        error: 'You must be logged in to view borrow requests',
       }
     }
 
@@ -34,12 +35,13 @@ export async function getProfile() {
       return {
         status: 401,
         data: null,
+        error: 'Authentication error',
       }
     }
 
     // Handle network errors or other issues
     if (!error?.response) {
-      console.error('Network error in getProfile:', error)
+      console.error('Network error in getBorrowRequests:', error)
       return {
         status: 500,
         data: null,
@@ -48,7 +50,7 @@ export async function getProfile() {
     }
 
     // Handle all other HTTP errors
-    console.error('getProfile error:', error)
+    console.error('getBorrowRequests error:', error)
     return {
       status: error.response.status || 500,
       data: null,

@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'openshelf',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': 'Pawan@07',
         'HOST': 'localhost',
         'PORT':'5432'
     }
@@ -152,6 +152,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:5175",
+    "http://127.0.0.1:5175",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

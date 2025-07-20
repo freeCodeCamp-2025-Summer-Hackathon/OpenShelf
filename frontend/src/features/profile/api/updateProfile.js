@@ -1,9 +1,9 @@
-// src/features/profile/api/getProfile.js
+// src/features/profile/api/updateProfile.js
 import { api } from '../../../app/api'
 
-export async function getProfile() {
+export async function updateProfile(profileData) {
   try {
-    const response = await api.get('users/profile/')
+    const response = await api.patch('users/profile/', profileData)
 
     // Successful response
     if (response.status === 200) {
@@ -26,6 +26,7 @@ export async function getProfile() {
       return {
         status: 403,
         data: null,
+        error: 'You must be logged in to update your profile',
       }
     }
 
@@ -34,12 +35,22 @@ export async function getProfile() {
       return {
         status: 401,
         data: null,
+        error: 'Authentication error',
+      }
+    }
+
+    // Handle validation errors
+    if (error?.response?.status === 400) {
+      return {
+        status: 400,
+        data: null,
+        error: error?.response?.data || 'Invalid data provided',
       }
     }
 
     // Handle network errors or other issues
     if (!error?.response) {
-      console.error('Network error in getProfile:', error)
+      console.error('Network error in updateProfile:', error)
       return {
         status: 500,
         data: null,
@@ -48,7 +59,7 @@ export async function getProfile() {
     }
 
     // Handle all other HTTP errors
-    console.error('getProfile error:', error)
+    console.error('updateProfile error:', error)
     return {
       status: error.response.status || 500,
       data: null,

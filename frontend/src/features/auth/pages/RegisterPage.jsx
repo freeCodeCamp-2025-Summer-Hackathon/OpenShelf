@@ -1,6 +1,6 @@
-import { Icon } from '@iconify-icon/react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate, useRevalidator } from 'react-router'
+import { Link, useNavigate, useRevalidator } from 'react-router-dom'
+import Button from '../../../components/Button'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
 import { login } from '../api/login'
@@ -137,21 +137,23 @@ export default function RegisterPage() {
             />
           </div>
 
-          <input
+          <Button
             type="submit"
-            className="bg-lavender-500 text-white rounded-xl w-full py-3 mt-7 cursor-pointer"
-            value="Continue"
-          />
+            className="w-full py-3 mt-7"
+          >
+            Continue
+          </Button>
 
           <AuthLayout.ButtonDivider />
 
-          <button
-            className="border-stroke-weak border-1 px-4 py-3 rounded-xl flex flex-row items-center w-full mt-4 cursor-pointer"
+          <Button
+            variant="secondary"
+            className="w-full mt-4"
             type="button"
+            icon="google"
           >
-            <Icon icon="logos:google-icon" />
-            <p className="w-full">Sign in with Google</p>
-          </button>
+            Sign in with Google
+          </Button>
         </form>
       </AuthLayout.Body>
     </AuthLayout>

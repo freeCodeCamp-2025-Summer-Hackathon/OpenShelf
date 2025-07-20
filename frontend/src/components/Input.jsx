@@ -1,12 +1,39 @@
 import { Icon } from '@iconify-icon/react'
 
-export default function Input({ label, register, name, info, rules, error, type }) {
+export default function Input({
+  label,
+  register,
+  name,
+  info,
+  rules,
+  error,
+  type = 'text',
+  placeholder,
+  value,
+  onChange,
+  id,
+  required,
+}) {
+  // Create placeholder if not provided
+  const defaultPlaceholder = placeholder || (label ? `Enter your ${label.toLowerCase()}...` : '')
+  
+  // Support both react-hook-form register and regular onChange pattern
+  const inputProps = register
+    ? { ...register(name, rules) }
+    : {
+        name,
+        value,
+        onChange,
+        id: id || name,
+        required: required || rules?.required,
+      }
+
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row gap-2 items-center">
-        <label className="font-sans">
+        <label className="font-sans" htmlFor={id || name}>
           {label}
-          {rules?.required && <span className="text-red">*</span>}
+          {(rules?.required || required) && <span className="text-red">*</span>}
         </label>
         {info && (
           <div className="relative">
@@ -20,13 +47,13 @@ export default function Input({ label, register, name, info, rules, error, type 
         )}
       </div>
       <input
-        {...register(name, rules)}
+        {...inputProps}
         type={type}
-        placeholder={`Enter your ${label.toLowerCase()}...`}
+        placeholder={defaultPlaceholder}
         className={`${error ? 'border-red' : 'border-stroke-weak'} border-1 px-4 py-3 rounded-xl focus:outline-stroke-strong`}
       />
       {error && (
-        <p className="text-red">{error.message}</p>
+        <p className="text-red">{typeof error === 'string' ? error : error.message}</p>
       )}
     </div>
   )
