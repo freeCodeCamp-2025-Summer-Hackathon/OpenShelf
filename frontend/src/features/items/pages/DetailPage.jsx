@@ -1,6 +1,7 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs'
 import Tags from '../../../components/Tags'
 import useImageSlider from '../hooks/useImageSlider'
+import Navbar from '../../../components/Navbar'
 
 function DetailPage() {
   // get images from api later
@@ -13,8 +14,8 @@ function DetailPage() {
     <div className="min-h-[100dvh]">
       {/* No navbar for now */}
       {/* <Navbar /> */}
-      <div className="flex h-screen overflow-hidden">
-        <div className="w-3/5 bg-[#D3D3F1] sticky flex justify-center items-center">
+      <div className="flex h-screen w-full overflow-hidden">
+        <div className="w-3/5 bg-[#D3D3F1] flex sticky justify-center items-center">
           <div className="w-[75%] flex justify-between items-center">
             <div className="flex justify-center items-center gap-x-5">
               <button
@@ -68,68 +69,81 @@ function DetailPage() {
             </div>
           </div>
         </div>
-        <div className="w-2/5 pt-5 px-12 overflow-y-auto">
-          <div className="py-4">
-            {/* Render name, author, tags, description, owner and owner's notes later */}
-            <h1 className="font-display-5xl">Book In Purple</h1>
-            <p className="font-sans-sm my-3">Book Author</p>
-            <div className="flex gap-2">
-              <Tags type="condition" label="new" />
-              <Tags type="category" label="book" />
-              <Tags type="genre" label="genre" />
-              <Tags type="genre" label="genre" />
+
+        <div className="w-2/5 py-20 px-12 overflow-y-auto flex flex-col justify-between h-full">
+          <div>
+            <div className="flex flex-row items-center justify-between">
+              <div className="flex items-center gap-x-3">
+                <img
+                  src="/placeholderPfp.jpg"
+                  alt="Profile Pic"
+                  className="rounded-full"
+                  width="50"
+                />
+                <span className="font-sans-base font-bold">Smug Cat</span>
+              </div>
+
+              <p className="text-stroke-strong">2 available</p>
+            </div>
+
+            <div className="py-4">
+              {/* Render name, author, tags, description, owner and owner's notes later */}
+              <h1 className="font-display-5xl">
+                Book In Purple by Book Author
+              </h1>
+              <div className="flex gap-2 mt-4">
+                <Tags type="condition" label="new" />
+                <Tags type="category" label="book" />
+                <Tags type="genre" label="genre" />
+                <Tags type="genre" label="genre" />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-8 mt-10">
+              <p>
+                A book in purple. Yep. You've guessed it! It's a book all about
+                purple: purple plants, purple animals, purple houses, every
+                purple existence that exists in our universe! You can find all
+                the purple in this book!
+              </p>
+              <p>
+                This is one of my treasures. So, please handle with care, avoid
+                bending. Thank you!
+              </p>
             </div>
           </div>
-          <div className="py-4">
-            <p className="font-sans-2xl font-semibold">Description</p>
-            <p className="mt-2">
-              A book in purple. Yep. You've guessed it! It's a book all about
-              purple. Purple things, purple plants, purple animals, purple
-              houses, every purple existence that exists in our universe! You
-              can find all the purple in this book!
-            </p>
-          </div>
-          <div className="py-4">
-            <div className="flex items-center gap-x-3">
-              <img
-                src="/placeholderPfp.jpg"
-                alt="Profile Pic"
-                className="rounded-full"
-                width="50"
-              />
-              <span className="font-sans-base font-bold">Smug Cat</span>
-              <Icon
-                icon="heroicons-solid:check-badge"
-                className="text-lavender-300"
-              />
+
+          <div className="">
+            <div className="flex flex-row items-center gap-4">
+              <button
+                type="button"
+                className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
+              >
+                <Icon icon="heroicons:shopping-bag" className="text-2xl" />
+                <span>Check out</span>
+              </button>
+              <button
+                type="button"
+                className="flex justify-center items-center p-3 bg-lavender-500 text-white rounded-md"
+              >
+                <Icon
+                  icon="heroicons:chat-bubble-oval-left-ellipsis"
+                  className="text-2xl"
+                />
+              </button>
+              <button
+                type="button"
+                className="flex justify-center items-center p-3 bg-[#F2ECF4] rounded-md"
+              >
+                <Icon icon="heroicons:heart" className="text-2xl" />
+              </button>
             </div>
-            <p className="mt-2">
-              This is one of my treasures. So, please handle with care, avoid
-              bending. Thank you!
-            </p>
-          </div>
-          <div className="flex justify-between items-center py-4">
-            <button
-              type="button"
-              className="flex justify-center items-center p-3 bg-lavender-500 text-white rounded-md"
-            >
-              <Icon
-                icon="heroicons:chat-bubble-oval-left-ellipsis"
-                className="text-2xl"
-              />
-            </button>
-            <button
-              type="button"
-              className="font-sans-lg-upper flex justify-center items-center py-3 w-4/6 bg-lavender-500 text-white rounded-md"
-            >
-              Check out
-            </button>
-            <button
-              type="button"
-              className="flex justify-center items-center p-3 bg-[#F2ECF4] rounded-md"
-            >
-              <Icon icon="heroicons:heart" className="text-2xl" />
-            </button>
+            <div className="flex flex-row items-center gap-1 mt-2">
+              <Icon icon="heroicons:information-circle" className="text-xl" />
+              <span>
+                You can lend this item for <b>2 weeks</b>.
+              </span>
+            </div>
           </div>
         </div>
       </div>
