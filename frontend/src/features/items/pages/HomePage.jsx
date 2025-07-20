@@ -1,11 +1,25 @@
 import { Icon } from '@iconify-icon/react'
+import { getItemDetails } from '../api/getItemDetails'
+import { getItems } from '../api/getItems'
+import FeaturedItems from '../components/FeaturedItems'
 
-import FeaturedItems from './FeaturedItems'
+export async function homePageLoader() {
+  const response = await getItems()
+  const items = response.data.results
+
+  const itemsWithDetails = await Promise.all(
+    items.map(async (item) => {
+      const response = await getItemDetails(item.id)
+      return response.data
+    }),
+  )
+
+  return { items: itemsWithDetails }
+}
 
 export default function HomePage() {
   return (
     <div>
-
       <div className="bg-[#D3D3F1] h-[550px] bg-[url(home-hero-brush.svg)] bg-no-repeat bg-size-[auto_500px] bg-center relative flex justify-center items-center">
         <div>
           <h1 className="font-display-7xl">
