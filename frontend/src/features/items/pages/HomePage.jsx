@@ -1,12 +1,25 @@
 import { Icon } from '@iconify-icon/react'
+import { getItemDetails } from '../api/getItemDetails'
+import { getItems } from '../api/getItems'
+import FeaturedItems from '../components/FeaturedItems'
 
-import Navbar from '../../../components/Navbar'
+export async function homePageLoader() {
+  const response = await getItems()
+  const items = response.data.results
+
+  const itemsWithDetails = await Promise.all(
+    items.map(async (item) => {
+      const response = await getItemDetails(item.id)
+      return response.data
+    }),
+  )
+
+  return { items: itemsWithDetails }
+}
 
 export default function HomePage() {
   return (
     <div>
-      <Navbar />
-
       <div className="bg-[#D3D3F1] h-[550px] bg-[url(home-hero-brush.svg)] bg-no-repeat bg-size-[auto_500px] bg-center relative flex justify-center items-center">
         <div>
           <h1 className="font-display-7xl">
@@ -30,7 +43,16 @@ export default function HomePage() {
             <Icon icon="heroicons:arrow-right" />
           </button>
         </div>
-        <img src="home-hero-illustration.svg" className="ml-[-40px] h-[400px]"></img>
+        <img
+          src="home-hero-illustration.svg"
+          className="ml-[-40px] h-[400px]"
+        />
+      </div>
+
+      <div className="flex flex-row justify-center mt-8">
+        <main className="w-[1280px]">
+          <FeaturedItems />
+        </main>
       </div>
     </div>
   )

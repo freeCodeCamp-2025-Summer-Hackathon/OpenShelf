@@ -1,14 +1,17 @@
-import { useForm } from 'react-hook-form'
+import { Icon } from '@iconify-icon/react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate, useRevalidator } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
 import { login as loginUser } from '../api/login'
-import AuthLayout from './AuthLayout'
+import AuthLayout from '../components/AuthLayout'
+import { validation } from '../validation'
 
 export default function LoginPage() {
   const navigate = useNavigate()
-  const { register, handleSubmit } = useForm({ email: '', password: '' })
+  const revalidtor = useRevalidator()
+  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: { email: '', password: '' } })
 
   const [formMessage, setFormMessage] = useState({ success: null, message: '' })
 
@@ -22,7 +25,9 @@ export default function LoginPage() {
       const responseJSON = JSON.parse(config.request.responseText)
       setFormMessage({ success: true, message: responseJSON.message })
       navigate('/')
-    } catch (err) {
+      revalidtor.revalidate()
+    }
+    catch (err) {
       setFormMessage({ success: false, message: err.message })
     }
   }
@@ -36,7 +41,9 @@ export default function LoginPage() {
       </AuthLayout.Nav>
 
       <AuthLayout.Header>
-        Log in to <span className="text-[#000000]">OpenShelf</span>
+        Log in to
+        {' '}
+        <span className="text-[#000000]">OpenShelf</span>
       </AuthLayout.Header>
 
       <AuthLayout.Body>
@@ -45,16 +52,18 @@ export default function LoginPage() {
             <Input
               label="Email Address"
               register={register}
-              required
               name="email"
               type="email"
+              rules={validation.email}
+              error={errors.email}
             />
 
             <PasswordInput
               label="Password"
               register={register}
-              required
               name="password"
+              rules={{ required: 'Password is required.' }}
+              error={errors.password}
             />
 
             {formMessage && (
@@ -78,7 +87,7 @@ export default function LoginPage() {
             className="border-stroke-weak border-1 px-4 py-3 rounded-xl flex flex-row items-center w-full mt-4 cursor-pointer"
             type="button"
           >
-            <img src="google.png" className="size-6" />
+            <Icon icon="logos:google-icon" />
             <p className="w-full">Sign in with Google</p>
           </button>
         </form>
