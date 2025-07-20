@@ -1,26 +1,13 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs'
-import { useState } from 'react'
 import Tags from '../../../components/Tags'
+import useImageSlider from '../hooks/useImageSlider'
 
 function DetailPage() {
   // get images from api later
   const images = ['/purpleBook.png', '/grayBook.png']
 
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  const prevImage = () => {
-    if (currentIndex > 0)
-      setCurrentIndex(prev => prev - 1)
-  }
-
-  const nextImage = () => {
-    if (currentIndex < images.length - 1)
-      setCurrentIndex(prev => prev + 1)
-  }
-
-  const showImage = (index) => {
-    setCurrentIndex(index)
-  }
+  const { currentIndex, prevImage, nextImage, showImage } =
+    useImageSlider(images)
 
   return (
     <div className="min-h-[100dvh]">
