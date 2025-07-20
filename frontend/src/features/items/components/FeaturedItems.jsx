@@ -1,38 +1,10 @@
 import { Icon } from '@iconify-icon/react'
 import { useLoaderData } from 'react-router'
+import FeaturedItem from './FeaturedItem'
 
 export default function FeaturedItems() {
   const { items } = useLoaderData()
-
-  const featuredItems = items.filter(item => 'featured' in item.tags)
-
-  let itemElements
-  if (featuredItems) {
-    itemElements = featuredItems.map((item) => {
-      return (
-        <div className="w-36 flex flex-col gap-2" key={item.id}>
-          <div className="w-full h-48 rounded-xl bg-[url(item-image-test.png)] bg-cover bg-center border-1 border-stroke-weak"></div>
-          <div>
-            <p className="font-semibold">{item.title}</p>
-            <div className="flex flex-row justify-between items-center">
-              <p className="text-stroke-strong">
-                {item.is_available}
-                {' '}
-                available
-              </p>
-              {/* <p className="text-lavender-500">$40</p> */}
-            </div>
-          </div>
-
-          <div className="flex flex-row gap-2">
-            {item.tags.map(tag => (
-              <div className="px-3 py-[3px] rounded bg-lavender-200" key={tag}>{tag}</div>
-            ))}
-          </div>
-        </div>
-      )
-    })
-  }
+  const featuredItems = items.filter(item => item.tags.includes('featured'))
 
   return (
     <div>
@@ -55,7 +27,11 @@ export default function FeaturedItems() {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-row gap-8">{itemElements}</div>
+      <div className="mt-6 flex flex-row gap-8">
+        {featuredItems.length > 1
+          ? featuredItems.map(item => <FeaturedItem key={item.id} item={item} />)
+          : <p className="text-lavender-800">No items are featured.</p>}
+      </div>
     </div>
   )
 }

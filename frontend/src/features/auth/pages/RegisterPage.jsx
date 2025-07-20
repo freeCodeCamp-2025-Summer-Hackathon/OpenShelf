@@ -5,7 +5,7 @@ import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
 import { login } from '../api/login'
 import { register as registerUser } from '../api/register'
-import AuthLayout from './AuthLayout'
+import AuthLayout from '../components/AuthLayout'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
