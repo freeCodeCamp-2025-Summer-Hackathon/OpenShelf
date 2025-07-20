@@ -1,8 +1,8 @@
 import { Link } from 'react-router'
 
-export default function FeaturedItem({ item }) {
+export default function Item({ item }) {
   return (
-    <Link to={`/items/${item.id}`}>
+    <Link to={`/items/${item.id}`} className="flex">
       <div className="w-36 flex flex-col gap-2">
         <div className="w-full h-48 rounded-xl bg-[url(item-image-test.png)] bg-cover bg-center border-1 border-stroke-weak"></div>
         <div>

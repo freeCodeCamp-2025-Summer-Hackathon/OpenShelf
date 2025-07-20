@@ -1,20 +1,10 @@
 import { Icon } from '@iconify-icon/react'
-import { getItemDetails } from '../api/getItemDetails'
 import { getItems } from '../api/getItems'
 import FeaturedItems from '../components/FeaturedItems'
 
 export async function homePageLoader() {
-  const response = await getItems()
-  const items = response.data.results
-
-  const itemsWithDetails = await Promise.all(
-    items.map(async (item) => {
-      const response = await getItemDetails(item.id)
-      return response.data
-    }),
-  )
-
-  return { items: itemsWithDetails }
+  const items = await getItems()
+  return { items }
 }
 
 export default function HomePage() {
