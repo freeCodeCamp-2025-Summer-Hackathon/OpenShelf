@@ -15,58 +15,64 @@ function DetailPage() {
       {/* No navbar for now */}
       {/* <Navbar /> */}
       <div className="flex h-screen w-full overflow-hidden">
-        <div className="w-3/5 bg-[#D3D3F1] flex sticky justify-center items-center">
-          <div className="w-[75%] flex justify-between items-center">
-            <div className="flex justify-center items-center gap-x-5">
-              <button
-                type="button"
-                onClick={prevImage}
-                disabled={currentIndex === 0}
-                className={`size-11 rounded-full bg-white flex justify-center items-center transition-opacity ${
-                  currentIndex === 0
-                    ? 'opacity-30 cursor-not-allowed'
-                    : 'cursor-pointer'
+        <div className="w-3/5 flex flex-col sticky justify-center gap-4 px-16 py-14">
+          <div className="rounded-xl bg-[#D3D3F1] h-[70%] w-full flex justify-between items-center px-20">
+            <button
+              type="button"
+              onClick={prevImage}
+              disabled={currentIndex === 0}
+              className={`size-8 rounded-full bg-white flex justify-center items-center transition-opacity ${
+                currentIndex === 0 ? 'cursor-not-allowed' : 'cursor-pointer'
+              }`}
+            >
+              <Icon
+                icon="heroicons:chevron-left"
+                className={`text-xl ${
+                  currentIndex === 0 ? 'text-stroke-strong' : 'text-black'
                 }`}
-              >
-                <Icon icon="heroicons:chevron-left" className="text-4xl" />
-              </button>
-              <img
-                src={images[currentIndex]}
-                alt={`Image ${currentIndex + 1}`}
-                width="400"
               />
-              <button
-                type="button"
-                onClick={nextImage}
-                disabled={currentIndex === images.length - 1}
-                className={`size-11 rounded-full bg-white flex justify-center items-center transition-opacity ${
+            </button>
+
+            <img
+              src={images[currentIndex]}
+              alt={`Image ${currentIndex + 1}`}
+              className="h-[70%]"
+            ></img>
+            {/* We can decide later on if the image should be covering the entire box or kept like this */}
+
+            <button
+              type="button"
+              onClick={nextImage}
+              disabled={currentIndex === images.length - 1}
+              className={`size-8 rounded-full bg-white flex justify-center items-center transition-opacity ${
+                currentIndex === images.length - 1
+                  ? 'cursor-not-allowed'
+                  : 'cursor-pointer'
+              }`}
+            >
+              <Icon
+                icon="heroicons:chevron-right"
+                className={`text-xl ${
                   currentIndex === images.length - 1
-                    ? 'opacity-30 cursor-not-allowed'
-                    : 'cursor-pointer'
+                    ? 'text-stroke-strong'
+                    : 'text-black'
                 }`}
-              >
-                <Icon icon="heroicons:chevron-right" className="text-4xl" />
+              />
+            </button>
+          </div>
+
+          <div className="flex gap-4">
+            {images.map((img, index) => (
+              <button type="button" key={img} onClick={() => showImage(index)}>
+                <img
+                  src={img}
+                  alt={`Thumbnail ${index + 1}`}
+                  className={`rounded-lg py-6 px-10 w-[160px] transition-colors cursor-pointer ${
+                    index === currentIndex ? 'bg-[#D3D3F1]' : 'bg-gray-200'
+                  }`}
+                ></img>
               </button>
-            </div>
-            <div className="flex flex-col gap-3">
-              {images.map((img, index) => (
-                <button
-                  type="button"
-                  key={img}
-                  onClick={() => showImage(index)}
-                >
-                  <img
-                    src={img}
-                    alt={`Thumbnail ${index + 1}`}
-                    className={`w-20 h-28 object-cover border-2 rounded ${
-                      index === currentIndex
-                        ? 'border-lavender-500 ring-2 ring-lavender-300'
-                        : 'border-gray-300'
-                    }`}
-                  />
-                </button>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
 
