@@ -19,7 +19,7 @@ export default function Navbar({ profile }) {
     <nav className="fixed w-full z-10">
       <div className="py-6 px-12 flex flex-row justify-between items-center">
         <div className="flex flex-row gap-16 items-center">
-          <img src="OpenShelf.png" width="150"></img>
+          <img src="/OpenShelf.png" width="150"></img>
           <div className="flex flex-row gap-8 items-center">
             <NavLink
               to="/"
