@@ -1,4 +1,4 @@
-import { Link } from "react-router"
+import { Link } from 'react-router'
 import { Icon } from '@iconify-icon/react'
 
 export default function NavButton({ to, icon, info }) {
@@ -10,7 +10,9 @@ export default function NavButton({ to, icon, info }) {
       >
         <Icon icon={`heroicons:${icon}`} className="text-2xl" />
       </Link>
-      <div className="rounded border-1 border-stroke-weak px-[5px] bg-white text-center text-sm absolute top-11 right-[-6px] shadow-2xs peer-hover:opacity-100 opacity-0 transition-opacity text-stroke-strong">
+      <div
+        className="rounded border-1 border-stroke-weak px-[5px] bg-white text-center text-sm absolute left-1/2 transform -translate-x-1/2 top-full mt-2 shadow-2xs peer-hover:opacity-100 opacity-0 transition-opacity text-stroke-strong text-nowrap"
+      >
         {info}
       </div>
     </div>
