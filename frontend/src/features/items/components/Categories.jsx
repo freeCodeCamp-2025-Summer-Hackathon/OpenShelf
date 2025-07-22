@@ -2,10 +2,10 @@ import React from 'react';
 
 function Categories() {
   const categories = [
-    { name: "Books", icon: "https://uploads.onecompiler.io/43q68aapf/43r65ya2g/undraw_book.png" },
-    { name: "Games", icon: "https://uploads.onecompiler.io/43q68aapf/43r65ya2g/undraw_video-games_itxa%201.png" },
-    { name: "Tools", icon: "https://uploads.onecompiler.io/43q68aapf/43r65ya2g/Group%20240.png" },
-    { name: "Outdoors", icon: "https://uploads.onecompiler.io/43q68aapf/43r65ya2g/Group%20238.png" }
+    { name: "Books", icon: "frontend\public\categories-books.png" },
+    { name: "Games", icon: "frontend\public\categories-games.png" },
+    { name: "Tools", icon: "frontend\public\categories-tools.png" },
+    { name: "Outdoors", icon: "frontend\public\categories-outdoors.png" }
   ];
   return (
     <div className="font-semibold text-[22pt]">
