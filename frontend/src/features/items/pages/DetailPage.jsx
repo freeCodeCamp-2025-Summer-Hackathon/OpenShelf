@@ -90,7 +90,7 @@ function DetailPage() {
               </div>
 
               <p className="text-stroke-strong">
-                {item?.number_of_items}
+                {item.number_of_items}
                 {' '}
                 available
               </p>
@@ -98,7 +98,7 @@ function DetailPage() {
 
             <div className="py-4">
               <h1 className="font-display-5xl">
-                {item?.title}
+                {item.title}
               </h1>
               <div className="flex gap-2 mt-4">
                 <Tags type="condition" label={item.condition} />
