@@ -1,6 +1,7 @@
 import { Icon } from '@iconify-icon/react'
 
 import FeaturedItems from './FeaturedItems'
+import Categories from './Categories'
 
 export default function HomePage() {
   return (
@@ -37,6 +38,7 @@ export default function HomePage() {
 
       <div className="flex flex-row justify-center mt-8">
         <main className="w-[1280px]">
+          <Categories />
           <FeaturedItems />
         </main>
       </div>
