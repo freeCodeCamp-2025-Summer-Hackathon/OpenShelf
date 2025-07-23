@@ -17,14 +17,14 @@ function Categories() {
 
 function CategoryCards({ categories }) {
   return (
-    <div className="flex flex-row gap-[25px] overflow-x-scroll mt-[15px]">
+    <div className="flex flex-row gap-[25px] overflow-x-scroll mt-[15px] items-start">
       {categories.map((item) => (
-        <div className="border border-[#D9D9D9] rounded-[8.8px] h-[100px] flex-none basis-[225px] p-[17px_25px] flex items-start" key={item.name}>
-          <div className="w-[125px]">
-            <span className="m-[0_25px_0_0] p-0 font-display-3xl">{item.name}</span>
+        <div className="border border-[#D3D3FF] shadow-[0_0_10px_5px_#D3D3FF] rounded-[8.8px] h-[130px] flex-none basis-[215px] p-[10px_20px] flex items-start" key={item.name}>
+          <div className="w-[80px]">
+            <span className="m-[0_25px_0_0] p-0 font-display-2xl">{item.name}</span>
           </div>
           <div className="h-[100px] w-[100px] flex items-end justify-end">
-            <img src={item.icon} className="border border-green-500" />
+            <img src={item.icon}/>
           </div>
         </div>
       ))}
