@@ -1,5 +1,5 @@
-import { Link } from "react-router"
 import { Icon } from '@iconify-icon/react'
+import { Link } from 'react-router'
 
 export default function NavButton({ to, icon, info }) {
   return (
