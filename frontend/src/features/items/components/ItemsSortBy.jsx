@@ -2,14 +2,8 @@ import { Icon } from '@iconify-icon/react'
 import clsx from 'clsx'
 import { useState } from 'react'
 
-export default function ItemsSortBy() {
+export default function ItemsSortBy({ options, selectedOption, setSelectedOption }) {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [selectedOption, setSelectedOption] = useState('alphabetical-asc')
-
-  const options = [
-    { label: 'Title (A to Z)', value: 'alphabetical-asc' },
-    { label: 'Title (Z to A)', value: 'alphabetical-dsc' },
-  ]
 
   const handleModalVisibility = () => {
     setIsModalVisible(prevIsModalVisibility => !prevIsModalVisibility)
