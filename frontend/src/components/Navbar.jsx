@@ -4,9 +4,9 @@ import { logout } from '../features/auth/api/logout'
 import NavButton from './NavButton'
 
 export default function Navbar({ profile }) {
-  const profileAvatar =
-    profile &&
-    `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48&background=6565C9&color=fff`
+  const profileAvatar
+    = profile
+      && `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48&background=6565C9&color=fff`
   const revalidator = useRevalidator()
   const linkClassNames = ({ isActive }) =>
     isActive ? 'border-b-1 border-b-black px-3 py-1' : 'text-stroke-strong'
@@ -48,31 +48,33 @@ export default function Navbar({ profile }) {
             </button>
           </div>
 
-          {profile ? (
-            <>
-              <NavButton to="inbox" icon="inbox" info="Inbox"/>
-              <img src={profileAvatar} className="rounded-full size-11" />
-              <button
-                type="button"
-                className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">
-                <button
-                  type="button"
-                  className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"
-                >
-                  Sign up
-                </button>
-              </Link>
-            </>
-          )}
+          {profile
+            ? (
+                <>
+                  <NavButton to="inbox" icon="inbox" info="Inbox" />
+                  <img src={profileAvatar} className="rounded-full size-11" />
+                  <button
+                    type="button"
+                    className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </>
+              )
+            : (
+                <>
+                  <Link to="/login">Login</Link>
+                  <Link to="/register">
+                    <button
+                      type="button"
+                      className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"
+                    >
+                      Sign up
+                    </button>
+                  </Link>
+                </>
+              )}
         </div>
       </div>
     </nav>
