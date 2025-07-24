@@ -1,14 +1,13 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs'
 import Tags from '../../../components/Tags'
 import useImageSlider from '../hooks/useImageSlider'
-import Navbar from '../../../components/Navbar'
 
 function DetailPage() {
   // get images from api later
   const images = ['/purpleBook.png', '/grayBook.png']
 
-  const { currentIndex, prevImage, nextImage, showImage } =
-    useImageSlider(images)
+  const { currentIndex, prevImage, nextImage, showImage }
+    = useImageSlider(images)
 
   return (
     <div className="min-h-[100dvh]">
@@ -37,7 +36,7 @@ function DetailPage() {
               src={images[currentIndex]}
               alt={`Image ${currentIndex + 1}`}
               className="h-[70%]"
-            ></img>
+            />
             {/* We can decide later on if the image should be covering the entire box or kept like this */}
 
             <button
@@ -70,7 +69,7 @@ function DetailPage() {
                   className={`rounded-lg py-6 px-10 w-[160px] transition-colors cursor-pointer ${
                     index === currentIndex ? 'bg-[#D3D3F1]' : 'bg-gray-200'
                   }`}
-                ></img>
+                />
               </button>
             ))}
           </div>
@@ -147,7 +146,10 @@ function DetailPage() {
             <div className="flex flex-row items-center gap-1 mt-2">
               <Icon icon="heroicons:information-circle" className="text-xl" />
               <span>
-                You can lend this item for <b>2 weeks</b>.
+                You can lend this item for
+                {' '}
+                <b>2 weeks</b>
+                .
               </span>
             </div>
           </div>
