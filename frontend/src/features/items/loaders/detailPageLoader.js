@@ -1,6 +1,13 @@
+import { getProfile } from '../../profile/api/getProfile'
 import { getItemDetails } from '../api/getItemDetails'
 
 export async function detailPageLoader({ params }) {
-  const respond = await getItemDetails(params.itemId)
-  return { item: respond.data }
+  const [itemResponse, profileResponse] = await Promise.all([
+    getItemDetails(params.itemId),
+    getProfile(),
+  ])
+  return {
+    item: itemResponse.data,
+    profile: profileResponse.status === 403 ? null : profileResponse.data,
+  }
 }

@@ -1,11 +1,18 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs'
+import { useState } from 'react'
 import { useLoaderData } from 'react-router'
 import Tags from '../../../components/Tags'
+import CheckOutModal from '../components/CheckOutModal'
 import useImageSlider from '../hooks/useImageSlider'
 
 function DetailPage() {
-  const { item } = useLoaderData()
+  const { item, profile } = useLoaderData()
   const images = item.image_urls || []
+  const isOwner = profile?.id === item.owner.id
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = () => setIsModalOpen(true)
+  const closeModal = () => setIsModalOpen(false)
 
   const { currentIndex, prevImage, nextImage, showImage }
     = useImageSlider(images)
@@ -113,49 +120,78 @@ function DetailPage() {
               <p>
                 {item.description}
               </p>
-              <p>
-                This is one of my treasures. So, please handle with care, avoid
-                bending. Thank you!
-              </p>
             </div>
           </div>
 
-          <div className="">
-            <div className="flex flex-row items-center gap-4">
-              <button
-                type="button"
-                className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
-              >
-                <Icon icon="heroicons:shopping-bag" className="text-2xl" />
-                <span>Check out</span>
-              </button>
-              <button
-                type="button"
-                className="flex justify-center items-center p-3 bg-lavender-500 text-white rounded-md"
-              >
-                <Icon
-                  icon="heroicons:chat-bubble-oval-left-ellipsis"
-                  className="text-2xl"
-                />
-              </button>
-              <button
-                type="button"
-                className="flex justify-center items-center p-3 bg-[#F2ECF4] rounded-md"
-              >
-                <Icon icon="heroicons:heart" className="text-2xl" />
-              </button>
+          {!isOwner && (
+            <div className="">
+              <div className="flex flex-row items-center gap-4">
+                <button
+                  type="button"
+                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md cursor-pointer"
+                  onClick={openModal}
+                >
+                  <Icon icon="heroicons:shopping-bag" className="text-2xl" />
+                  <span>Check out</span>
+                </button>
+                <button
+                  type="button"
+                  className="flex justify-center items-center p-3 bg-lavender-500 text-white rounded-md"
+                >
+                  <Icon
+                    icon="heroicons:chat-bubble-oval-left-ellipsis"
+                    className="text-2xl"
+                  />
+                </button>
+                <button
+                  type="button"
+                  className="flex justify-center items-center p-3 bg-[#F2ECF4] rounded-md"
+                >
+                  <Icon icon="heroicons:heart" className="text-2xl" />
+                </button>
+              </div>
+              <div className="flex flex-row items-center gap-1 mt-2">
+                <Icon icon="heroicons:information-circle" className="text-xl" />
+                <span>
+                  You can lend this item for
+                  {' '}
+                  <b>2 weeks</b>
+                  .
+                </span>
+              </div>
             </div>
-            <div className="flex flex-row items-center gap-1 mt-2">
-              <Icon icon="heroicons:information-circle" className="text-xl" />
-              <span>
-                You can lend this item for
-                {' '}
-                <b>2 weeks</b>
-                .
-              </span>
+          )}
+
+          {isOwner && (
+            <div className="">
+              <div className="flex flex-row items-center gap-4">
+                <button
+                  type="button"
+                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-red text-white rounded-md"
+                >
+                  <Icon icon="heroicons:trash" className="text-2xl" />
+                  <span>Delete</span>
+                </button>
+                <button
+                  type="button"
+                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
+                >
+                  <Icon
+                    icon="heroicons:pencil-square"
+                    className="text-2xl"
+                  />
+                  <span>Edit</span>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
+        {isModalOpen && (
+          <CheckOutModal
+            item={item}
+            onCancel={closeModal}
+          />
+        )}
       </div>
     </div>
   )
