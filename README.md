@@ -96,11 +96,6 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-**Create superuser (optional):**
-```bash
-python manage.py createsuperuser
-```
-
 **Start the development server:**
 ```bash
 python manage.py runserver
