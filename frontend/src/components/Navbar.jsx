@@ -48,8 +48,8 @@ export default function Navbar({ profile }) {
           {profile
             ? (
                 <>
-                  <NavButton to="/inbox" icon="inbox" info="Inbox" />
-                  <NavButton to="/create" icon="plus-circle" info="Create new item" />
+                  <NavButton to="inbox" icon="inbox" info="Inbox" />
+                  <NavButton to="create" icon="plus-circle" info="Create new item" />
                   <img src={profileAvatar} className="rounded-full size-11" />
                   <button
                     type="button"

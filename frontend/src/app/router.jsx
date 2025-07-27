@@ -10,6 +10,7 @@ import AppLayout, { appLayoutLoader } from '../layouts/AppLayout'
 
 export const router = createBrowserRouter([
   {
+    id: 'root',
     path: '/',
     loader: appLayoutLoader,
     Component: AppLayout,
@@ -19,6 +20,8 @@ export const router = createBrowserRouter([
         element: <HomePage />,
         loader: homePageLoader,
       },
+      { path: 'create', element: <CreatePage /> },
+      { path: 'inbox', element: <InboxPage /> },
     ],
   },
   { path: '/register', element: <RegisterPage /> },
@@ -28,6 +31,4 @@ export const router = createBrowserRouter([
     loader: detailPageLoader,
     element: <DetailPage />,
   },
-  { path: '/inbox', element: <InboxPage /> },
-  { path: '/create', element: <CreatePage /> },
 ])

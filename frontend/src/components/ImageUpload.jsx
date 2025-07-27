@@ -1,18 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Icon } from '@iconify-icon/react'
 
 export default function ImageUpload({
   label,
   info,
   name,
   register,
+  setValue,
   error,
   rules,
 }) {
   const [images, setImages] = useState([])
+  const [selectedFiles, setSelectedFiles] = useState([])
+  
+  // Register the field with react-hook-form
+  useEffect(() => {
+    register(name, rules)
+  }, [register, name, rules])
+  
   function handleFileChange(e) {
     const files = Array.from(e.target.files)
+    setSelectedFiles(files)
     setImages(files.map(file => URL.createObjectURL(file)))
-    // not sure how to upload the image to the server
+    
+    // Set the actual file objects in the form
+    setValue(name, files, { shouldValidate: true })
+    
     e.target.value = null
   }
 
@@ -41,9 +54,8 @@ export default function ImageUpload({
         type="file"
         name={name}
         multiple
-        accept="images/*"
+        accept="image/*"
         onInput={handleFileChange}
-        {...register(name, rules)}
         hidden
         defaultValue=""
       />

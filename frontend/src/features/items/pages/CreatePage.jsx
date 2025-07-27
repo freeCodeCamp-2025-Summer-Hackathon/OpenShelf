@@ -1,20 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useRevalidator } from 'react-router'
+import { useRevalidator, useNavigate, useRouteLoaderData } from 'react-router'
 import ImageUpload from '../../../components/ImageUpload'
 import Input from '../../../components/Input'
 import MultiSelect from '../../../components/MultiSelect'
 import Navbar from '../../../components/Navbar'
 import Select from '../../../components/Select'
 import { createItem } from '../api/createItem'
+import { uploadImages } from '../api/uploadImages'
 
 export default function CreatePage() {
   const revalidator = useRevalidator()
+  const navigate = useNavigate()
+  const { profile } = useRouteLoaderData('root') || {} // load logged-in user profile
   const {
     register,
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -38,18 +42,49 @@ export default function CreatePage() {
     category: {
       required: 'Category is required!',
     },
+    condition: {
+      required: 'Condition is required!',
+    },
   }
 
   const [formMessage, setFormMessage] = useState({ success: null, message: '' })
   const [opened, setOpened] = useState(null)
 
+  // Watch form values for debugging
+  const watchedValues = watch()
+  console.log('Current form values:', watchedValues)
+
+  // send user to login page if not logged in
+  useEffect(() => {
+    if (!profile) {
+      navigate('/login')
+    }
+  }, [profile, navigate])
+
   const onSubmit = async (data) => {
     try {
-      const createItemConfig = await createItem({
+      console.log('Form data received:', data)
+      let imageUrls = []
+      
+      // Upload images first if any are selected
+      if (data.image_urls && data.image_urls.length > 0) {
+        console.log('Uploading images:', data.image_urls)
+        const uploadResult = await uploadImages(data.image_urls)
+        imageUrls = uploadResult.image_urls
+        console.log('Upload result:', imageUrls)
+      } else {
+        console.log('No images to upload')
+      }
+      
+      // Create item with uploaded image URLs
+      const itemData = {
         ...data,
-        image_urls: data.image_urls,
+        image_urls: imageUrls,
         tags: data.tags,
-      })
+      }
+      console.log('Creating item with data:', itemData)
+      
+      const createItemConfig = await createItem(itemData)
 
       if (createItemConfig.status !== 201) {
         throw new Error(createItemConfig.request.responseText)
@@ -58,15 +93,20 @@ export default function CreatePage() {
       reset()
       setFormMessage({ success: true, message: 'Item created successfully.' })
       revalidator.revalidate()
+      
+      // Navigate to home page after successful creation
+      setTimeout(() => {
+        navigate('/')
+      }, 1500) // delay
     }
     catch (err) {
+      console.error('Error creating item:', err)
       setFormMessage({ success: false, message: err.message })
     }
   }
 
   return (
     <div>
-      <Navbar />
       <div className="flex flex-col justify-center items-center py-30">
         <div className="flex flex-col justify-center items-center gap-1 mb-4 w-[400px] text-center">
           <h1 className="font-display-2xl">
@@ -130,8 +170,8 @@ export default function CreatePage() {
               name="image_urls"
               register={register}
               setValue={setValue}
-              error={errors.images}
-              rules={validator.images}
+              error={errors.image_urls}
+              rules={validator.image_urls}
             />
 
             <MultiSelect
