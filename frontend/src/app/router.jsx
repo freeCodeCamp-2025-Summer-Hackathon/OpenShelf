@@ -6,6 +6,7 @@ import DetailPage from '../features/items/pages/DetailPage'
 import HomePage, { homePageLoader } from '../features/items/pages/HomePage'
 import AppLayout, { appLayoutLoader } from '../layouts/AppLayout'
 import InboxPage from '../features/items/pages/InboxPage'
+import { inboxPageLoader } from '../features/items/loaders/inboxPageLoader'
 
 export const router = createBrowserRouter([
   {
@@ -27,5 +28,5 @@ export const router = createBrowserRouter([
     loader: detailPageLoader,
     element: <DetailPage />,
   },
-  { path: '/inbox', element: <InboxPage /> },
+  { path: '/inbox', loader: inboxPageLoader, element: <InboxPage /> },
 ])
