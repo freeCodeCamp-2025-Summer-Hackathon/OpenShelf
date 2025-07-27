@@ -8,13 +8,19 @@ export default function MultiSelect({
   options,
   opened,
   setOpened,
+  register,
+  error,
+  rules,
 }) {
   const [selected, setSelected] = useState([])
 
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row gap-2 items-center">
-        <label className="font-sans">{label}</label>
+        <label className="font-sans">
+          {label}
+          {rules?.required && <span className="text-red">*</span>}
+        </label>
         {info && (
           <div className="relative">
             <Icon
@@ -31,7 +37,7 @@ export default function MultiSelect({
       <div className="flex flex-col gap-2">
         <button
           type="button"
-          className={`border-stroke-weak border-1 ${
+          className={`${error ? 'border-red' : 'border-stroke-weak'} border-1 ${
             selected ? 'px-4 py-3' : 'pl-2 pr-4 py-2'
           } rounded-xl focus:outline-stroke-strong flex flex-row justify-between items-center w-full cursor-pointer`}
           onClick={() => {
@@ -66,6 +72,8 @@ export default function MultiSelect({
           <Icon icon="heroicons:chevron-down" className="text-stroke-strong" />
         </button>
 
+        {error && <p className="text-red">{error.message}</p>}
+
         {opened === name && (
           <div className="border-1 border-stroke-weak px-2 py-3 rounded-lg w-[200px] bg-white z-10 flex flex-col gap-1">
             {options.map((option) => (
@@ -93,7 +101,13 @@ export default function MultiSelect({
         )}
       </div>
 
-      <input hidden value={JSON.stringify(selected)} name={name}></input>
+      <input
+        value={JSON.stringify(selected)}
+        name={name}
+        {...register(name, rules)}
+        type='hidden'
+        defaultValue=""
+      ></input>
     </div>
   )
 }

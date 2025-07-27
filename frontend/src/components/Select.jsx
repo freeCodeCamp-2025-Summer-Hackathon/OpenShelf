@@ -8,15 +8,18 @@ export default function Select({
   options,
   opened,
   setOpened,
+  register,
+  error,
+  rules,
 }) {
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState("")
 
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row gap-2 items-center">
         <label className="font-sans">
           {label}
-          {/* {rules?.required && <span className="text-red">*</span>} */}
+          {rules?.required && <span className="text-red">*</span>}
         </label>
         {info && (
           <div className="relative">
@@ -34,7 +37,9 @@ export default function Select({
       <div className="relative">
         <button
           type="button"
-          className="border-stroke-weak border-1 px-4 py-3 rounded-xl focus:outline-stroke-strong flex flex-row justify-between items-center w-full cursor-pointer"
+          className={`${
+            error ? 'border-red' : 'border-stroke-weak'
+          } border-1 px-4 py-3 rounded-xl focus:outline-stroke-strong flex flex-row justify-between items-center w-full cursor-pointer`}
           onClick={() => {
             setOpened((prev) => (prev === name ? null : name))
           }}
@@ -49,6 +54,8 @@ export default function Select({
           )}
           <Icon icon="heroicons:chevron-down" className="text-stroke-strong" />
         </button>
+
+        {error && <p className="text-red">{error.message}</p>}
 
         {opened === name && (
           <div className="absolute top-14 border-1 border-stroke-weak px-2 py-3 rounded-lg w-[200px] bg-white z-10">
@@ -71,7 +78,13 @@ export default function Select({
         )}
       </div>
 
-      <input hidden value={selected} name={name}></input>
+      <input
+        value={selected}
+        name={name}
+        {...register(name, rules)}
+        type='hidden'
+        defaultValue=""
+      ></input>
     </div>
   )
 }

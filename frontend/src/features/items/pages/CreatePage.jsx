@@ -5,13 +5,61 @@ import Select from '../../../components/Select'
 import MultiSelect from '../../../components/MultiSelect'
 import ImageUpload from '../../../components/ImageUpload'
 import { useState } from 'react'
+import { useRevalidator } from 'react-router'
+import { createItem } from '../api/createItem'
 
 export default function CreatePage() {
-  const { register, handleSubmit } = useForm()
+  const revalidator = useRevalidator()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: '',
+      description: '',
+      category: '',
+      condition: '',
+      image_urls: [],
+      tags: [],
+    },
+  })
+
+  const validator = {
+    title: {
+      required: 'Title is required!',
+      minLength: {
+        value: 3,
+        message: 'Title must have at least 3 characters.',
+      },
+    },
+    category: {
+      required: 'Category is required!',
+    },
+  }
+
+  const [formMessage, setFormMessage] = useState({ success: null, message: '' })
   const [opened, setOpened] = useState(null)
 
-  const onSubmit = (data) => {
-    data
+  const onSubmit = async (data) => {
+    try {
+      const createItemConfig = await createItem({
+        ...data,
+        image_urls: JSON.parse(image_urls),
+        tags: JSON.parse(tags),
+      })
+
+      if (createItemConfig.status !== 201) {
+        throw new Error(createItemConfig.request.responseText)
+      }
+
+      reset()
+      setFormMessage({ success: true, message: 'Item created successfully.' })
+      revalidator.revalidate()
+    } catch (err) {
+      setFormMessage({ success: false, message: err.message })
+    }
   }
 
   return (
@@ -33,12 +81,22 @@ export default function CreatePage() {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-2"
           >
-            <Input label="Title" register={register} name="title" type="text" />
+            <Input
+              label="Title"
+              register={register}
+              name="title"
+              type="text"
+              error={errors.title}
+              rules={validator.title}
+            />
+
             <Input
               label="Description"
               register={register}
               name="description"
               type="text"
+              error={errors.description}
+              rules={validator.description}
             />
 
             <Select
@@ -47,6 +105,9 @@ export default function CreatePage() {
               name="category"
               opened={opened}
               setOpened={setOpened}
+              register={register}
+              error={errors.category}
+              rules={validator.category}
             />
 
             <Select
@@ -55,9 +116,18 @@ export default function CreatePage() {
               name="condition"
               opened={opened}
               setOpened={setOpened}
+              register={register}
+              error={errors.condition}
+              rules={validator.condition}
             />
 
-            <ImageUpload label="Images" name="images" />
+            <ImageUpload
+              label="Images"
+              name="images"
+              register={register}
+              error={errors.images}
+              rules={validator.images}
+            />
 
             <MultiSelect
               label="Tags"
@@ -65,7 +135,18 @@ export default function CreatePage() {
               name="tags"
               opened={opened}
               setOpened={setOpened}
+              register={register}
+              error={errors.tags}
+              rules={validator.tags}
             />
+
+            {formMessage && (
+              <p
+                className={formMessage.success ? 'text-green-600' : 'text-red'}
+              >
+                {formMessage.message}
+              </p>
+            )}
 
             <input
               type="submit"

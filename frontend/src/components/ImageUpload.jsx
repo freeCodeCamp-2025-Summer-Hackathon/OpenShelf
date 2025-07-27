@@ -1,12 +1,28 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
-export default function ImageUpload({label, info, name}) {
+export default function ImageUpload({
+  label,
+  info,
+  name,
+  register,
+  error,
+  rules,
+}) {
   const [images, setImages] = useState([])
+  function handleFileChange(e) {
+    const files = Array.from(e.target.files)
+    setImages(files.map((file) => URL.createObjectURL(file)))
+    // not sure how to upload the image to the server
+    e.target.value = null
+  }
 
   return (
     <div>
       <div className="flex flex-row gap-2 items-center">
-        <label className="font-sans">{label}</label>
+        <label className="font-sans">
+          {label}
+          {rules?.required && <span className="text-red">*</span>}
+        </label>
         {info && (
           <div className="relative">
             <Icon
@@ -25,12 +41,20 @@ export default function ImageUpload({label, info, name}) {
         type="file"
         name={name}
         multiple
-        onChange={(e) => setImages(e.target.files)}
+        accept="images/*"
+        onInput={handleFileChange}
+        {...register(name, rules)}
         hidden
+        defaultValue=""
       ></input>
-      <label for="images" className="cursor-pointer">
-        {images.length ? (
-          <div className="border-1 border-stroke-weak rounded-xl flex flex-col justify-center items-center gap-2 h-[190px]">
+
+      <label htmlFor="images" className="cursor-pointer">
+        {images.length > 0 ? (
+          <div
+            className={`border-1 ${
+              error ? 'border-red' : 'border-stroke-weak'
+            } rounded-xl flex flex-col justify-center items-center gap-2 h-[190px]`}
+          >
             <img src="undraw-images-selected.svg"></img>
             <p className="text-sm text-stroke-strong text-center">
               You have selected <span>{images.length}</span> images.
@@ -39,11 +63,15 @@ export default function ImageUpload({label, info, name}) {
             </p>
           </div>
         ) : (
-          <div className="border-1 border-stroke-weak rounded-xl flex flex-col justify-center items-center gap-2 h-[190px]">
+          <div
+            className={`border-1 ${
+              error ? 'border-red' : 'border-stroke-weak'
+            } rounded-xl flex flex-col justify-center items-center gap-2 h-[190px]`}
+          >
             <img src="undraw-images-empty.svg"></img>
             <p className="text-sm text-stroke-strong text-center">
-              <u className="text-lavender-500">Choose</u> from your computer at
-              most 6 images for your item.
+              <u className="text-lavender-500">Choose</u> images from your
+              computer <br></br> for your item.
             </p>
           </div>
         )}
