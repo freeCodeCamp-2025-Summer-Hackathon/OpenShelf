@@ -8,7 +8,7 @@ export function createItem({ title, description, category, condition, image_urls
     condition,
     image_urls,
     tags,
-    "number_of_items": 1,
-    "is_available": true
+    number_of_items: 1,
+    is_available: true,
   })
 }

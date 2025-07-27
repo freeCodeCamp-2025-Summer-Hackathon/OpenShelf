@@ -1,5 +1,5 @@
 import { Icon } from '@iconify-icon/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function MultiSelect({
   label,
@@ -9,10 +9,15 @@ export default function MultiSelect({
   opened,
   setOpened,
   register,
+  setValue,
   error,
   rules,
 }) {
   const [selected, setSelected] = useState([])
+
+  useEffect(() => {
+    setValue(name, selected)
+  }, [selected, name, setValue])
 
   return (
     <div className="flex flex-col gap-1">
@@ -41,34 +46,38 @@ export default function MultiSelect({
             selected ? 'px-4 py-3' : 'pl-2 pr-4 py-2'
           } rounded-xl focus:outline-stroke-strong flex flex-row justify-between items-center w-full cursor-pointer`}
           onClick={() => {
-            setOpened((prev) => (prev === name ? null : name))
+            setOpened(prev => (prev === name ? null : name))
           }}
         >
-          {selected.length ? (
-            <div className="flex flex-row flex-wrap gap-2">
-              {selected.map((data) => (
-                <div
-                  className="px-3 py-1 bg-[#F4F4F4] flex justify-center items-center gap-1 rounded w-fit"
-                  key={data}
-                >
-                  <p>{data}</p>
-                  <Icon
-                    icon="heroicons:x-mark"
-                    className="text-stroke-strong text-lg"
-                    onClick={() => {
-                      setSelected((prev) => prev.filter((s) => s !== data))
-                      setOpened((prev) => (prev === name ? null : name))
-                    }}
-                  />
+          {selected.length
+            ? (
+                <div className="flex flex-row flex-wrap gap-2">
+                  {selected.map(data => (
+                    <div
+                      className="px-3 py-1 bg-[#F4F4F4] flex justify-center items-center gap-1 rounded w-fit"
+                      key={data}
+                    >
+                      <p>{data}</p>
+                      <Icon
+                        icon="heroicons:x-mark"
+                        className="text-stroke-strong text-lg"
+                        onClick={() => {
+                          setSelected(prev => prev.filter(s => s !== data))
+                          setOpened(prev => (prev === name ? null : name))
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-stroke-strong">
-              Select {label.toLowerCase()}
-              ...
-            </p>
-          )}
+              )
+            : (
+                <p className="text-stroke-strong">
+                  Select
+                  {' '}
+                  {label.toLowerCase()}
+                  ...
+                </p>
+              )}
           <Icon icon="heroicons:chevron-down" className="text-stroke-strong" />
         </button>
 
@@ -76,7 +85,7 @@ export default function MultiSelect({
 
         {opened === name && (
           <div className="border-1 border-stroke-weak px-2 py-3 rounded-lg w-[200px] bg-white z-10 flex flex-col gap-1">
-            {options.map((option) => (
+            {options.map(option => (
               <button
                 type="button"
                 key={option}
@@ -86,8 +95,9 @@ export default function MultiSelect({
                 onClick={() => {
                   setSelected((prev) => {
                     if (prev.includes(option)) {
-                      return prev.filter((data) => data !== option)
-                    } else {
+                      return prev.filter(data => data !== option)
+                    }
+                    else {
                       return [...prev, option]
                     }
                   })
@@ -105,9 +115,8 @@ export default function MultiSelect({
         value={JSON.stringify(selected)}
         name={name}
         {...register(name, rules)}
-        type='hidden'
-        defaultValue=""
-      ></input>
+        type="hidden"
+      />
     </div>
   )
 }

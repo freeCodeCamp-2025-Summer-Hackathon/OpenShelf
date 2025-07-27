@@ -1,11 +1,11 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useRevalidator } from 'react-router'
+import ImageUpload from '../../../components/ImageUpload'
 import Input from '../../../components/Input'
+import MultiSelect from '../../../components/MultiSelect'
 import Navbar from '../../../components/Navbar'
 import Select from '../../../components/Select'
-import MultiSelect from '../../../components/MultiSelect'
-import ImageUpload from '../../../components/ImageUpload'
-import { useState } from 'react'
-import { useRevalidator } from 'react-router'
 import { createItem } from '../api/createItem'
 
 export default function CreatePage() {
@@ -14,6 +14,7 @@ export default function CreatePage() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -46,8 +47,8 @@ export default function CreatePage() {
     try {
       const createItemConfig = await createItem({
         ...data,
-        image_urls: JSON.parse(image_urls),
-        tags: JSON.parse(tags),
+        image_urls: data.image_urls,
+        tags: data.tags,
       })
 
       if (createItemConfig.status !== 201) {
@@ -57,7 +58,8 @@ export default function CreatePage() {
       reset()
       setFormMessage({ success: true, message: 'Item created successfully.' })
       revalidator.revalidate()
-    } catch (err) {
+    }
+    catch (err) {
       setFormMessage({ success: false, message: err.message })
     }
   }
@@ -106,25 +108,28 @@ export default function CreatePage() {
               opened={opened}
               setOpened={setOpened}
               register={register}
+              setValue={setValue}
               error={errors.category}
               rules={validator.category}
             />
 
             <Select
               label="Condition"
-              options={['new', 'used']}
+              options={['New', 'Used']}
               name="condition"
               opened={opened}
               setOpened={setOpened}
               register={register}
+              setValue={setValue}
               error={errors.condition}
               rules={validator.condition}
             />
 
             <ImageUpload
               label="Images"
-              name="images"
+              name="image_urls"
               register={register}
+              setValue={setValue}
               error={errors.images}
               rules={validator.images}
             />
@@ -136,6 +141,7 @@ export default function CreatePage() {
               opened={opened}
               setOpened={setOpened}
               register={register}
+              setValue={setValue}
               error={errors.tags}
               rules={validator.tags}
             />

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 export default function ImageUpload({
   label,
@@ -11,7 +11,7 @@ export default function ImageUpload({
   const [images, setImages] = useState([])
   function handleFileChange(e) {
     const files = Array.from(e.target.files)
-    setImages(files.map((file) => URL.createObjectURL(file)))
+    setImages(files.map(file => URL.createObjectURL(file)))
     // not sure how to upload the image to the server
     e.target.value = null
   }
@@ -46,35 +46,46 @@ export default function ImageUpload({
         {...register(name, rules)}
         hidden
         defaultValue=""
-      ></input>
+      />
 
       <label htmlFor="images" className="cursor-pointer">
-        {images.length > 0 ? (
-          <div
-            className={`border-1 ${
-              error ? 'border-red' : 'border-stroke-weak'
-            } rounded-xl flex flex-col justify-center items-center gap-2 h-[190px]`}
-          >
-            <img src="undraw-images-selected.svg"></img>
-            <p className="text-sm text-stroke-strong text-center">
-              You have selected <span>{images.length}</span> images.
-              <br></br>
-              <u className="text-lavender-500">Choose again.</u>
-            </p>
-          </div>
-        ) : (
-          <div
-            className={`border-1 ${
-              error ? 'border-red' : 'border-stroke-weak'
-            } rounded-xl flex flex-col justify-center items-center gap-2 h-[190px]`}
-          >
-            <img src="undraw-images-empty.svg"></img>
-            <p className="text-sm text-stroke-strong text-center">
-              <u className="text-lavender-500">Choose</u> images from your
-              computer <br></br> for your item.
-            </p>
-          </div>
-        )}
+        {images.length > 0
+          ? (
+              <div
+                className={`border-1 ${
+                  error ? 'border-red' : 'border-stroke-weak'
+                } rounded-xl flex flex-col justify-center items-center gap-2 h-[190px]`}
+              >
+                <img src="undraw-images-selected.svg"></img>
+                <p className="text-sm text-stroke-strong text-center">
+                  You have selected
+                  {' '}
+                  <span>{images.length}</span>
+                  {' '}
+                  images.
+                  <br></br>
+                  <u className="text-lavender-500">Choose again.</u>
+                </p>
+              </div>
+            )
+          : (
+              <div
+                className={`border-1 ${
+                  error ? 'border-red' : 'border-stroke-weak'
+                } rounded-xl flex flex-col justify-center items-center gap-2 h-[190px]`}
+              >
+                <img src="undraw-images-empty.svg"></img>
+                <p className="text-sm text-stroke-strong text-center">
+                  <u className="text-lavender-500">Choose</u>
+                  {' '}
+                  images from your
+                  computer
+                  <br></br>
+                  {' '}
+                  for your item.
+                </p>
+              </div>
+            )}
       </label>
     </div>
   )

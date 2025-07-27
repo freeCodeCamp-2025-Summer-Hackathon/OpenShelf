@@ -9,10 +9,11 @@ export default function Select({
   opened,
   setOpened,
   register,
+  setValue,
   error,
   rules,
 }) {
-  const [selected, setSelected] = useState("")
+  const [selected, setSelected] = useState('')
 
   return (
     <div className="flex flex-col gap-1">
@@ -41,17 +42,21 @@ export default function Select({
             error ? 'border-red' : 'border-stroke-weak'
           } border-1 px-4 py-3 rounded-xl focus:outline-stroke-strong flex flex-row justify-between items-center w-full cursor-pointer`}
           onClick={() => {
-            setOpened((prev) => (prev === name ? null : name))
+            setOpened(prev => (prev === name ? null : name))
           }}
         >
-          {selected ? (
-            <p>{selected}</p>
-          ) : (
-            <p className="text-stroke-strong">
-              Select {label.toLowerCase()}
-              ...
-            </p>
-          )}
+          {selected
+            ? (
+                <p>{selected}</p>
+              )
+            : (
+                <p className="text-stroke-strong">
+                  Select
+                  {' '}
+                  {label.toLowerCase()}
+                  ...
+                </p>
+              )}
           <Icon icon="heroicons:chevron-down" className="text-stroke-strong" />
         </button>
 
@@ -59,7 +64,7 @@ export default function Select({
 
         {opened === name && (
           <div className="absolute top-14 border-1 border-stroke-weak px-2 py-3 rounded-lg w-[200px] bg-white z-10">
-            {options.map((option) => (
+            {options.map(option => (
               <button
                 type="button"
                 key={option}
@@ -68,6 +73,7 @@ export default function Select({
                 }`}
                 onClick={() => {
                   setSelected(option)
+                  setValue(name, option)
                 }}
               >
                 <p>{option}</p>
@@ -82,9 +88,9 @@ export default function Select({
         value={selected}
         name={name}
         {...register(name, rules)}
-        type='hidden'
+        type="hidden"
         defaultValue=""
-      ></input>
+      />
     </div>
   )
 }
