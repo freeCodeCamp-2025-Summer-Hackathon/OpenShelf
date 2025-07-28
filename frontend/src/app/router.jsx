@@ -3,6 +3,7 @@ import LoginPage from '../features/auth/pages/LoginPage'
 import RegisterPage from '../features/auth/pages/RegisterPage'
 import { detailPageLoader } from '../features/items/loaders/detailPageLoader'
 import CreatePage from '../features/items/pages/CreatePage'
+import CataloguePage, { catalogueLoader } from '../features/items/pages/CataloguePage'
 import DetailPage from '../features/items/pages/DetailPage'
 import HomePage, { homePageLoader } from '../features/items/pages/HomePage'
 import InboxPage from '../features/items/pages/InboxPage'
@@ -31,6 +32,11 @@ export const router = createBrowserRouter([
       { path: '/inbox',
         loader: inboxPageLoader,
         element: <InboxPage />
+      },
+      {
+        path: 'catalogue',
+        element: <CataloguePage />,
+        loader: catalogueLoader,
       },
     ],
   },

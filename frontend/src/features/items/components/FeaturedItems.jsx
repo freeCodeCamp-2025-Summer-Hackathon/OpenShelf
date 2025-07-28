@@ -1,6 +1,6 @@
 import { Icon } from '@iconify-icon/react'
 import { useLoaderData } from 'react-router'
-import FeaturedItem from './FeaturedItem'
+import Item from './Item'
 
 export default function FeaturedItems() {
   const { items } = useLoaderData()
@@ -29,7 +29,7 @@ export default function FeaturedItems() {
 
       <div className="mt-6 flex flex-row gap-8">
         {featuredItems.length > 1
-          ? featuredItems.map(item => <FeaturedItem key={item.id} item={item} />)
+          ? featuredItems.map(item => <Item key={item.id} item={item} />)
           : <p className="text-lavender-800">No items are featured.</p>}
       </div>
     </div>

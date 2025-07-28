@@ -25,8 +25,11 @@ export default function Navbar({ profile }) {
             <NavLink to="/" className={linkClassNames}>
               Home
             </NavLink>
-            <NavLink to="/placeholder" className={linkClassNames}>
-              Placeholder
+            <NavLink
+              to="/catalogue"
+              className={linkClassNames}
+            >
+              Catalogue
             </NavLink>
           </div>
         </div>
