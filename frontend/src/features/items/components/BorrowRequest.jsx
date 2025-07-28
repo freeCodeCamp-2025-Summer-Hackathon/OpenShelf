@@ -16,7 +16,7 @@ export default function BorrowRequestItemDetails({
   const [borrowRequestDetails, setBorrowRequestDetails] = useState('')
 
   useEffect(() => {
-    getBorrowRequestDetails(id).then((res) => setBorrowRequestDetails(res.data))
+    getBorrowRequestDetails(id).then(res => setBorrowRequestDetails(res.data))
   }, [id])
 
   return (
@@ -24,9 +24,14 @@ export default function BorrowRequestItemDetails({
       <div>
         <div className="flex flex-row gap-2 items-center">
           <p>
-            Borrow Request from <b>{borrower_name}</b> for{' '}
+            Borrow Request from
+            {' '}
+            <b>{borrower_name}</b>
+            {' '}
+            for
+            {' '}
             <Link
-              to={borrowRequestDetails ? `/items/${borrowRequestDetails.item.id}` : "/items"}
+              to={borrowRequestDetails ? `/items/${borrowRequestDetails.item.id}` : '/items'}
               className="text-lavender-500 font-bold underline"
             >
               {item_title}
@@ -40,7 +45,7 @@ export default function BorrowRequestItemDetails({
                 'bg-blue-100 text-blue-600': status === 'accepted',
                 'bg-red-100 text-red-600': status === 'rejected',
               },
-              'px-2 py-1 w-fit tracking-wider text-sm rounded uppercase'
+              'px-2 py-1 w-fit tracking-wider text-sm rounded uppercase',
             )}
           >
             {status}
@@ -48,12 +53,19 @@ export default function BorrowRequestItemDetails({
         </div>
         {status === 'accepted' && (
           <p className="text-stroke-strong mt-1">
-            Expects return on/before <u>{formatDate(expected_return_date)}</u>.
+            Expects return on/before
+            {' '}
+            <u>{formatDate(expected_return_date)}</u>
+            .
           </p>
         )}
 
         <p className="text-stroke-strong mt-1">
-          <i>Message: "{notes}"</i>
+          <i>
+            Message: "
+            {notes}
+            "
+          </i>
         </p>
       </div>
       <div className="flex flex-col items-end">

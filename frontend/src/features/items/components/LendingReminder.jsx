@@ -1,8 +1,8 @@
 import { Icon } from '@iconify-icon/react'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { getBorrowRequestDetails } from '../api/getBorrowRequestDetails'
 import formatDate from '../../../lib/formatDate'
+import { getBorrowRequestDetails } from '../api/getBorrowRequestDetails'
 
 export default function ReturnReminder({
   id,
@@ -10,7 +10,6 @@ export default function ReturnReminder({
   // status,
   request_date,
   expected_return_date,
-  return_date,
 }) {
   const status = 'pending'
   const todayDate = new Date()
@@ -23,7 +22,7 @@ export default function ReturnReminder({
   const [borrowRequestDetails, setBorrowRequestDetails] = useState('')
 
   useEffect(() => {
-    getBorrowRequestDetails(id).then((res) => setBorrowRequestDetails(res.data))
+    getBorrowRequestDetails(id).then(res => setBorrowRequestDetails(res.data))
   }, [id])
 
   return (
@@ -32,7 +31,11 @@ export default function ReturnReminder({
         <div>
           <div className="flex flex-row gap-2 items-center">
             <p>
-              <b>{item_title}</b> is due <b>{rtf.format(diffDays, 'day')}</b>.
+              <b>{item_title}</b>
+              {' '}
+              is due
+              <b>{rtf.format(diffDays, 'day')}</b>
+              .
             </p>
             <div className="bg-blue-100 text-blue-600 px-2 py-1 w-fit tracking-wider text-sm rounded uppercase">
               {status}
@@ -59,7 +62,8 @@ export default function ReturnReminder({
         <div>
           <div className="flex flex-row gap-2 items-center">
             <p>
-              Request for{' '}
+              Request for
+              {' '}
               <Link
                 to={
                   borrowRequestDetails
@@ -69,7 +73,8 @@ export default function ReturnReminder({
                 className="text-lavender-500 underline font-bold"
               >
                 {item_title}
-              </Link>{' '}
+              </Link>
+              {' '}
               was rejected.
             </p>
             <div className="bg-red-100 text-red-600 px-2 py-1 w-fit tracking-wider text-sm rounded uppercase">
@@ -83,7 +88,8 @@ export default function ReturnReminder({
         <div className="relative flex flex-row justify-between">
           <div className="flex flex-row gap-2 items-center">
             <p>
-              You requested to checkout{' '}
+              You requested to checkout
+              {' '}
               <Link
                 to={
                   borrowRequestDetails
@@ -93,7 +99,8 @@ export default function ReturnReminder({
                 className="text-lavender-500 underline font-bold"
               >
                 {item_title}
-              </Link>{' '}
+              </Link>
+              {' '}
             </p>
             <div className="bg-amber-100 text-amber-600 px-2 py-1 w-fit tracking-wider text-sm rounded uppercase">
               {status}

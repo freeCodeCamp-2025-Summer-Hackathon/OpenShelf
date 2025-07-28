@@ -1,15 +1,12 @@
 import { Icon } from '@iconify-icon/react'
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 import formatDate from '../../../lib/formatDate'
-import { getBorrowRequestDetails } from '../api/getBorrowRequestDetails'
 import { acceptBorrowRequest } from '../api/acceptBorrowRequest'
 import { declineBorrowRequest } from '../api/declineBorrowRequest'
-import { useNavigate } from 'react-router'
 
 export default function BorrowRequestItemDetails({
   id,
-  item_title,
   borrower_name,
   request_date,
   expected_return_date,
@@ -18,11 +15,6 @@ export default function BorrowRequestItemDetails({
 }) {
   // const status = 'rejected'
   const navigate = useNavigate()
-  const [borrowRequestDetails, setBorrowRequestDetails] = useState('')
-
-  useEffect(() => {
-    getBorrowRequestDetails(id).then((res) => setBorrowRequestDetails(res.data))
-  }, [id])
 
   const handleApprove = async () => {
     try {
@@ -33,7 +25,8 @@ export default function BorrowRequestItemDetails({
       }
 
       navigate(0)
-    } catch (err) {
+    }
+    catch (err) {
       console.error('Error approving request:', err.message)
     }
   }
@@ -47,7 +40,8 @@ export default function BorrowRequestItemDetails({
       }
 
       navigate(0)
-    } catch (err) {
+    }
+    catch (err) {
       console.error('Error rejecting request:', err.message)
     }
   }
@@ -57,7 +51,9 @@ export default function BorrowRequestItemDetails({
       <div>
         <div className="flex flex-row gap-2 items-center">
           <p>
-            Borrow Request from <b>{borrower_name}</b>
+            Borrow Request from
+            {' '}
+            <b>{borrower_name}</b>
           </p>
 
           <div
@@ -67,7 +63,7 @@ export default function BorrowRequestItemDetails({
                 'bg-blue-100 text-blue-600': status === 'accepted',
                 'bg-red-100 text-red-600': status === 'rejected',
               },
-              'px-2 py-1 w-fit tracking-wider text-sm rounded uppercase'
+              'px-2 py-1 w-fit tracking-wider text-sm rounded uppercase',
             )}
           >
             {status}
@@ -75,12 +71,19 @@ export default function BorrowRequestItemDetails({
         </div>
         {status === 'accepted' && (
           <p className="text-stroke-strong mt-1">
-            Expects return on/before <u>{formatDate(expected_return_date)}</u>.
+            Expects return on/before
+            {' '}
+            <u>{formatDate(expected_return_date)}</u>
+            .
           </p>
         )}
 
         <p className="text-stroke-strong mt-1">
-          <i>Message: "{notes}"</i>
+          <i>
+            Message: "
+            {notes}
+            "
+          </i>
         </p>
       </div>
       <div className="flex flex-col items-end">
@@ -99,7 +102,7 @@ export default function BorrowRequestItemDetails({
                 onClick={handleApprove}
               >
                 <Icon
-                  icon={`heroicons:check`}
+                  icon="heroicons:check"
                   className="text-2xl text-green-600"
                 />
               </button>
@@ -113,7 +116,7 @@ export default function BorrowRequestItemDetails({
                 className="size-9 hover:bg-[#0000000d] rounded flex justify-center items-center cursor-pointer peer"
                 onClick={handleReject}
               >
-                <Icon icon={`heroicons:x-mark`} className="text-2xl text-red" />
+                <Icon icon="heroicons:x-mark" className="text-2xl text-red" />
               </button>
               <div className="rounded border-1 border-stroke-weak px-[5px] bg-white text-center text-sm absolute left-1/2 transform -translate-x-1/2 top-full mt-2 shadow-2xs peer-hover:opacity-100 opacity-0 transition-opacity text-stroke-strong text-nowrap">
                 Reject
