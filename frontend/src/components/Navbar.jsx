@@ -1,7 +1,7 @@
+import { useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate, useRevalidator } from 'react-router'
 import { logout } from '../features/auth/api/logout'
 import NavButton from './NavButton'
-import { useEffect, useRef } from 'react'
 
 export default function Navbar({ profile, onHeightChange }) {
   const navigate = useNavigate()
@@ -25,8 +25,8 @@ export default function Navbar({ profile, onHeightChange }) {
 
   const navRef = useRef(null)
 
-  useEffect(()=> {
-    if(navRef.current) {
+  useEffect(() => {
+    if (navRef.current) {
       onHeightChange(navRef.current.offsetHeight)
     }
   }, [onHeightChange])
