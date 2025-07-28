@@ -23,8 +23,8 @@ function DetailPage() {
       {/* No navbar for now */}
       {/* <Navbar /> */}
       <div className="flex h-screen w-full overflow-hidden">
-        <div className="w-3/5 flex flex-col sticky justify-center gap-4 px-16 py-14">
-          <div className="rounded-xl bg-[#D3D3F1] h-[70%] w-full flex justify-between items-center px-20">
+        <div className="w-3/5 flex flex-col justify-center gap-4 px-16 py-14">
+          <div className="rounded-xl bg-[#D3D3F1] w-full h-[80%] flex justify-between items-center px-20">
             <button
               type="button"
               onClick={prevImage}
@@ -44,7 +44,7 @@ function DetailPage() {
             <img
               src={imageUrls[currentIndex]}
               alt={`Image ${currentIndex + 1}`}
-              className="h-[70%]"
+              className="h-[70%] object-cover"
             />
             {/* We can decide later on if the image should be covering the entire box or kept like this */}
 
@@ -84,7 +84,7 @@ function DetailPage() {
           </div>
         </div>
 
-        <div className="w-2/5 py-20 px-12 overflow-y-auto flex flex-col justify-between h-full">
+        <div className="w-2/5 py-20 px-12 overflow-y-auto flex flex-col justify-between">
           <div>
             <div className="flex flex-row items-center justify-between">
               <div className="flex items-center gap-x-3">

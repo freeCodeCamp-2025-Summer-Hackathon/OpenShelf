@@ -1,8 +1,11 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
 import { checkOutItem as checkOut } from '../api/checkOutItem'
+import formatDate from "../../../lib/formatDate"
 
 export default function CheckOutModal({ item, onCancel }) {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [errorMessages, setErrorMessages] = useState([])
@@ -30,6 +33,7 @@ export default function CheckOutModal({ item, onCancel }) {
         notes: data.notes || '',
       })
       setSuccess(true)
+      navigate("/inbox")
     }
     catch (err) {
       const errorData = err.response?.data
@@ -49,7 +53,7 @@ export default function CheckOutModal({ item, onCancel }) {
       onClick={onCancel}
     >
       <div
-        className="bg-white p-5 rounded-2xl shadow-xl w-[30%] min-h-[90%] flex flex-col justify-center items-center gap-5"
+        className="bg-white px-5 py-10 rounded-2xl shadow-xl w-96 flex flex-col justify-center items-center gap-5"
         onClick={e => e.stopPropagation()}
       >
         <div className="text-center mb-4">
@@ -70,7 +74,7 @@ export default function CheckOutModal({ item, onCancel }) {
               id="return-date"
               type="text"
               className="block border-1 border-stroke-weak px-4 py-3 rounded-xl bg-gray-300 cursor-not-allowed"
-              value={new Date(returnDate).toLocaleDateString()}
+              value={formatDate(new Date(returnDate))}
               disabled
               readOnly
             />
@@ -104,7 +108,7 @@ export default function CheckOutModal({ item, onCancel }) {
             </div>
           )}
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 items-center">
             <button
               type="submit"
               className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md cursor-pointer"

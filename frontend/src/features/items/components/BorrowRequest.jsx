@@ -1,22 +1,40 @@
 import clsx from 'clsx'
+import { Link } from 'react-router'
+import { getBorrowRequestDetails } from '../api/getBorrowRequestDetails'
 import formatDate from '../../../lib/formatDate'
+import { useState, useEffect } from 'react'
 
 export default function BorrowRequest({
+  id,
   item_title,
   borrower_name,
   request_date,
   status,
   notes,
 }) {
+  const [borrowRequestDetails, setBorrowRequestDetails] = useState('')
+
+  useEffect(() => {
+    getBorrowRequestDetails(id).then((res) => setBorrowRequestDetails(res.data))
+  }, [])
+
+
   return (
     <div className="relative flex flex-row justify-between">
       <div>
         <div className="flex flex-row gap-2 items-center">
           <p>
             Borrow Request from <b>{borrower_name}</b> for{' '}
-            <b className="text-lavender-500 underline cursor-pointer">
+            <Link
+              to={
+                borrowRequestDetails
+                  ? `/items/${borrowRequestDetails.item.id}`
+                  : ''
+              }
+              className="text-lavender-500 underline cursor-pointer font-bold"
+            >
               {item_title}
-            </b>
+            </Link>
           </p>
 
           <div

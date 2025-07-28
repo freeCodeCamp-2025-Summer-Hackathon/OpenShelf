@@ -1,4 +1,5 @@
 import { Icon } from '@iconify-icon/react'
+import { Link } from 'react-router'
 import { getItems } from '../api/getItems'
 import FeaturedItems from '../components/FeaturedItems'
 
@@ -25,13 +26,14 @@ export default function HomePage() {
           <p className="mt-8 mb-10">
             Share and borrow books, tools, and games with the community.
           </p>
-          <button
+          <Link
+            to="/catalogue"
             type="button"
-            className="rounded-lg bg-lavender-500 px-4 py-2 text-white flex flex-row items-center justify-center gap-2"
+            className="rounded-lg w-fit bg-lavender-500 px-4 py-2 text-white flex flex-row items-center justify-center gap-2"
           >
             <span>View listings</span>
             <Icon icon="heroicons:arrow-right" />
-          </button>
+          </Link>
         </div>
         <img
           src="home-hero-illustration.svg"

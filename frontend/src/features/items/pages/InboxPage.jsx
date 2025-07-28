@@ -1,13 +1,12 @@
-import { Icon } from '@iconify-icon/react'
 import { useLoaderData } from 'react-router'
 import BorrowRequest from '../components/BorrowRequest'
+import ReturnReminder from '../components/LendingReminder'
 
 export default function InboxPage() {
   const { lendingRequests, borrowRequests } = useLoaderData()
-  //console.log(useLoaderData())
 
   return (
-    <div className="flex h-screen justify-center items-center py-20">
+    <div className="flex h-screen justify-center items-center py-[8rem]">
       <div className="flex flex-col justify-between max-w-7xl w-2/3 min-w-2xl h-full">
         <div className="flex flex-col justify-center gap-6">
           <div>
@@ -17,16 +16,16 @@ export default function InboxPage() {
 
           <div>
             <h2 className="font-display-2xl mb-5">
-              Borrow Requests {borrowRequests.count > 0 && borrowRequests.count}
+              Your Lending Requests {borrowRequests.count > 0 && `(${borrowRequests.count})`}
             </h2>
             <div>
               {borrowRequests.count > 0 ? (
                 borrowRequests.results.map((request) => (
-                  <BorrowRequest key={request.id} {...request} />
+                  <ReturnReminder key={request.id} {...request} />
                 ))
               ) : (
                 <p className="text-stroke-strong">
-                  You have no borrow requests.
+                  You have no lending requests/ return reminders.
                 </p>
               )}
             </div>
@@ -34,20 +33,20 @@ export default function InboxPage() {
 
           <div>
             <h2 className="font-display-2xl mb-5">
-              Return Reminders{' '}
-              {lendingRequests.count > 0 && lendingRequests.count}
+              Borrow Requests {' '}
+              {lendingRequests.count > 0 && `(${lendingRequests.count})`}
             </h2>
             <div className="flex flex-col gap-4">
               {lendingRequests.count > 0 ? (
                 lendingRequests.results.map((request) => (
                   <>
-                    <ReturnReminder key={request.id} {...request} />
+                    <BorrowRequest key={request.id} {...request} />
                     <hr className="mx-[-12px] text-stroke-weak"></hr>
                   </>
                 ))
               ) : (
                 <p className="text-stroke-strong">
-                  You have no return reminders.
+                  You have no borrow requests.
                 </p>
               )}
             </div>

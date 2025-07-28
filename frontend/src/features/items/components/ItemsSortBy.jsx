@@ -17,7 +17,7 @@ export default function ItemsSortBy({ options, selectedOption, setSelectedOption
   return (
     <div className="relative">
       <div
-        className="flex cursor-pointer items-center gap-1 py-[0.375rem] px-[0.75rem] rounded-[0.375rem] border-2 border-[#858585] max-w-[content] w-full"
+        className="flex cursor-pointer items-center gap-1 py-[0.375rem] px-[0.75rem] rounded-[0.375rem] border-1 border-stroke-strong max-w-[content] w-full"
         onClick={handleModalVisibility}
       >
         Sort by
@@ -26,7 +26,7 @@ export default function ItemsSortBy({ options, selectedOption, setSelectedOption
 
       <ul className={
         clsx({
-          'rounded border-2 border-[#858585] absolute w-[max-content] p-2 top-[3rem] bg-white': true,
+          'rounded border-1 border-stroke-strong absolute w-[max-content] p-2 top-[3rem] bg-white': true,
           'block': isModalVisible,
           'hidden': !isModalVisible,
         })
