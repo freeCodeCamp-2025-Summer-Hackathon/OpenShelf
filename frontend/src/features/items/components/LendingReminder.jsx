@@ -7,11 +7,10 @@ import { getBorrowRequestDetails } from '../api/getBorrowRequestDetails'
 export default function ReturnReminder({
   id,
   item_title,
-  // status,
+  status,
   request_date,
   expected_return_date,
 }) {
-  const status = 'pending'
   const todayDate = new Date()
   const expectedReturnDate = new Date(expected_return_date)
   const diffTime = Math.abs(expectedReturnDate - todayDate)
