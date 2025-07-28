@@ -1,13 +1,7 @@
 import { useState } from 'react'
 import { useLoaderData } from 'react-router'
-import { getItems } from '../api/getItems'
 import Item from '../components/Item'
 import ItemsSortBy from '../components/ItemsSortBy'
-
-export async function catalogueLoader() {
-  const items = await getItems()
-  return { items }
-}
 
 export default function CataloguePage() {
   const { items } = useLoaderData()
@@ -45,7 +39,7 @@ export default function CataloguePage() {
           />
         </div>
         <div className="grid grid-cols-4 xl:grid-cols-7 xl:max-w-7xl gap-2">
-          {sortedItems.map((item) => (
+          {sortedItems.map(item => (
             <Item key={item.id} item={item} />
           ))}
         </div>

@@ -1,13 +1,7 @@
 import { Icon } from '@iconify-icon/react'
 import { Link } from 'react-router'
-import { getItems } from '../api/getItems'
-import FeaturedItems from '../components/FeaturedItems'
 import Categories from '../components/Categories'
-
-export async function homePageLoader() {
-  const items = await getItems()
-  return { items }
-}
+import FeaturedItems from '../components/FeaturedItems'
 
 export default function HomePage() {
   return (

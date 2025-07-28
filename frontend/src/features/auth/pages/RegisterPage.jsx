@@ -46,7 +46,7 @@ export default function RegisterPage() {
       },
     },
     phoneNum: {
-      required: "Phone number is required!",
+      required: 'Phone number is required!',
       maxLength: {
         value: 15,
         message: 'At most 15 numbers, please...',

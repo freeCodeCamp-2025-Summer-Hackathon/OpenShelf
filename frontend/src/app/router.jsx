@@ -1,16 +1,17 @@
 import { createBrowserRouter } from 'react-router'
 import LoginPage from '../features/auth/pages/LoginPage'
 import RegisterPage from '../features/auth/pages/RegisterPage'
+import { catalogueLoader } from '../features/items/loaders/cataloguePageLoader'
 import { detailPageLoader } from '../features/items/loaders/detailPageLoader'
-import CreatePage from '../features/items/pages/CreatePage'
-import CataloguePage, {
-  catalogueLoader,
-} from '../features/items/pages/CataloguePage'
-import DetailPage from '../features/items/pages/DetailPage'
-import HomePage, { homePageLoader } from '../features/items/pages/HomePage'
-import InboxPage from '../features/items/pages/InboxPage'
+import { homePageLoader } from '../features/items/loaders/homePageLoader'
 import { inboxPageLoader } from '../features/items/loaders/inboxPageLoader'
-import AppLayout, { appLayoutLoader } from '../layouts/AppLayout'
+import CataloguePage from '../features/items/pages/CataloguePage'
+import CreatePage from '../features/items/pages/CreatePage'
+import DetailPage from '../features/items/pages/DetailPage'
+import HomePage from '../features/items/pages/HomePage'
+import InboxPage from '../features/items/pages/InboxPage'
+import AppLayout from '../layouts/AppLayout'
+import { appLayoutLoader } from '../loader/appLayoutLoader'
 
 export const router = createBrowserRouter([
   {
