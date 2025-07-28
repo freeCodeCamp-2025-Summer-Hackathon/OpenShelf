@@ -1,6 +1,6 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs'
 import { Fragment, useState } from 'react'
-import { useLoaderData, useNavigate } from 'react-router'
+import { useLoaderData, useNavigate, useOutletContext } from 'react-router'
 import Tags from '../../../components/Tags'
 import { getImageUrls } from '../../../utils/imageUtils'
 import { deleteItem } from '../api/deleteItem'
@@ -36,10 +36,11 @@ function DetailPage() {
     }
   }
 
+  const { navHeight } = useOutletContext()
+  const profileAvatar = `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48&background=6565C9&color=fff`
+
   return (
-    <div className="min-h-[100dvh]">
-      {/* No navbar for now */}
-      {/* <Navbar /> */}
+    <div className="min-h-[100dvh]" style={{ paddingTop: navHeight }}>
       <div className="flex h-screen w-full overflow-hidden">
         <div className="w-3/5 flex flex-col justify-center gap-4 px-16 py-14">
           <div className="rounded-xl bg-[#D3D3F1] w-full h-[80%] flex justify-between items-center px-20">
@@ -109,12 +110,12 @@ function DetailPage() {
             <div className="flex flex-row items-center justify-between">
               <div className="flex items-center gap-x-3">
                 <img
-                  src="/placeholderPfp.jpg"
+                  src={profileAvatar}
                   alt="Profile Pic"
                   className="rounded-full"
                   width="50"
                 />
-                <span className="font-sans-base font-bold">Smug Cat</span>
+                <span className="font-sans-base font-bold">{profile.name}</span>
               </div>
 
               <p className="text-stroke-strong">
@@ -179,11 +180,11 @@ function DetailPage() {
                       <span>Delete</span>
                     </button>
                     {/* <button
-                  type="button"
-                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
-                >
+                      type="button"
+                      className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
+                    >
                   <Icon icon="heroicons:pencil-square" className="text-2xl" />
-                  <span>Edit</span>
+                      <span>Edit</span>
                 </button> */}
                   </div>
                 </div>
