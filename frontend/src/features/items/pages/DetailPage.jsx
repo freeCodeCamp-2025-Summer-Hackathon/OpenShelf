@@ -10,6 +10,13 @@ import useImageSlider from '../hooks/useImageSlider'
 
 function DetailPage() {
   const { item, profile, lendingRequests } = useLoaderData()
+
+  const currentItem = item.title
+
+  const filteredLendingRequests = lendingRequests.results.filter(
+    request => request.item_title === currentItem,
+  )
+
   const navigate = useNavigate()
   const images = item.image_urls || []
   const imageUrls = getImageUrls(images)
@@ -147,9 +154,9 @@ function DetailPage() {
 
                 <div className="mt-4">
                   <div className="flex flex-col gap-4">
-                    {lendingRequests.count > 0
+                    {filteredLendingRequests.length > 0
                       ? (
-                          lendingRequests.results.map(request => (
+                          filteredLendingRequests.map(request => (
                             <Fragment key={request.id}>
                               <BorrowRequestItemDetails {...request} />
                               <hr className="mx-[-12px] text-stroke-weak"></hr>
