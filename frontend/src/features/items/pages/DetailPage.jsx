@@ -4,10 +4,12 @@ import { useLoaderData } from 'react-router'
 import Tags from '../../../components/Tags'
 import CheckOutModal from '../components/CheckOutModal'
 import useImageSlider from '../hooks/useImageSlider'
+import { getImageUrls } from '../../../utils/imageUtils'
 
 function DetailPage() {
   const { item, profile } = useLoaderData()
   const images = item.image_urls || []
+  const imageUrls = getImageUrls(images)
   const isOwner = profile?.id === item.owner.id
   const [isModalOpen, setIsModalOpen] = useState(false)
   const openModal = () => setIsModalOpen(true)
@@ -40,7 +42,7 @@ function DetailPage() {
             </button>
 
             <img
-              src={images[currentIndex]}
+              src={imageUrls[currentIndex]}
               alt={`Image ${currentIndex + 1}`}
               className="h-[70%]"
             />
@@ -68,7 +70,7 @@ function DetailPage() {
           </div>
 
           <div className="flex gap-4">
-            {images.map((img, index) => (
+            {imageUrls.map((img, index) => (
               <button type="button" key={img} onClick={() => showImage(index)}>
                 <img
                   src={img}

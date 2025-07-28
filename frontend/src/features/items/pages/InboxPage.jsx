@@ -4,6 +4,7 @@ import BorrowRequest from '../components/BorrowRequest'
 
 export default function InboxPage() {
   const { lendingRequests, borrowRequests } = useLoaderData()
+  //console.log(useLoaderData())
 
   return (
     <div className="flex h-screen justify-center items-center py-20">
