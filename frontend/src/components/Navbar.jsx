@@ -1,8 +1,9 @@
 import { Link, NavLink, useNavigate, useRevalidator } from 'react-router'
 import { logout } from '../features/auth/api/logout'
 import NavButton from './NavButton'
+import { useEffect, useRef } from 'react'
 
-export default function Navbar({ profile }) {
+export default function Navbar({ profile, onHeightChange }) {
   const navigate = useNavigate()
   const profileAvatar
     = profile
@@ -22,8 +23,16 @@ export default function Navbar({ profile }) {
     }
   }
 
+  const navRef = useRef(null)
+
+  useEffect(()=> {
+    if(navRef.current) {
+      onHeightChange(navRef.current.offsetHeight)
+    }
+  }, [onHeightChange])
+
   return (
-    <nav className="fixed w-full z-10">
+    <nav ref={navRef} className="fixed w-full z-10">
       <div className="py-6 px-12 flex flex-row justify-between items-center">
         <div className="flex flex-row gap-16 items-center">
           <img src="/OpenShelf.png" width="150"></img>

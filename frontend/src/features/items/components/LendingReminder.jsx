@@ -33,7 +33,10 @@ export default function ReturnReminder({
               <b>{item_title}</b>
               {' '}
               is due
-              <b>{rtf.format(diffDays, 'day')}</b>
+              <b>
+                {' '}
+                {rtf.format(diffDays, 'day')}
+              </b>
               .
             </p>
             <div className="bg-blue-100 text-blue-600 px-2 py-1 w-fit tracking-wider text-sm rounded uppercase">
@@ -46,7 +49,7 @@ export default function ReturnReminder({
                 ? `/items/${borrowRequestDetails.item.id}`
                 : '/items'
             }
-            className="flex flex-row items-center gap-1 cursor-pointer"
+            className="flex flex-row items-center gap-1 cursor-pointer w-fit"
           >
             <p className="text-lavender-500 underline">Return now</p>
             <Icon
