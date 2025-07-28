@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
       { path: 'create', element: <CreatePage /> },
       { path: 'inbox', element: <InboxPage /> },
       {
-        path: '/item/:itemId',
+        path: '/items/:itemId',
         loader: detailPageLoader,
         element: <DetailPage />,
       },
