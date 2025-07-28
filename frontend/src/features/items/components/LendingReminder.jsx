@@ -1,15 +1,14 @@
-import { Link } from 'react-router'
 import { Icon } from '@iconify-icon/react'
+import { Link } from 'react-router'
 
 export default function ReturnReminder({
   id,
   item_title,
-  status,
-  request_date,
   expected_return_date,
   return_date,
 }) {
-  if (return_date) return
+  if (return_date)
+    return
 
   const todayDate = new Date()
   const expectedReturnDate = new Date(expected_return_date)
@@ -22,7 +21,11 @@ export default function ReturnReminder({
     <div className="relative flex flex-row justify-between">
       <div>
         <p>
-          <b>{item_title}</b> is due <b>{rtf.format(diffDays, 'day')}</b>.
+          <b>{item_title}</b>
+          {' '}
+          is due
+          <b>{rtf.format(diffDays, 'day')}</b>
+          .
         </p>
         <Link
           to={`/item/${id}`}

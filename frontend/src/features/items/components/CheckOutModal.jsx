@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
+import formatDate from '../../../lib/formatDate'
 import { checkOutItem as checkOut } from '../api/checkOutItem'
-import formatDate from "../../../lib/formatDate"
 
 export default function CheckOutModal({ item, onCancel }) {
   const navigate = useNavigate()
@@ -33,7 +33,7 @@ export default function CheckOutModal({ item, onCancel }) {
         notes: data.notes || '',
       })
       setSuccess(true)
-      navigate("/inbox")
+      navigate('/inbox')
     }
     catch (err) {
       const errorData = err.response?.data

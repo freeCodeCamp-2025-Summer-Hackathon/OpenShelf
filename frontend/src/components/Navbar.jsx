@@ -1,4 +1,3 @@
-import { Icon } from '@iconify-icon/react'
 import { Link, NavLink, useRevalidator } from 'react-router'
 import { logout } from '../features/auth/api/logout'
 import NavButton from './NavButton'

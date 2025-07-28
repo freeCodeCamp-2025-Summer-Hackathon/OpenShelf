@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { useLoaderData } from 'react-router'
 import BorrowRequest from '../components/BorrowRequest'
 import ReturnReminder from '../components/LendingReminder'
@@ -16,39 +17,46 @@ export default function InboxPage() {
 
           <div>
             <h2 className="font-display-2xl mb-5">
-              Your Lending Requests {borrowRequests.count > 0 && `(${borrowRequests.count})`}
+              Your Lending Requests
+              {' '}
+              {borrowRequests.count > 0 && `(${borrowRequests.count})`}
             </h2>
             <div>
-              {borrowRequests.count > 0 ? (
-                borrowRequests.results.map((request) => (
-                  <ReturnReminder key={request.id} {...request} />
-                ))
-              ) : (
-                <p className="text-stroke-strong">
-                  You have no lending requests/ return reminders.
-                </p>
-              )}
+              {borrowRequests.count > 0
+                ? (
+                    borrowRequests.results.map(request => (
+                      <ReturnReminder key={request.id} {...request} />
+                    ))
+                  )
+                : (
+                    <p className="text-stroke-strong">
+                      You have no lending requests/ return reminders.
+                    </p>
+                  )}
             </div>
           </div>
 
           <div>
             <h2 className="font-display-2xl mb-5">
-              Borrow Requests {' '}
+              Borrow Requests
+              {' '}
               {lendingRequests.count > 0 && `(${lendingRequests.count})`}
             </h2>
             <div className="flex flex-col gap-4">
-              {lendingRequests.count > 0 ? (
-                lendingRequests.results.map((request) => (
-                  <>
-                    <BorrowRequest key={request.id} {...request} />
-                    <hr className="mx-[-12px] text-stroke-weak"></hr>
-                  </>
-                ))
-              ) : (
-                <p className="text-stroke-strong">
-                  You have no borrow requests.
-                </p>
-              )}
+              {lendingRequests.count > 0
+                ? (
+                    lendingRequests.results.map(request => (
+                      <Fragment key={request.id}>
+                        <BorrowRequest {...request} />
+                        <hr className="mx-[-12px] text-stroke-weak"></hr>
+                      </Fragment>
+                    ))
+                  )
+                : (
+                    <p className="text-stroke-strong">
+                      You have no borrow requests.
+                    </p>
+                  )}
             </div>
           </div>
         </div>

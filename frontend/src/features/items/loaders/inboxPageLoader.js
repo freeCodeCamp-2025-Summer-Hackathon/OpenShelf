@@ -1,5 +1,5 @@
-import { getLendingRequests } from '../api/getLendingRequests'
 import { getBorrowRequests } from '../api/getBorrowRequests'
+import { getLendingRequests } from '../api/getLendingRequests'
 
 export async function inboxPageLoader() {
   const [lendingResponse, borrowResponse] = await Promise.all([

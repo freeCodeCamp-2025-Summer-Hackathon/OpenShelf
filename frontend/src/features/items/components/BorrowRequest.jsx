@@ -1,8 +1,8 @@
 import clsx from 'clsx'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { getBorrowRequestDetails } from '../api/getBorrowRequestDetails'
 import formatDate from '../../../lib/formatDate'
-import { useState, useEffect } from 'react'
+import { getBorrowRequestDetails } from '../api/getBorrowRequestDetails'
 
 export default function BorrowRequest({
   id,
@@ -15,16 +15,20 @@ export default function BorrowRequest({
   const [borrowRequestDetails, setBorrowRequestDetails] = useState('')
 
   useEffect(() => {
-    getBorrowRequestDetails(id).then((res) => setBorrowRequestDetails(res.data))
-  }, [])
-
+    getBorrowRequestDetails(id).then(res => setBorrowRequestDetails(res.data))
+  }, [id])
 
   return (
     <div className="relative flex flex-row justify-between">
       <div>
         <div className="flex flex-row gap-2 items-center">
           <p>
-            Borrow Request from <b>{borrower_name}</b> for{' '}
+            Borrow Request from
+            {' '}
+            <b>{borrower_name}</b>
+            {' '}
+            for
+            {' '}
             <Link
               to={
                 borrowRequestDetails
@@ -44,14 +48,18 @@ export default function BorrowRequest({
                 'bg-blue-100 text-blue-600': status === 'approved',
                 'bg-red-100 text-red-600': status === 'rejected',
               },
-              'px-2 py-1 w-fit tracking-wider text-sm rounded uppercase'
+              'px-2 py-1 w-fit tracking-wider text-sm rounded uppercase',
             )}
           >
             {status}
           </div>
         </div>
         <p className="text-stroke-strong mt-1">
-          <i>Message: "{notes}"</i>
+          <i>
+            Message: "
+            {notes}
+            "
+          </i>
         </p>
       </div>
       <div>
