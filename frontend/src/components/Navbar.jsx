@@ -1,14 +1,15 @@
 import { Icon } from '@iconify-icon/react'
 import { Link, NavLink, useRevalidator } from 'react-router'
 import { logout } from '../features/auth/api/logout'
+import NavButton from './NavButton'
 
 export default function Navbar({ profile }) {
-  const profileAvatar = profile && `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48`
+  const profileAvatar
+    = profile
+      && `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48&background=6565C9&color=fff`
   const revalidator = useRevalidator()
   const linkClassNames = ({ isActive }) =>
-    isActive
-      ? 'border-b-1 border-b-black px-3 py-1'
-      : 'text-stroke-strong'
+    isActive ? 'border-b-1 border-b-black px-3 py-1' : 'text-stroke-strong'
 
   const handleLogout = async () => {
     await logout()
@@ -19,25 +20,22 @@ export default function Navbar({ profile }) {
     <nav className="fixed w-full z-10">
       <div className="py-6 px-12 flex flex-row justify-between items-center">
         <div className="flex flex-row gap-16 items-center">
-          <img src="OpenShelf.png" width="150"></img>
+          <img src="/OpenShelf.png" width="150"></img>
           <div className="flex flex-row gap-8 items-center">
-            <NavLink
-              to="/"
-              className={linkClassNames}
-            >
+            <NavLink to="/" className={linkClassNames}>
               Home
             </NavLink>
             <NavLink
-              to="/placeholder"
+              to="/catalogue"
               className={linkClassNames}
             >
-              Placeholder
+              Catalogue
             </NavLink>
           </div>
         </div>
 
         <div className="flex flex-row items-center gap-8">
-          <div className="relative flex items-center">
+          {/* <div className="relative flex items-center">
             <input
               placeholder="Find the right item..."
               className="border-1 border-stroke-strong bg-[#d3d3f1a2] pl-4 pr-12 py-2 w-80 rounded-xl focus:outline-stroke-strong"
@@ -48,12 +46,14 @@ export default function Navbar({ profile }) {
                 className="absolute right-3 text-xl -translate-y-1/2 top-1/2 bottom-0"
               />
             </button>
-          </div>
+          </div> */}
 
           {profile
             ? (
                 <>
-                  <img src={profileAvatar} className="rounded-full" />
+                  <NavButton to="inbox" icon="inbox" info="Inbox" />
+                  <NavButton to="create" icon="plus-circle" info="Create new item" />
+                  <img src={profileAvatar} className="rounded-full size-11" />
                   <button
                     type="button"
                     className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"

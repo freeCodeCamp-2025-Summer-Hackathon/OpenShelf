@@ -5,8 +5,8 @@ import { Link, useNavigate, useRevalidator } from 'react-router'
 import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
 import { login as loginUser } from '../api/login'
+import AuthLayout from '../components/AuthLayout'
 import { validation } from '../validation'
-import AuthLayout from './AuthLayout'
 
 export default function LoginPage() {
   const navigate = useNavigate()

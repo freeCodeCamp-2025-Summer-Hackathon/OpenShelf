@@ -5,7 +5,7 @@ import Input from '../../../components/Input'
 import PasswordInput from '../../../components/PasswordInput'
 import { login } from '../api/login'
 import { register as registerUser } from '../api/register'
-import AuthLayout from './AuthLayout'
+import AuthLayout from '../components/AuthLayout'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
@@ -46,6 +46,7 @@ export default function RegisterPage() {
       },
     },
     phoneNum: {
+      required: "Phone number is required!",
       maxLength: {
         value: 15,
         message: 'At most 15 numbers, please...',

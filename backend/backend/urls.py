@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('api/users/', include('users.urls')),
@@ -22,4 +24,8 @@ urlpatterns = [
     path('api/borrow-requests/', include('borrow_requests.urls')),
     path('api/messaging/', include('messaging.urls')),
 ]
+
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
