@@ -16,26 +16,19 @@
 
 ### Homepage & Navigation
 - [ ] Display item categories (books, tools, games) with featured listings
-- [ ] Search bar functionality for name, category, or keywords
 - [ ] Guest browsing with prompts to log in for full access
-- [ ] Responsive design for all device types
 
 ### Authentication
 - [ ] User registration with email/password or Google OAuth
 - [ ] Secure login system with session management
 - [ ] Account confirmation and verification process
-- [ ] Password reset functionality
 
 ### Browse & Search
-- [ ] Advanced filtering by category, availability, and location
-- [ ] Real-time search with keyword matching
 - [ ] Item cards displaying title, image, and availability status
-- [ ] Pagination for large result sets
 
 ### Item Management
 - [ ] Detailed item view with description, condition, and owner info
 - [ ] Add new items with photos, descriptions, and categories
-- [ ] Edit and update existing item listings
 - [ ] Set item availability and lending terms
 
 ### Borrowing System
@@ -50,24 +43,9 @@
 - [ ] Track items currently on loan
 - [ ] Item return acknowledgment system
 
-### Notifications & Messaging
-- [ ] Real-time notifications for request updates
+### Notifications
+- [ ] Notifications for request updates
 - [ ] Due date reminders for borrowed items
-- [ ] In-app messaging between lenders and borrowers
-- [ ] Email notifications for important updates
-
-### Profile Management
-- [ ] Personal profile with contact information
-- [ ] Borrowing history and statistics
-- [ ] Lending history and item management
-- [ ] Account settings and preferences
-
-### Security & Compliance
-- [ ] Item validity verification system
-- [ ] Platform policy compliance checks
-- [ ] Secure data handling and privacy protection
-- [ ] User rating and review system
-
 
 ## Database Schema
 ![OpenShelf Database Relationships](OpenShelfDatabase.PNG)
