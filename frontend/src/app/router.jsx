@@ -6,6 +6,7 @@ import CreatePage from '../features/items/pages/CreatePage'
 import DetailPage from '../features/items/pages/DetailPage'
 import HomePage, { homePageLoader } from '../features/items/pages/HomePage'
 import InboxPage from '../features/items/pages/InboxPage'
+import { inboxPageLoader } from '../features/items/loaders/inboxPageLoader'
 import AppLayout, { appLayoutLoader } from '../layouts/AppLayout'
 
 export const router = createBrowserRouter([
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
         path: '/item/:itemId',
         loader: detailPageLoader,
         element: <DetailPage />,
+      },
+      { path: '/inbox',
+        loader: inboxPageLoader,
+        element: <InboxPage />
       },
     ],
   },
