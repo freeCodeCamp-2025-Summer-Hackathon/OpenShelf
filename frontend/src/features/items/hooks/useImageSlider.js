@@ -5,13 +5,13 @@ export default function useImageSlider(images) {
 
   const prevImage = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1)
+      setCurrentIndex(prev => prev - 1)
     }
   }
 
   const nextImage = () => {
     if (currentIndex < images.length - 1) {
-      setCurrentIndex((prev) => prev + 1)
+      setCurrentIndex(prev => prev + 1)
     }
   }
 
