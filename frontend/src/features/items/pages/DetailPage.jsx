@@ -1,13 +1,16 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs'
-import { useState } from 'react'
-import { useLoaderData } from 'react-router'
+import { Fragment, useState } from 'react'
+import { useLoaderData, useNavigate } from 'react-router'
 import Tags from '../../../components/Tags'
 import { getImageUrls } from '../../../utils/imageUtils'
 import CheckOutModal from '../components/CheckOutModal'
 import useImageSlider from '../hooks/useImageSlider'
+import { deleteItem } from '../api/deleteItem'
+import BorrowRequestItemDetails from '../components/BorrowRequestItemDetails'
 
 function DetailPage() {
-  const { item, profile } = useLoaderData()
+  const { item, profile, lendingRequests } = useLoaderData()
+  const navigate = useNavigate()
   const images = item.image_urls || []
   const imageUrls = getImageUrls(images)
   const isOwner = profile?.id === item.owner.id
@@ -15,8 +18,22 @@ function DetailPage() {
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
-  const { currentIndex, prevImage, nextImage, showImage }
-    = useImageSlider(images)
+  const { currentIndex, prevImage, nextImage, showImage } =
+    useImageSlider(images)
+
+  const handleDelete = async () => {
+    try {
+      const config = await deleteItem(item.id)
+
+      if (config.status !== 204) {
+        throw new Error(config.request.responseText)
+      }
+
+      navigate('/catalogue')
+    } catch (err) {
+      console.error('Error delete item:', err.message)
+    }
+  }
 
   return (
     <div className="min-h-[100dvh]">
@@ -42,7 +59,9 @@ function DetailPage() {
             </button>
 
             <img
-              src={imageUrls[currentIndex]}
+              src={
+                imageUrls.length > 0 ? imageUrls[currentIndex] : '/grayBook.png'
+              }
               alt={`Image ${currentIndex + 1}`}
               className="h-[70%] object-cover"
             />
@@ -98,102 +117,109 @@ function DetailPage() {
               </div>
 
               <p className="text-stroke-strong">
-                {item.number_of_items}
-                {' '}
-                available
+                {item.is_available ? 'Is available' : 'Not available'}
               </p>
             </div>
 
             <div className="py-4">
-              <h1 className="font-display-5xl">
-                {item.title}
-              </h1>
+              <h1 className="font-display-5xl">{item.title}</h1>
               <div className="flex gap-2 mt-4">
                 <Tags type="condition" label={item.condition} />
                 <Tags type="category" label={item.category} />
-                {item.tags.map(tag => (
+                {item.tags.map((tag) => (
                   <Tags key={tag} type="genre" label={tag} />
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-8 mt-10">
-              <p>
-                {item.description}
-              </p>
+            <div className="flex flex-col gap-8 mt-10 mb-20">
+              <p>{item.description}</p>
             </div>
+
+            {isOwner && (
+              <div>
+                <div>
+                  <h1 className="font-display-2xl">Requests</h1>
+                  <hr className="text-stroke-strong mx-[-20px] mt-2"></hr>
+                </div>
+
+                <div className="mt-4">
+                  <div className="flex flex-col gap-4">
+                    {lendingRequests.count > 0 ? (
+                      lendingRequests.results.map((request) => (
+                        <Fragment key={request.id}>
+                          <BorrowRequestItemDetails {...request} />
+                          <hr className="mx-[-12px] text-stroke-weak"></hr>
+                        </Fragment>
+                      ))
+                    ) : (
+                      <p className="text-stroke-strong">
+                        This item has no borrow requests.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
-          {isOwner
-            ? (
-                <div className="">
-                  <div className="flex flex-row items-center gap-4">
-                    <button
-                      type="button"
-                      className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-red text-white rounded-md"
-                    >
-                      <Icon icon="heroicons:trash" className="text-2xl" />
-                      <span>Delete</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
-                    >
-                      <Icon
-                        icon="heroicons:pencil-square"
-                        className="text-2xl"
-                      />
-                      <span>Edit</span>
-                    </button>
-                  </div>
-                </div>
-              )
-            : (
-                <div className="">
-                  <div className="flex flex-row items-center gap-4">
-                    <button
-                      type="button"
-                      className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md cursor-pointer"
-                      onClick={openModal}
-                    >
-                      <Icon icon="heroicons:shopping-bag" className="text-2xl" />
-                      <span>Check out</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="flex justify-center items-center p-3 bg-lavender-500 text-white rounded-md"
-                    >
-                      <Icon
-                        icon="heroicons:chat-bubble-oval-left-ellipsis"
-                        className="text-2xl"
-                      />
-                    </button>
-                    <button
-                      type="button"
-                      className="flex justify-center items-center p-3 bg-[#F2ECF4] rounded-md"
-                    >
-                      <Icon icon="heroicons:heart" className="text-2xl" />
-                    </button>
-                  </div>
-                  <div className="flex flex-row items-center gap-1 mt-2">
-                    <Icon icon="heroicons:information-circle" className="text-xl" />
-                    <span>
-                      You can lend this item for
-                      {' '}
-                      <b>2 weeks</b>
-                      .
-                    </span>
-                  </div>
-                </div>
-              )}
-
+          {isOwner ? (
+            <div className="">
+              <div className="flex flex-row items-center gap-4">
+                <button
+                  type="button"
+                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-red text-white rounded-md cursor-pointer"
+                  onClick={handleDelete}
+                >
+                  <Icon icon="heroicons:trash" className="text-2xl" />
+                  <span>Delete</span>
+                </button>
+                {/* <button
+                  type="button"
+                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
+                >
+                  <Icon icon="heroicons:pencil-square" className="text-2xl" />
+                  <span>Edit</span>
+                </button> */}
+              </div>
+            </div>
+          ) : (
+            <div className="">
+              <div className="flex flex-row items-center gap-4">
+                <button
+                  type="button"
+                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md cursor-pointer"
+                  onClick={openModal}
+                >
+                  <Icon icon="heroicons:shopping-bag" className="text-2xl" />
+                  <span>Check out</span>
+                </button>
+                <button
+                  type="button"
+                  className="flex justify-center items-center p-3 bg-lavender-500 text-white rounded-md"
+                >
+                  <Icon
+                    icon="heroicons:chat-bubble-oval-left-ellipsis"
+                    className="text-2xl"
+                  />
+                </button>
+                <button
+                  type="button"
+                  className="flex justify-center items-center p-3 bg-[#F2ECF4] rounded-md"
+                >
+                  <Icon icon="heroicons:heart" className="text-2xl" />
+                </button>
+              </div>
+              <div className="flex flex-row items-center gap-1 mt-2">
+                <Icon icon="heroicons:information-circle" className="text-xl" />
+                <span>
+                  You can lend this item for <b>2 weeks</b>.
+                </span>
+              </div>
+            </div>
+          )}
         </div>
-        {isModalOpen && (
-          <CheckOutModal
-            item={item}
-            onCancel={closeModal}
-          />
-        )}
+        {isModalOpen && <CheckOutModal item={item} onCancel={closeModal} />}
       </div>
     </div>
   )

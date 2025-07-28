@@ -1,18 +1,24 @@
-import { Link, NavLink, useRevalidator } from 'react-router'
+import { Link, NavLink, useNavigate, useRevalidator } from 'react-router'
 import { logout } from '../features/auth/api/logout'
 import NavButton from './NavButton'
 
 export default function Navbar({ profile }) {
-  const profileAvatar
-    = profile
-      && `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48&background=6565C9&color=fff`
+  const navigate = useNavigate()
+  const profileAvatar =
+    profile &&
+    `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48&background=6565C9&color=fff`
   const revalidator = useRevalidator()
   const linkClassNames = ({ isActive }) =>
     isActive ? 'border-b-1 border-b-black px-3 py-1' : 'text-stroke-strong'
 
   const handleLogout = async () => {
     await logout()
-    revalidator.revalidate()
+    try {
+      revalidator.revalidate()
+    } catch (err) {
+      console.error(err)
+      navigate('/')
+    }
   }
 
   return (
@@ -24,10 +30,7 @@ export default function Navbar({ profile }) {
             <NavLink to="/" className={linkClassNames}>
               Home
             </NavLink>
-            <NavLink
-              to="/catalogue"
-              className={linkClassNames}
-            >
+            <NavLink to="/catalogue" className={linkClassNames}>
               Catalogue
             </NavLink>
           </div>
@@ -47,34 +50,36 @@ export default function Navbar({ profile }) {
             </button>
           </div> */}
 
-          {profile
-            ? (
-                <>
-                  <NavButton to="inbox" icon="inbox" info="Inbox" />
-                  <NavButton to="create" icon="plus-circle" info="Create new item" />
-                  <img src={profileAvatar} className="rounded-full size-11" />
-                  <button
-                    type="button"
-                    className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
-                </>
-              )
-            : (
-                <>
-                  <Link to="/login">Login</Link>
-                  <Link to="/register">
-                    <button
-                      type="button"
-                      className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"
-                    >
-                      Sign up
-                    </button>
-                  </Link>
-                </>
-              )}
+          {profile ? (
+            <>
+              <NavButton to="inbox" icon="inbox" info="Inbox" />
+              <NavButton
+                to="create"
+                icon="plus-circle"
+                info="Create new item"
+              />
+              <img src={profileAvatar} className="rounded-full size-11" />
+              <button
+                type="button"
+                className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/register">
+                <button
+                  type="button"
+                  className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"
+                >
+                  Sign up
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
