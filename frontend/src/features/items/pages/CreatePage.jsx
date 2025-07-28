@@ -94,9 +94,11 @@ export default function CreatePage() {
       setFormMessage({ success: true, message: 'Item created successfully.' })
       revalidator.revalidate()
       
-      // Navigate to home page after successful creation
+      const responseJSON = JSON.parse(createItemConfig.request.responseText)
+
+      // Navigate to item's detail page after successful creation
       setTimeout(() => {
-        navigate('/')
+        navigate(`/item/${responseJSON.id}`)
       }, 1500) // delay
     }
     catch (err) {

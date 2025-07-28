@@ -22,13 +22,13 @@ export const router = createBrowserRouter([
       },
       { path: 'create', element: <CreatePage /> },
       { path: 'inbox', element: <InboxPage /> },
+      {
+        path: '/item/:itemId',
+        loader: detailPageLoader,
+        element: <DetailPage />,
+      },
     ],
   },
   { path: '/register', element: <RegisterPage /> },
   { path: '/login', element: <LoginPage /> },
-  {
-    path: '/item/:itemId',
-    loader: detailPageLoader,
-    element: <DetailPage />,
-  },
 ])
