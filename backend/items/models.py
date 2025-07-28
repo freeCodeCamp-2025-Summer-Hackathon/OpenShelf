@@ -28,7 +28,7 @@ class Item(models.Model):
     description = models.TextField(blank=True)
     condition = models.CharField(max_length=50, choices=CONDITION_CHOICES)
     image_urls = ArrayField(
-        models.URLField(),
+        models.CharField(max_length=500),
         size=10,
         default=list,
         blank=True

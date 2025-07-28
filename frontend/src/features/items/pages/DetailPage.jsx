@@ -10,7 +10,6 @@ function DetailPage() {
   const images = item.image_urls || []
   const isOwner = profile?.id === item.owner.id
   const [isModalOpen, setIsModalOpen] = useState(false)
-
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
@@ -123,7 +122,29 @@ function DetailPage() {
             </div>
           </div>
 
-          {!isOwner && (
+          {isOwner ? (
+            <div className="">
+              <div className="flex flex-row items-center gap-4">
+                <button
+                  type="button"
+                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-red text-white rounded-md"
+                >
+                  <Icon icon="heroicons:trash" className="text-2xl" />
+                  <span>Delete</span>
+                </button>
+                <button
+                  type="button"
+                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
+                >
+                  <Icon
+                    icon="heroicons:pencil-square"
+                    className="text-2xl"
+                  />
+                  <span>Edit</span>
+                </button>
+              </div>
+            </div>
+          ) : (
             <div className="">
               <div className="flex flex-row items-center gap-4">
                 <button
@@ -161,30 +182,7 @@ function DetailPage() {
               </div>
             </div>
           )}
-
-          {isOwner && (
-            <div className="">
-              <div className="flex flex-row items-center gap-4">
-                <button
-                  type="button"
-                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-red text-white rounded-md"
-                >
-                  <Icon icon="heroicons:trash" className="text-2xl" />
-                  <span>Delete</span>
-                </button>
-                <button
-                  type="button"
-                  className="font-sans-lg-upper flex justify-center items-center gap-2 py-3 w-full max-w-[400px] bg-lavender-500 text-white rounded-md"
-                >
-                  <Icon
-                    icon="heroicons:pencil-square"
-                    className="text-2xl"
-                  />
-                  <span>Edit</span>
-                </button>
-              </div>
-            </div>
-          )}
+          
         </div>
         {isModalOpen && (
           <CheckOutModal
