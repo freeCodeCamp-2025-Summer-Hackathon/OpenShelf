@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import formatDate from '../../../lib/formatDate'
 import { acceptBorrowRequest } from '../api/acceptBorrowRequest'
 import { declineBorrowRequest } from '../api/declineBorrowRequest'
+import { markAsReturned } from '../api/markAsReturned'
 
 export default function BorrowRequestItemDetails({
   id,
@@ -46,6 +47,21 @@ export default function BorrowRequestItemDetails({
     }
   }
 
+  const handleMarkAsReturned = async () => {
+    try {
+      const returnConfig = await markAsReturned(id)
+
+      if (returnConfig.status !== 200) {
+        throw new Error(returnConfig.request.responseText)
+      }
+
+      navigate(0)
+    }
+    catch (err) {
+      console.error('Error marking item as returned:', err.message)
+    }
+  }
+
   return (
     <div className="relative flex flex-row justify-between">
       <div>
@@ -61,7 +77,8 @@ export default function BorrowRequestItemDetails({
               {
                 'bg-amber-100 text-amber-600': status === 'pending',
                 'bg-blue-100 text-blue-600': status === 'accepted',
-                'bg-red-100 text-red-600': status === 'rejected',
+                'bg-red-100 text-red-600': status === 'declined',
+                'bg-green-100 text-green-600': status === 'returned',
               },
               'px-2 py-1 w-fit tracking-wider text-sm rounded uppercase',
             )}
@@ -121,6 +138,20 @@ export default function BorrowRequestItemDetails({
               <div className="rounded border-1 border-stroke-weak px-[5px] bg-white text-center text-sm absolute left-1/2 transform -translate-x-1/2 top-full mt-2 shadow-2xs peer-hover:opacity-100 opacity-0 transition-opacity text-stroke-strong text-nowrap">
                 Reject
               </div>
+            </div>
+          </div>
+        )}
+
+        {status === 'accepted' && (
+          <div className="flex flex-row gap-2">
+            <div className="relative mt-2 w-fit">
+              <button
+                type="button"
+                className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm transition-colors cursor-pointer"
+                onClick={handleMarkAsReturned}
+              >
+                Mark as Returned
+              </button>
             </div>
           </div>
         )}

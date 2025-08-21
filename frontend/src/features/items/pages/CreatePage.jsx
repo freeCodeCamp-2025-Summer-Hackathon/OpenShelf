@@ -86,18 +86,18 @@ export default function CreatePage() {
       const createItemConfig = await createItem(itemData)
 
       if (createItemConfig.status !== 201) {
-        throw new Error(createItemConfig.request.responseText)
+        console.error('Create item failed:', createItemConfig)
+        console.error('Response data:', createItemConfig.response?.data)
+        throw new Error(createItemConfig.response?.data ? JSON.stringify(createItemConfig.response.data) : createItemConfig.request.responseText)
       }
 
       reset()
       setFormMessage({ success: true, message: 'Item created successfully.' })
       revalidator.revalidate()
 
-      const responseJSON = JSON.parse(createItemConfig.request.responseText)
-
-      // Navigate to item's detail page after successful creation
+      // Navigate to home page after successful creation
       setTimeout(() => {
-        navigate(`/item/${responseJSON.id}`)
+        navigate('/')
       }, 1500) // delay
     }
     catch (err) {
@@ -144,7 +144,12 @@ export default function CreatePage() {
 
             <Select
               label="Category"
-              options={['books', 'games', 'tools', 'outdoors']}
+              options={[
+                'books',
+                'games', 
+                'tools',
+                'outdoors'
+              ]}
               name="category"
               opened={opened}
               setOpened={setOpened}
@@ -156,7 +161,10 @@ export default function CreatePage() {
 
             <Select
               label="Condition"
-              options={['New', 'Used']}
+              options={[
+                'New',
+                'Used'
+              ]}
               name="condition"
               opened={opened}
               setOpened={setOpened}
@@ -177,7 +185,42 @@ export default function CreatePage() {
 
             <MultiSelect
               label="Tags"
-              options={['books', 'programming', 'python']}
+              options={[
+                'featured',
+                'popular',
+                'rare',
+                'vintage',
+                'educational',
+                'entertainment',
+                'professional',
+                'beginner-friendly',
+                'advanced',
+                'collectible',
+                'handmade',
+                'eco-friendly',
+                'brand-new',
+                'limited-edition',
+                'seasonal',
+                'trending',
+                'bestseller',
+                'classic',
+                'modern',
+                'diy',
+                'creative',
+                'practical',
+                'hobby',
+                'exercise',
+                'learning',
+                'programming',
+                'python',
+                'javascript',
+                'books',
+                'fiction',
+                'non-fiction',
+                'textbook',
+                'manual',
+                'guide'
+              ]}
               name="tags"
               opened={opened}
               setOpened={setOpened}

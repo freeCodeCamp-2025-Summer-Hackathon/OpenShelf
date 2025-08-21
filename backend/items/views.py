@@ -62,7 +62,7 @@ def search_items(request):
         )
     
     if category:
-        items = items.filter(category=category)
+        items = items.filter(category__iexact=category)
     
     serializer = ItemListSerializer(items, many=True)
     return Response(serializer.data)

@@ -1,5 +1,5 @@
 import { Icon } from '@iconify-icon/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function MultiSelect({
   label,
@@ -14,6 +14,25 @@ export default function MultiSelect({
   rules,
 }) {
   const [selected, setSelected] = useState([])
+  const dropdownRef = useRef(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Add a small delay to allow click events to complete
+        setTimeout(() => setOpened(null), 0)
+      }
+    }
+
+    if (opened === name) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [setOpened, opened, name])
 
   useEffect(() => {
     setValue(name, selected)
@@ -39,7 +58,7 @@ export default function MultiSelect({
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 relative" ref={dropdownRef}>
         <button
           type="button"
           className={`${error ? 'border-red' : 'border-stroke-weak'} border-1 ${
@@ -60,10 +79,10 @@ export default function MultiSelect({
                       <p>{data}</p>
                       <Icon
                         icon="heroicons:x-mark"
-                        className="text-stroke-strong text-lg"
-                        onClick={() => {
+                        className="text-stroke-strong text-lg cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation() // Prevent dropdown from toggling
                           setSelected(prev => prev.filter(s => s !== data))
-                          setOpened(prev => (prev === name ? null : name))
                         }}
                       />
                     </div>
@@ -84,15 +103,17 @@ export default function MultiSelect({
         {error && <p className="text-red">{error.message}</p>}
 
         {opened === name && (
-          <div className="border-1 border-stroke-weak px-2 py-3 rounded-lg w-[200px] bg-white z-10 flex flex-col gap-1">
+          <div className="absolute top-14 border-1 border-stroke-weak px-2 py-3 rounded-lg w-full bg-white z-10 shadow-lg max-h-48 overflow-y-auto">
             {options.map(option => (
               <button
                 type="button"
                 key={option}
-                className={`p-3 rounded-lg w-full flex flex-row justify-between items-center cursor-pointer ${
+                className={`p-3 rounded-lg w-full flex flex-row justify-between items-center cursor-pointer hover:bg-gray-50 ${
                   selected.includes(option) ? 'bg-[#F2F2F2]' : ''
                 }`}
-                onClick={() => {
+                onMouseDown={(e) => {
+                  e.preventDefault() // Prevent focus loss
+                  e.stopPropagation() // Prevent event bubbling
                   setSelected((prev) => {
                     if (prev.includes(option)) {
                       return prev.filter(data => data !== option)
@@ -103,7 +124,7 @@ export default function MultiSelect({
                   })
                 }}
               >
-                <p>{option}</p>
+                <p className="text-left capitalize">{option.replace('-', ' ')}</p>
                 {selected.includes(option) && <Icon icon="heroicons:check" />}
               </button>
             ))}

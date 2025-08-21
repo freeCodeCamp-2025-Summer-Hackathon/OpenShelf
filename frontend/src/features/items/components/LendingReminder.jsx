@@ -60,7 +60,7 @@ export default function ReturnReminder({
         </div>
       )}
 
-      {status === 'rejected' && (
+      {status === 'declined' && (
         <div>
           <div className="flex flex-row gap-2 items-center">
             <p>
@@ -77,10 +77,10 @@ export default function ReturnReminder({
                 {item_title}
               </Link>
               {' '}
-              was rejected.
+              was declined.
             </p>
             <div className="bg-red-100 text-red-600 px-2 py-1 w-fit tracking-wider text-sm rounded uppercase">
-              {status}
+              declined
             </div>
           </div>
         </div>
@@ -112,6 +112,21 @@ export default function ReturnReminder({
             <p className="text-stroke-strong text-sm">
               {formatDate(request_date)}
             </p>
+          </div>
+        </div>
+      )}
+
+      {status === 'returned' && (
+        <div>
+          <div className="flex flex-row gap-2 items-center">
+            <p>
+              <b>{item_title}</b>
+              {' '}
+              has been returned successfully.
+            </p>
+            <div className="bg-green-100 text-green-600 px-2 py-1 w-fit tracking-wider text-sm rounded uppercase">
+              {status}
+            </div>
           </div>
         </div>
       )}

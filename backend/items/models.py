@@ -6,7 +6,6 @@ import uuid
 class Item(models.Model):
     CONDITION_CHOICES = [
         ('New', 'New'),
-        ('Used - Like New', 'Used - Like New'),
         ('Used', 'Used'),
     ]
 
