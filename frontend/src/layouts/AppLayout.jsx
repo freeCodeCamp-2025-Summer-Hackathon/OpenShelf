@@ -10,7 +10,7 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar profile={profile} onHeightChange={setNavHeight} />
-      <main className="flex-grow">
+      <main className="flex-grow" style={{ paddingTop: `${navHeight}px` }}>
         <Outlet context={{ navHeight }} />
       </main>
       <Footer />

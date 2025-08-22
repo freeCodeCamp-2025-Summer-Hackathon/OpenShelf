@@ -35,7 +35,7 @@ export default function Navbar({ profile, onHeightChange }) {
   }, [onHeightChange])
 
   return (
-    <nav ref={navRef} className="fixed w-full z-10">
+    <nav ref={navRef} className="fixed w-full z-50 bg-white shadow-md">
       <div className="py-6 px-12 flex flex-row justify-between items-center">
         <div className="flex flex-row gap-16 items-center">
           <Link to="/">
