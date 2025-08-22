@@ -50,7 +50,7 @@ To get started with OpenShelf, follow these steps:
    ```bash
    PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d openshelf
    ```
-   - Update the database settings in `backend/settings.py` with your PostgreSQL credentials.
+   - Update the database settings in `backend/backend/settings.py` with your PostgreSQL credentials.
 
 4. **Install dependencies**
    - For the backend:
