@@ -1,94 +1,81 @@
-<div align="center">
 
 # OpenShelf
 
-![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
-![Django](https://img.shields.io/badge/Django-092E20?style=flat-square&logo=django&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+<div align="center">
+  
+   ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+   ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+   ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+   ![Django](https://img.shields.io/badge/Django-092E20?style=flat-square&logo=django&logoColor=white)
+   ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 
-**A community-driven digital lending library for books, tools, and games.**
-
+   **A community-driven digital lending library for books, tools, and games.**
 </div>
+
 
 ## Features
 
-### Homepage & Navigation
-- [ ] Display item categories (books, tools, games) with featured listings
-- [ ] Guest browsing with prompts to log in for full access
+1. **Homepage & Navigation** – Browse categories (books, tools, games) with featured items.
+2. **Authentication** – Sign up/login via email or Google OAuth, with account verification.
+3. **Browse & Search** – View item cards with title, image, and availability.
+4. **Item Management** – Add items with photos/details, manage availability & lending terms.
+5. **Borrowing System** – Request items, confirm terms, track requests & loan history.
+6. **Lending Management** – Review/approve requests, track items on loan, confirm returns.
+7. **Notifications** – Updates on requests & due date reminders.
 
-### Authentication
-- [ ] User registration with email/password or Google OAuth
-- [ ] Secure login system with session management
-- [ ] Account confirmation and verification process
-
-### Browse & Search
-- [ ] Item cards displaying title, image, and availability status
-
-### Item Management
-- [ ] Detailed item view with description, condition, and owner info
-- [ ] Add new items with photos, descriptions, and categories
-- [ ] Set item availability and lending terms
-
-### Borrowing System
-- [ ] "Request to Borrow" functionality for available items
-- [ ] Borrowing terms confirmation (duration, return date)
-- [ ] Borrow request tracking and status updates
-- [ ] Borrowing history and current loans dashboard
-
-### Lending Management
-- [ ] Receive and review incoming borrow requests
-- [ ] Approve or decline requests with messaging
-- [ ] Track items currently on loan
-- [ ] Item return acknowledgment system
-
-### Notifications
-- [ ] Notifications for request updates
-- [ ] Due date reminders for borrowed items
-
-## Database Schema
-![OpenShelf Database Relationships](OpenShelfDatabase.PNG)
 
 
 ## Getting Started
+
 To get started with OpenShelf, follow these steps:
 
-1. **Clone the repository.**  
+1. **Clone the repository**
    Make sure you have the proper access to the repository and your SSH keys are set up correctly.
    ```bash
    git clone git@github.com:freeCodeCamp-2025-Summer-Hackathon/OpenShelf.git
-
    ```
-2. **Navigate to the project directory:**
+
+2. **Navigate to the project directory**
    ```bash
    cd OpenShelf
    ```
 
-3. **Install dependencies:**
+3. **Set up the database**
+   - Ensure you have PostgreSQL installed and running.
+   - Create a new database named `openshelf`. Change the `PGPASSWORD` if your PostgreSQL user has a different password.
+   ```bash
+   PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE openshelf;" 2>/dev/null
+   ```
+   - Check if the database is properly created:
+   ```bash
+   PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d openshelf
+   ```
+   - Update the database settings in `backend/settings.py` with your PostgreSQL credentials.
+
+4. **Install dependencies**
    - For the backend:
      ```bash
      cd backend
+     # Create virtual environment (not necessary for Windows)
+     python -m venv venv
+     source venv/bin/activate # Activate virtual environment
+     # Install dependencies
      pip install -r requirements.txt
      ```
    - For the frontend:
      ```bash
      cd frontend
      npm install
-     ```  
+     ```
 
-4. **Set up the database:**
-   - Ensure you have PostgreSQL installed and running.
-   - Create a new database named `openshelf`.
-   - Update the database settings in `backend/settings.py` with your PostgreSQL credentials.  
-
-5. **Run migrations:**
+5. **Run migrations**
    ```bash
    cd backend
    python manage.py makemigrations
    python manage.py migrate
    ```
-6. Run the development server:
+
+6. **Run the development server**
    - For the backend:
      ```bash
      cd backend
@@ -100,12 +87,12 @@ To get started with OpenShelf, follow these steps:
      npm run dev
      ```
 
-7. **Access the application:**
-   - Open your web browser and go to `http://localhost:3000` for the frontend.
-   - The backend API will be available at `http://localhost:8000/api/`. More at [OpenShelf API documentation](backend/README.md).
+7. **Access the application**
+   - Open your web browser and go to [http://localhost:3000](http://localhost:3000) for the frontend.
+   - The backend API will be available at [http://localhost:8000/api/](http://localhost:8000/api/). More at [OpenShelf API documentation](backend/README.md).
 
 ---
 
 <div align="center">
-  This project is part of the <strong>freeCodeCamp 2025 Summer Hackathon</strong>, created by <strong>Team Lavender</strong>.
+   This project is part of the <strong>freeCodeCamp 2025 Summer Hackathon</strong>, created by <strong>Team Lavender</strong>.
 </div>

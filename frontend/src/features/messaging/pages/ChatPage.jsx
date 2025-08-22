@@ -13,10 +13,20 @@ export default function ChatPage() {
   const [sending, setSending] = useState(false)
   const [otherUser, setOtherUser] = useState(null)
   const [currentConversationId, setCurrentConversationId] = useState(conversationId)
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true)
   const messagesEndRef = useRef(null)
+  const messagesContainerRef = useRef(null)
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  const scrollToBottom = (force = false) => {
+    if (force || shouldAutoScroll) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const isNearBottom = () => {
+    if (!messagesContainerRef.current) return true
+    const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current
+    return scrollHeight - scrollTop - clientHeight < 100 // Within 100px of bottom
   }
 
   useEffect(() => {
@@ -48,6 +58,8 @@ export default function ChatPage() {
               setOtherUser({ name: messagesArray[0].sender_name })
             }
           }
+          // Auto-scroll on initial load
+          setTimeout(() => scrollToBottom(true), 100)
         } else if (userId) {
           // Starting new conversation with specific user
           try {
@@ -72,6 +84,8 @@ export default function ChatPage() {
                   setOtherUser({ name: messagesArray[0].sender_name })
                 }
               }
+              // Auto-scroll on initial load
+              setTimeout(() => scrollToBottom(true), 100)
             } else {
               // No existing conversation, start fresh
               setMessages([])
@@ -95,9 +109,18 @@ export default function ChatPage() {
     fetchMessages()
   }, [conversationId, userId])
 
+  // Check scroll position and update auto-scroll preference
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+    const handleScroll = () => {
+      setShouldAutoScroll(isNearBottom())
+    }
+
+    const container = messagesContainerRef.current
+    if (container) {
+      container.addEventListener('scroll', handleScroll)
+      return () => container.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   // Add polling to refresh messages every 3 seconds
   useEffect(() => {
@@ -105,16 +128,25 @@ export default function ChatPage() {
 
     const interval = setInterval(async () => {
       try {
+        const wasNearBottom = isNearBottom()
         const data = await getConversationMessages(currentConversationId)
         const messagesArray = data.results || data
+        const currentMessageCount = messages.length
+        const newMessageCount = Array.isArray(messagesArray) ? messagesArray.length : 0
+        
         setMessages(Array.isArray(messagesArray) ? messagesArray : [])
+        
+        // Only auto-scroll if user was near bottom and there are new messages
+        if (wasNearBottom && newMessageCount > currentMessageCount) {
+          setTimeout(() => scrollToBottom(true), 100)
+        }
       } catch (error) {
         console.error('Error polling messages:', error)
       }
     }, 3000) // Poll every 3 seconds
 
     return () => clearInterval(interval)
-  }, [currentConversationId])
+  }, [currentConversationId, messages.length])
 
   const handleSendMessage = async (e) => {
     e.preventDefault()
@@ -155,6 +187,9 @@ export default function ChatPage() {
         return [...currentMessages, newMsg]
       })
       
+      // Force scroll to bottom when user sends a message
+      setTimeout(() => scrollToBottom(true), 100)
+      
       // Refresh messages after a short delay to get the real data
       setTimeout(async () => {
         try {
@@ -163,6 +198,8 @@ export default function ChatPage() {
             const data = await getConversationMessages(conversationIdToUse)
             const messagesArray = data.results || data
             setMessages(Array.isArray(messagesArray) ? messagesArray : [])
+            // Ensure scroll to bottom after refresh
+            setTimeout(() => scrollToBottom(true), 100)
           }
         } catch (error) {
           console.error('Error refreshing messages:', error)
@@ -222,7 +259,7 @@ export default function ChatPage() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.length > 0 ? (
             messages.map(message => (
               <MessageBubble key={message.id} message={message} />
