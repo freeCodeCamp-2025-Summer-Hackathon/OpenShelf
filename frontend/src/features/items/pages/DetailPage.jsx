@@ -3,6 +3,7 @@ import { Fragment, useState } from 'react'
 import { useLoaderData, useNavigate, useOutletContext } from 'react-router'
 import Tags from '../../../components/Tags'
 import { getImageUrls } from '../../../utils/imageUtils'
+import { getConversationWithUser } from '../../messaging/api/messaging'
 import { deleteItem } from '../api/deleteItem'
 import BorrowRequestItemDetails from '../components/BorrowRequestItemDetails'
 import CheckOutModal from '../components/CheckOutModal'
@@ -40,6 +41,21 @@ function DetailPage() {
     }
     catch (err) {
       console.error('Error delete item:', err.message)
+    }
+  }
+
+  const handleMessageSeller = async () => {
+    try {
+      console.log('Messaging seller with ID:', item.owner.id)
+      // Always navigate to new conversation route with user ID
+      // This ensures we always have the receiver ID available
+      navigate(`/messages/new/${item.owner.id}`)
+    }
+    catch (err) {
+      console.error('Error starting conversation:', err.message)
+      // If error, still try to navigate to new conversation
+      console.log('Error occurred, navigating to new conversation with user:', item.owner.id)
+      navigate(`/messages/new/${item.owner.id}`)
     }
   }
 
@@ -210,6 +226,7 @@ function DetailPage() {
                     <button
                       type="button"
                       className="flex justify-center items-center p-3 bg-lavender-500 text-white rounded-md"
+                      onClick={handleMessageSeller}
                     >
                       <Icon
                         icon="heroicons:chat-bubble-oval-left-ellipsis"

@@ -12,6 +12,9 @@ import DetailPage from '../features/items/pages/DetailPage'
 import HomePage from '../features/items/pages/HomePage'
 import InboxPage from '../features/items/pages/InboxPage'
 import MyListingsPage from '../features/items/pages/MyListingsPage'
+import MessagesPage from '../features/messaging/pages/MessagesPage'
+import ChatPage from '../features/messaging/pages/ChatPage'
+import { messagesLoader } from '../features/messaging/loaders/messagesLoader'
 import ProfilePage from '../features/profile/pages/ProfilePage'
 import { profilePageLoader } from '../features/profile/loaders/profilePageLoader'
 import AppLayout from '../layouts/AppLayout'
@@ -50,6 +53,19 @@ export const router = createBrowserRouter([
         path: 'profile',
         element: <ProfilePage />,
         loader: profilePageLoader,
+      },
+      {
+        path: 'messages',
+        element: <MessagesPage />,
+        loader: messagesLoader,
+      },
+      {
+        path: 'messages/new/:userId',
+        element: <ChatPage />,
+      },
+      {
+        path: 'messages/:conversationId',
+        element: <ChatPage />,
       },
     ],
   },

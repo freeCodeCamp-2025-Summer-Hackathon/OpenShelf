@@ -98,7 +98,16 @@ class ConversationSerializer(serializers.ModelSerializer):
 class MessageListSerializer(serializers.ModelSerializer):
     sender_name = serializers.CharField(source='sender.name', read_only=True)
     receiver_name = serializers.CharField(source='receiver.name', read_only=True)
+    sender_id = serializers.UUIDField(source='sender.id', read_only=True)
+    receiver_id = serializers.UUIDField(source='receiver.id', read_only=True)
+    is_sender = serializers.SerializerMethodField()
     
     class Meta:
         model = Messaging
-        fields = ['id', 'message', 'timestamp', 'read', 'sender_name', 'receiver_name']
+        fields = ['id', 'message', 'timestamp', 'read', 'sender_name', 'receiver_name', 'sender_id', 'receiver_id', 'is_sender']
+        
+    def get_is_sender(self, obj):
+        request = self.context.get('request')
+        if request and request.user:
+            return obj.sender == request.user
+        return False

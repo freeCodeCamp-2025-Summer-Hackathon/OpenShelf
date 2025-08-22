@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate, useRevalidator } from 'react-router'
 import { logout } from '../features/auth/api/logout'
+import { useUnreadCount } from '../features/messaging/hooks/useUnreadCount'
+import MessageButton from '../features/messaging/components/MessageButton'
 import NavButton from './NavButton'
 
 export default function Navbar({ profile, onHeightChange }) {
@@ -9,6 +11,7 @@ export default function Navbar({ profile, onHeightChange }) {
     = profile
       && `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48&background=6565C9&color=fff`
   const revalidator = useRevalidator()
+  const { unreadCount } = useUnreadCount()
   const linkClassNames = ({ isActive }) =>
     isActive ? 'border-b-1 border-b-black px-3 py-1' : 'text-stroke-strong'
 
@@ -71,6 +74,7 @@ export default function Navbar({ profile, onHeightChange }) {
             ? (
                 <>
                   <NavButton to="inbox" icon="inbox" info="Inbox" />
+                  <MessageButton unreadCount={unreadCount} />
                   <NavButton
                     to="create"
                     icon="plus-circle"

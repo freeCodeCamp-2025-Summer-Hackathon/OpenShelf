@@ -138,7 +138,7 @@ def conversation_with_user(request, user_id):
         conversation_id=conversation_id, receiver=request.user, read=False
     ).update(read=True)
 
-    serializer = MessageListSerializer(messages, many=True)
+    serializer = MessageListSerializer(messages, many=True, context={'request': request})
 
     return Response(
         {
