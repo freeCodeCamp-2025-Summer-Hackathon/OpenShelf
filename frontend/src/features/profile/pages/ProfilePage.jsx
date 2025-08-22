@@ -16,11 +16,14 @@ export default function ProfilePage() {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm({
     defaultValues: {
       name: profile?.name || '',
       phone_num: profile?.phone_num || '',
       address: profile?.address || '',
+      password: '',
+      password_confirm: '',
     },
   })
 
@@ -30,17 +33,47 @@ export default function ProfilePage() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await updateProfile(data)
+      console.log('Submitting profile data:', data)
+      
+      // Create the update payload
+      const updatePayload = {
+        name: data.name,
+        phone_num: data.phone_num,
+        address: data.address,
+      }
+      
+      // Only include password if it was provided
+      if (data.password && data.password.trim()) {
+        updatePayload.password = data.password
+        updatePayload.password_confirm = data.password_confirm
+      }
+      
+      const response = await updateProfile(updatePayload)
+      console.log('Profile update response:', response)
+      
       if (response.status === 200) {
-        setMessage({ type: 'success', text: 'Profile updated successfully!' })
+        setMessage({ 
+          type: 'success', 
+          text: data.password ? 'Profile and password updated successfully!' : 'Profile updated successfully!' 
+        })
         setIsEditing(false)
         revalidator.revalidate()
+        
+        // Clear password fields after successful update
+        reset({
+          name: response.data?.name || data.name,
+          phone_num: response.data?.phone_num || data.phone_num,
+          address: response.data?.address || data.address,
+          password: '',
+          password_confirm: '',
+        })
       } else {
+        console.error('Profile update failed with status:', response.status)
         setMessage({ type: 'error', text: 'Failed to update profile' })
       }
     } catch (error) {
-      setMessage({ type: 'error', text: 'An error occurred while updating profile' })
       console.error('Profile update error:', error)
+      setMessage({ type: 'error', text: 'An error occurred while updating profile' })
     }
   }
 
@@ -49,6 +82,8 @@ export default function ProfilePage() {
       name: profile?.name || '',
       phone_num: profile?.phone_num || '',
       address: profile?.address || '',
+      password: '',
+      password_confirm: '',
     })
     setIsEditing(false)
     setMessage(null)
@@ -113,11 +148,9 @@ export default function ProfilePage() {
             <div className="space-y-6">
               {/* Name Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Full Name
-                </label>
                 {isEditing ? (
                   <Input
+                    label="Full Name"
                     register={register}
                     name="name"
                     rules={{ required: 'Name is required' }}
@@ -125,9 +158,14 @@ export default function ProfilePage() {
                     className="w-full"
                   />
                 ) : (
-                  <div className="p-3 bg-gray-50 rounded-lg border">
-                    {profile.name}
-                  </div>
+                  <>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Full Name
+                    </label>
+                    <div className="p-3 bg-gray-50 rounded-lg border">
+                      {profile.name}
+                    </div>
+                  </>
                 )}
               </div>
 
@@ -144,11 +182,9 @@ export default function ProfilePage() {
 
               {/* Phone Number Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone Number
-                </label>
                 {isEditing ? (
                   <Input
+                    label="Phone Number"
                     register={register}
                     name="phone_num"
                     type="tel"
@@ -162,9 +198,14 @@ export default function ProfilePage() {
                     className="w-full"
                   />
                 ) : (
-                  <div className="p-3 bg-gray-50 rounded-lg border">
-                    {profile.phone_num || 'Not provided'}
-                  </div>
+                  <>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Phone Number
+                    </label>
+                    <div className="p-3 bg-gray-50 rounded-lg border">
+                      {profile.phone_num || 'Not provided'}
+                    </div>
+                  </>
                 )}
               </div>
 
@@ -186,6 +227,51 @@ export default function ProfilePage() {
                   </div>
                 )}
               </div>
+
+              {/* Password Field - Only show when editing */}
+              {isEditing && (
+                <>
+                  <div>
+                    <Input
+                      label="New Password"
+                      register={register}
+                      name="password"
+                      type="password"
+                      rules={{
+                        minLength: {
+                          value: 6,
+                          message: 'Password must be at least 6 characters',
+                        },
+                      }}
+                      error={errors.password}
+                      className="w-full"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">Leave empty to keep current password</p>
+                  </div>
+                  
+                  <div>
+                    <Input
+                      label="Confirm New Password"
+                      register={register}
+                      name="password_confirm"
+                      type="password"
+                      rules={{
+                        validate: (value, formData) => {
+                          if (formData.password && !value) {
+                            return 'Please confirm your password'
+                          }
+                          if (value && value !== formData.password) {
+                            return 'Passwords do not match'
+                          }
+                          return true
+                        },
+                      }}
+                      error={errors.password_confirm}
+                      className="w-full"
+                    />
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Action Buttons */}
