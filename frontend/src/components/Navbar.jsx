@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate, useRevalidator } from 'react-router'
 import { logout } from '../features/auth/api/logout'
+import { useUnreadCount } from '../features/messaging/hooks/useUnreadCount'
+import MessageButton from '../features/messaging/components/MessageButton'
 import NavButton from './NavButton'
 
 export default function Navbar({ profile, onHeightChange }) {
@@ -9,6 +11,7 @@ export default function Navbar({ profile, onHeightChange }) {
     = profile
       && `https://eu.ui-avatars.com/api/?name=${profile.name}&size=48&background=6565C9&color=fff`
   const revalidator = useRevalidator()
+  const { unreadCount } = useUnreadCount()
   const linkClassNames = ({ isActive }) =>
     isActive ? 'border-b-1 border-b-black px-3 py-1' : 'text-stroke-strong'
 
@@ -32,10 +35,12 @@ export default function Navbar({ profile, onHeightChange }) {
   }, [onHeightChange])
 
   return (
-    <nav ref={navRef} className="fixed w-full z-10">
+    <nav ref={navRef} className="fixed w-full z-50 bg-white shadow-md">
       <div className="py-6 px-12 flex flex-row justify-between items-center">
         <div className="flex flex-row gap-16 items-center">
-          <img src="/OpenShelf.png" width="150"></img>
+          <Link to="/">
+            <img src="/OpenShelf.png" width="150" className="cursor-pointer"></img>
+          </Link>
           <div className="flex flex-row gap-8 items-center">
             <NavLink to="/" className={linkClassNames}>
               Home
@@ -43,6 +48,11 @@ export default function Navbar({ profile, onHeightChange }) {
             <NavLink to="/catalogue" className={linkClassNames}>
               Catalogue
             </NavLink>
+            {profile && (
+              <NavLink to="/my-listings" className={linkClassNames}>
+                My Listings
+              </NavLink>
+            )}
           </div>
         </div>
 
@@ -64,12 +74,15 @@ export default function Navbar({ profile, onHeightChange }) {
             ? (
                 <>
                   <NavButton to="inbox" icon="inbox" info="Inbox" />
+                  <MessageButton unreadCount={unreadCount} />
                   <NavButton
                     to="create"
                     icon="plus-circle"
                     info="Create new item"
                   />
-                  <img src={profileAvatar} className="rounded-full size-11" />
+                  <Link to="/profile">
+                    <img src={profileAvatar} className="rounded-full size-11 cursor-pointer hover:ring-2 hover:ring-lavender-300 transition-all" />
+                  </Link>
                   <button
                     type="button"
                     className="bg-lavender-800 text-white px-5 py-2 rounded-lg cursor-pointer"

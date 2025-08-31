@@ -5,11 +5,18 @@ import { catalogueLoader } from '../features/items/loaders/cataloguePageLoader'
 import { detailPageLoader } from '../features/items/loaders/detailPageLoader'
 import { homePageLoader } from '../features/items/loaders/homePageLoader'
 import { inboxPageLoader } from '../features/items/loaders/inboxPageLoader'
+import { myListingsLoader } from '../features/items/loaders/myListingsLoader'
 import CataloguePage from '../features/items/pages/CataloguePage'
 import CreatePage from '../features/items/pages/CreatePage'
 import DetailPage from '../features/items/pages/DetailPage'
 import HomePage from '../features/items/pages/HomePage'
 import InboxPage from '../features/items/pages/InboxPage'
+import MyListingsPage from '../features/items/pages/MyListingsPage'
+import MessagesPage from '../features/messaging/pages/MessagesPage'
+import ChatPage from '../features/messaging/pages/ChatPage'
+import { messagesLoader } from '../features/messaging/loaders/messagesLoader'
+import ProfilePage from '../features/profile/pages/ProfilePage'
+import { profilePageLoader } from '../features/profile/loaders/profilePageLoader'
 import AppLayout from '../layouts/AppLayout'
 import { appLayoutLoader } from '../loader/appLayoutLoader'
 
@@ -36,6 +43,29 @@ export const router = createBrowserRouter([
         path: 'catalogue',
         element: <CataloguePage />,
         loader: catalogueLoader,
+      },
+      {
+        path: 'my-listings',
+        element: <MyListingsPage />,
+        loader: myListingsLoader,
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />,
+        loader: profilePageLoader,
+      },
+      {
+        path: 'messages',
+        element: <MessagesPage />,
+        loader: messagesLoader,
+      },
+      {
+        path: 'messages/new/:userId',
+        element: <ChatPage />,
+      },
+      {
+        path: 'messages/:conversationId',
+        element: <ChatPage />,
       },
     ],
   },

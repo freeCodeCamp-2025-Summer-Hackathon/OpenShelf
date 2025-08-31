@@ -43,7 +43,8 @@ export default function BorrowRequestItemDetails({
               {
                 'bg-amber-100 text-amber-600': status === 'pending',
                 'bg-blue-100 text-blue-600': status === 'accepted',
-                'bg-red-100 text-red-600': status === 'rejected',
+                'bg-red-100 text-red-600': status === 'declined',
+                'bg-green-100 text-green-600': status === 'returned',
               },
               'px-2 py-1 w-fit tracking-wider text-sm rounded uppercase',
             )}

@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 function Categories() {
   const categories = [
     { name: 'Books', icon: 'categories-books.png' },
@@ -17,14 +19,18 @@ function CategoryCards({ categories }) {
   return (
     <div className="flex flex-row gap-[25px] overflow-x-scroll mt-[15px] items-start">
       {categories.map(item => (
-        <div className="border border-stroke-weak rounded-xl px-5 py-2 flex items-start" key={item.name}>
+        <Link 
+          key={item.name} 
+          to={`/catalogue?category=${item.name.toLowerCase()}`}
+          className="border border-stroke-weak rounded-xl px-5 py-2 flex items-start hover:bg-gray-50 transition-colors cursor-pointer"
+        >
           <div className="w-[80px]">
             <span className="m-[0_25px_0_0] p-0 font-display-2xl">{item.name}</span>
           </div>
           <div className="h-[100px] w-[100px] flex items-end justify-end">
             <img src={item.icon} />
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   )

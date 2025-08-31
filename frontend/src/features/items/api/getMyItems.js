@@ -1,9 +1,9 @@
 import { api } from '../../../app/api'
 import { getItemDetails } from './getItemDetails'
 
-export async function getItems() {
+export async function getMyItems() {
   try {
-    const itemsConfig = await api.get('items/')
+    const itemsConfig = await api.get('items/my-items/')
     const items = itemsConfig.data.results
 
     // Try to get detailed info for each item, but fallback to basic data if it fails
@@ -25,7 +25,7 @@ export async function getItems() {
       }),
     )
   } catch (error) {
-    console.error('Failed to fetch items:', error)
+    console.error('Failed to fetch my items:', error)
     return []
   }
 }

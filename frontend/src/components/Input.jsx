@@ -22,7 +22,7 @@ export default function Input({ label, register, name, info, rules, error, type 
       <input
         {...register(name, rules)}
         type={type}
-        placeholder={`Enter your ${label.toLowerCase()}...`}
+        placeholder={`Enter your ${label?.toLowerCase() || name}...`}
         className={`${error ? 'border-red' : 'border-stroke-weak'} border-1 px-4 py-3 rounded-xl focus:outline-stroke-strong`}
       />
       {error && (
