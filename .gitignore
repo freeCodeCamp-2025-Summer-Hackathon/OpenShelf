@@ -23,3 +23,24 @@ dist-ssr
 *.sln
 *.sw?
 backend/media/items
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Python/Django
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.coverage
+.pytest_cache/
+venv/
+env/
+backend/staticfiles/
+
+# Database
+*.sqlite3

@@ -91,6 +91,24 @@ To get started with OpenShelf, follow these steps:
    - Open your web browser and go to [http://localhost:3000](http://localhost:3000) for the frontend.
    - The backend API will be available at [http://localhost:8000/api/](http://localhost:8000/api/). More at [OpenShelf API documentation](backend/README.md).
 
+## Deployment
+
+### Production Deployment on Render
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+**Quick Deploy:**
+1. Fork this repository to your GitHub account
+2. Connect to [Render](https://render.com) and create a new Blueprint
+3. Select your forked repository - Render will auto-detect the `render.yaml` configuration
+4. Configure environment variables as described in the deployment guide
+5. Your app will be live at the provided Render URLs!
+
+**Services:**
+- Frontend: Static site serving the React application
+- Backend: Web service running the Django API
+- Database: PostgreSQL database (managed by Render)
+
 ---
 
 <div align="center">

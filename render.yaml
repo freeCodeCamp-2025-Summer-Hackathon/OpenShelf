@@ -1,0 +1,34 @@
+services:
+  # Backend API Service
+  - type: web
+    name: openshelf-backend
+    runtime: python3
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn backend.wsgi:application"
+    plan: free
+    rootDir: backend
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        value: "postgresql://neondb_owner:npg_FY3XnPzoyS8m@ep-restless-sunset-a1dt8ua7-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+      - key: FRONTEND_URL
+        value: "https://openshelf-frontend.onrender.com"
+    
+  # Frontend Service
+  - type: web
+    name: openshelf-frontend
+    runtime: node
+    buildCommand: "npm ci && npm run build"
+    startCommand: "npm run preview -- --host 0.0.0.0 --port $PORT"
+    plan: free
+    rootDir: frontend
+    envVars:
+      - key: NODE_ENV
+        value: "production"
+      - key: VITE_API_URL
+        value: "https://openshelf-backend.onrender.com/api"
+
+# Note: No database section needed as we're using external NeonDB
